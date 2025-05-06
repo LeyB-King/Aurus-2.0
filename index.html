@@ -1,0 +1,2195 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURUS - Home</title>
+    <style>
+        /* Estilos CSS para Aurus Perfumes */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: #12000c;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #menu {
+            display: none;
+        }
+
+        .menu-icon {
+            width: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .navbar {
+            display: flex;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar ul li {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            color: #FF69B4;
+        }
+
+        .submenu {
+            position: absolute;
+            background: white;
+            width: 200px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            top: 35px;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex; /* Hace que los elementos se alineen */
+            flex-direction: column; /* Asegura que estén en vertical */
+        }
+
+        .navbar ul li:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            top: 45px;
+        }
+
+        .submenu li {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .submenu li a {
+            color: #000000 !important;
+        }
+
+        .submenu li a:hover {
+            color: #FF69B4 !important;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            background: #6A0572;
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #3D004F;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 100px;
+        }
+
+        .header-txt {
+            width: 50%;
+        }
+
+        .header-txt h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header-txt p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .header-img {
+            width: 45%;
+        }
+
+        .header-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-1, .btn-2, .btn-vehiculo, .btn-solicredito {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #6A0572;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-1:hover, .btn-2:hover, .btn-vehiculo:hover, .btn-solicredito:hover {
+            background: #3D004F;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-2 {
+            background: #6A0572;
+            border: 2px solid #6A0572;
+            color: white;
+        }
+
+        .btn-2:hover {
+            background: #3D004F;
+            color: white;
+        }
+
+        /* Sección General */
+        .general {
+            padding: 80px 0;
+        }
+
+        .general-1 {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+        }
+
+        .general-card {
+            width: 30%;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .general-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .general-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .general-card h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .general-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .general-2 {
+            text-align: center;
+        }
+
+        .general-2 h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .general-2 p {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Sección Destacados */
+        .destacados {
+            padding: 80px 0;
+            background: #f0e6d6;
+            text-align: center;
+        }
+
+        .destacados h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .vehiculos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .vehiculo-card {
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .vehiculo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .vehiculo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .vehiculo-info {
+            padding: 20px;
+        }
+
+        .vehiculo-info h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .precio {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .caracteristicas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .caracteristicas span {
+            background: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .ver-mas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Banner Financiamiento */
+        .financiamiento-banner {
+            padding: 80px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1604514628550-37477afdf4e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+        }
+
+        .financiamiento-banner h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .financiamiento-banner p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .beneficios {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 40px 0;
+        }
+
+        .beneficio {
+            text-align: center;
+        }
+
+        .beneficio p {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .beneficio img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        /* Reseñas */
+        .reseñas {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .reseñas h2 {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .reseñas-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .reseña {
+            width: 280px;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .reseña-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .reseña-foto {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .reseña-info h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .reseña-estrellas {
+            color: #d4af37;
+            font-size: 0.9rem;
+        }
+
+        .reseña-texto {
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Marcas */
+        .marcas {
+            padding: 60px 0;
+            background: #f0e6d6;
+            text-align: center;
+        }
+
+        .marcas h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+        .marcas-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .marcas-container img {
+            height: 60px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .marcas-container img:hover {
+            filter: grayscale(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 0;
+            width: 100%;
+        }
+
+        .footer-txt .logo {
+            color: #6A0572;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        /* Contenedor de redes sociales en el lado izquierdo */
+        .footer-socials-container {
+            width: 40%;
+            display: flex;
+            justify-content: flex-start; /* Alinea a la izquierda */
+        }
+        
+        .wrapper {
+            display: inline-flex;
+            list-style: none;
+            height: 120px;
+            padding-top: 40px;
+            font-family: "Poppins", sans-serif;
+            justify-content: flex-start;
+        }
+        
+        /* Contenedor de texto en el lado derecho */
+        .footer-txt {
+            width: 60%;
+            text-align: left; /* Alinea a la izquierda */
+            padding-right: 50px;
+        }
+        
+        .footer-txt p {
+            font-size: 16px;
+            color: #656875;
+            margin-bottom: 25px;
+        }
+        
+        /* Resto del CSS de iconos sigue igual */
+        .wrapper .icon {
+            position: relative;
+            background: #fff;
+            border-radius: 50%;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip {
+            position: absolute;
+            top: 0;
+            font-size: 14px;
+            background: #fff;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip::before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            background: #fff;
+            bottom: -3px;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+        }
+        
+        .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        /* Colores hover específicos */
+        .wrapper .facebook:hover,
+        .wrapper .facebook:hover .tooltip,
+        .wrapper .facebook:hover .tooltip::before {
+            background: #1877f2;
+            color: #fff;
+        }
+        
+        .wrapper .twitter:hover,
+        .wrapper .twitter:hover .tooltip,
+        .wrapper .twitter:hover .tooltip::before {
+            background: #1da1f2;
+            color: #fff;
+        }
+        
+        .wrapper .instagram:hover,
+        .wrapper .instagram:hover .tooltip,
+        .wrapper .instagram:hover .tooltip::before {
+            background: #e4405f;
+            color: #fff;
+        }
+        
+        .wrapper .whatsapp:hover,
+        .wrapper .whatsapp:hover .tooltip,
+        .wrapper .whatsapp:hover .tooltip::before {
+            background: #25d366;
+            color: #fff;
+        }
+
+        /* Modal de solicitud de muestra */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #f9f5f0;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            position: relative;
+            animation: modalopen 0.5s;
+        }
+
+        @keyframes modalopen {
+            from {opacity: 0; transform: translateY(-50px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #6A0572;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close:hover {
+            color: #3D004F;
+            transform: rotate(90deg);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #6A0572;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #6A0572;
+            outline: none;
+            box-shadow: 0 0 5px rgba(106, 5, 114, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            background: #6A0572;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-submit:hover {
+            background: #3D004F;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .perfume-seleccionado {
+            background-color: #f0e6d6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .perfume-seleccionado img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .perfume-seleccionado h4 {
+            color: #6A0572;
+            margin-bottom: 5px;
+        }
+
+        .perfume-seleccionado .precio {
+            font-size: 1.2rem;
+            color: #d4af37;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .header-content {
+                flex-direction: column;
+                padding-top: 80px;
+            }
+
+            .header-txt, .header-img {
+                width: 100%;
+            }
+
+            .header-img {
+                margin-top: 40px;
+            }
+
+            .general-1 {
+                flex-direction: column;
+            }
+
+            .general-card {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .navbar {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: #222;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+
+            .navbar ul li {
+                margin: 15px 0;
+            }
+
+            .submenu {
+                position: absolute; /* Si quieres que se superponga */
+                background: #333; /* O el color que desees */
+                width: auto; /* Ajusta según necesites */
+                text-align: left;
+                display: flex;
+                flex-direction: column; /* Hace que los elementos se apilen en columna */
+                align-items: flex-start; /* Alinea el texto a la izquierda */
+                padding: 10px;
+            }
+
+                .submenu li {
+                    padding: 10px;
+                    border-bottom: 1px solid #555; /* Opcional, para separar elementos */
+                }
+
+                .submenu li:last-child {
+                    border-bottom: none;
+                }
+
+
+            #menu:checked ~ .navbar {
+                left: 0;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .beneficios {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
+            }
+
+            .ver-mas {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Animación de carga */
+        .loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #12000c;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-animado {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo-animado span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            color: #d4af37;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.7);
+        }
+
+        .logo-animado span:nth-child(1) { animation: fadeInLetter 2s 0.5s forwards; }
+        .logo-animado span:nth-child(2) { animation: fadeInLetter 2s 1.0s forwards; }
+        .logo-animado span:nth-child(3) { animation: fadeInLetter 2s 1.5s forwards; }
+        .logo-animado span:nth-child(4) { animation: fadeInLetter 2s 2.0s forwards; }
+        .logo-animado span:nth-child(5) { animation: fadeInLetter 2s 2.5s forwards; }
+
+        @keyframes fadeInLetter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loader-text {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeInText 3s 3.5s forwards;
+        }
+
+        @keyframes fadeInText {
+            to {
+                opacity: 0.9;
+            }
+        }
+
+        /* Animación de cuadrados */
+        @keyframes square-animation {
+            0% {
+                left: 0;
+                top: 0;
+            }
+
+            10.5% {
+                left: 0;
+                top: 0;
+            }
+
+            12.5% {
+                left: 32px;
+                top: 0;
+            }
+
+            23% {
+                left: 32px;
+                top: 0;
+            }
+
+            25% {
+                left: 64px;
+                top: 0;
+            }
+
+            35.5% {
+                left: 64px;
+                top: 0;
+            }
+
+            37.5% {
+                left: 64px;
+                top: 32px;
+            }
+
+            48% {
+                left: 64px;
+                top: 32px;
+            }
+
+            50% {
+                left: 32px;
+                top: 32px;
+            }
+
+            60.5% {
+                left: 32px;
+                top: 32px;
+            }
+
+            62.5% {
+                left: 32px;
+                top: 64px;
+            }
+
+            73% {
+                left: 32px;
+                top: 64px;
+            }
+
+            75% {
+                left: 0;
+                top: 64px;
+            }
+
+            85.5% {
+                left: 0;
+                top: 64px;
+            }
+
+            87.5% {
+                left: 0;
+                top: 32px;
+            }
+
+            98% {
+                left: 0;
+                top: 32px;
+            }
+
+            100% {
+                left: 0;
+                top: 0;
+            }
+        }
+
+        .loader-squares {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            transform: rotate(45deg);
+            margin-bottom: 50px;
+        }
+
+        .loader-square {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            margin: 2px;
+            border-radius: 2px;
+            background: #d4af37;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            animation: square-animation 12s ease-in-out infinite both;
+        }
+
+        .loader-square:nth-of-type(0) {
+            animation-delay: 0s;
+        }
+
+        .loader-square:nth-of-type(1) {
+            animation-delay: -1.7142857143s;
+        }
+
+        .loader-square:nth-of-type(2) {
+            animation-delay: -3.4285714286s;
+        }
+
+        .loader-square:nth-of-type(3) {
+            animation-delay: -5.1428571429s;
+        }
+
+        .loader-square:nth-of-type(4) {
+            animation-delay: -6.8571428571s;
+        }
+
+        .loader-square:nth-of-type(5) {
+            animation-delay: -8.5714285714s;
+        }
+
+        .loader-square:nth-of-type(6) {
+            animation-delay: -10.2857142857s;
+        }
+
+        .loader-square:nth-of-type(7) {
+            animation-delay: -12s;
+        }
+
+        /* Efecto de desvanecimiento al final */
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+        
+/*******************************************************************  Estilos del Chatbot AURCHAT  *********************/
+        
+        :root {
+            --primary-color: #6a1b9a;
+            --secondary-color: #9c27b0;
+            --accent-color: #e1bee7;
+            --text-color: #333;
+            --light-text: #f5f5f5;
+            --chat-bg: #f9f9f9;
+            --user-bubble: #e3f2fd;
+            --bot-bubble: #6a1b9a;
+        }
+
+        /* Botón flotante */
+        .chat-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            /*background-color: var(--primary-color);*/
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+            
+        }
+
+        /* Nombre del Botón AurChat
+        .chat-toggle h1 {
+            position: absolute;
+            font-size: 1rem;
+
+        }
+        */
+
+        .chat-toggle:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .chat-toggle i {
+            font-size: 24px;
+        }
+
+        /* Contenedor del chat */
+        .chat-container {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            max-height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .chat-container.visible {
+            display: flex;
+        }
+
+        .header1 {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header1 img {
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .header1 h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-grow: 1;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: var(--chat-bg);
+        }
+
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-user {
+            align-items: flex-end;
+        }
+
+        .message-bot {
+            align-items: flex-start;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-top: 5px;
+            line-height: 1.4;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .user-message {
+            background-color: var(--user-bubble);
+            color: var(--text-color);
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: var(--bot-bubble);
+            color: var(--light-text);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.65rem;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 12px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 0.9rem;
+            transition: border 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .chat-input button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0 15px;
+            margin-left: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .chat-input button:hover {
+            background-color: var(--primary-color);
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px 10px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .suggestion {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            border: none;
+            border-radius: 15px;
+            padding: 6px 10px;
+            margin: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .suggestion:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #aaa;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                background-color: #aaa;
+            }
+            30% {
+                transform: translateY(-5px);
+                background-color: var(--secondary-color);
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Scroll personalizado */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                width: 90%;
+                right: 5%;
+                bottom: 80px;
+                max-height: 60vh;
+            }
+            
+            .chat-toggle {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Pantalla de carga animada -->
+    <div class="loader-container" id="loader">
+        <div class="loader-content">
+            <div class="logo-animado">
+                <span>A</span>
+                <span>U</span>
+                <span>R</span>
+                <span>U</span>
+                <span>S</span>
+            </div>
+            
+            <!-- Animación de cuadrados-->
+            <div class="loader-squares">
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+                <div class="loader-square"></div>
+            </div>
+            
+            <p class="loader-text">Descubriendo fragancias excepcionales...</p>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="menu container">
+            <a href="index.html" class="logo">AURUS</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="https://cdn-icons-png.flaticon.com/512/56/56763.png" class="menu-icon" alt="">
+            </label>
+
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">🏠 Inicio</a></li>
+              
+                    <li><a href="#">🧴 Perfumes</a>
+                        <ul class="submenu">
+                            <li><a href="masculinos.html">♂️ Masculinos</a></li>
+                            <li><a href="femeninos.html">♀️ Femeninos</a></li>
+                            <li><a href="unisex.html">⚧️ Unisex</a></li> 
+                            <li><a href="ofertas.html">🔥 Ofertas</a></li>
+                        </ul>
+                    </li>
+              
+                    <li><a href="servicios.html">🔧 Servicios</a>
+                        <ul class="submenu">
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="personalizado.html">🎨 Personalizado</a></li>
+                            <li><a href="regalos.html">🎁 Regalos</a></li>
+                    </ul></li>
+
+                    <li><a href="contacto.html">📞 Contacto</a></li>
+
+                    <li><a href="#">👤 Sesión</a>
+                        <ul class="submenu">
+                            <li><a href="perfil.html">👤 Ver Perfil</a></li>
+                            <li><a href="login.html">⏎ Cerrar Sesión</a></li>
+                    </ul></li>
+                </ul>
+            </nav>
+              
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Buscar perfumes, fragancias...">
+                <button id="search-button">Buscar</button>
+            </div>
+        </div>
+
+        <div class="header-content container">
+            <div class="header-txt">
+                <h1>Bienvenido a <br> AURUS PERFUMES</h1>
+                <p>
+                    En AURUS, creamos fragancias que son verdaderas obras de arte olfativas. 
+                    Cada perfume es una cuidadosa mezcla de los mejores ingredientes naturales y sintéticos, 
+                    diseñado para evocar emociones y crear memorias duraderas. 
+                    Descubre nuestra exclusiva colección de perfumes de lujo que reflejan elegancia, sofisticación y personalidad.
+                </p>
+                <a href="#perfumes" class="btn-1">Ver Destacados</a>
+            </div>
+
+            <div class="header-img">
+                <img src="image/logos/banner1.avif" alt="Perfume Aurus">
+            </div>
+        </div>
+    </header>
+
+     <!-- Botón flotante para abrir el chat -->
+     <div class="chat-toggle" id="chat-toggle">
+        <i class="fas fa-comment-dots">🤖</i>
+    </div>
+
+    <!-- Contenedor del chat -->
+    <div class="chat-container" id="chat-container">
+        <div class="header1"> 
+            <img src="image/logos/iconomesaje.png" alt="Aurus Logo">
+            <h1>AURCHAT</h1>
+            <button class="close-chat" id="close-chat"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- Mensajes aparecerán aquí -->
+        </div>
+
+        <div class="suggestions">
+            <button class="suggestion">Perfumes más vendidos</button>
+            <button class="suggestion">Fragancias para hombre</button>
+            <button class="suggestion">Fragancias para mujer</button>
+            <button class="suggestion">Recomendación para el día</button>
+            <button class="suggestion">Recomendación para la noche</button>
+            <button class="suggestion">Perfumes de larga duración</button>
+            <button class="suggestion">Precios y promociones</button>
+            <button class="suggestion">Cómo hacer un pedido</button>
+            <button class="suggestion">Tiempos de entrega</button>
+            <button class="suggestion">Política de devoluciones</button>
+            <button class="suggestion">Ingredientes y alergias</button>
+            <button class="suggestion">Diferencias entre líneas</button>
+        </div>
+
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Escribe tu pregunta..." autocomplete="off">
+            <button id="send-button">➤</button>
+        </div>
+    </div>
+
+    <section class="general container">
+        <div class="general-1">
+            <div class="general-card">
+                <img src="image/logos/ingredientes.avif" alt="Ingredientes">
+                <h3>Ingredientes Exclusivos</h3>
+                <p>
+                    Utilizamos solo los mejores ingredientes naturales y sintéticos de proveedores de todo el mundo.
+                </p>
+            </div>
+
+            <div class="general-card">
+                <img src="image/logos/elaboracion.webp" alt="Elaboración">
+                <h3>Elaboración Artesanal</h3>
+                <p>
+                    Cada fragancia es creada por nuestros maestros perfumistas con técnicas tradicionales y modernas.
+                </p>
+            </div>
+
+            <div class="general-card">
+                <img src="image/logos/personalizar.jpg" alt="Personalización">
+                <h3>Personalización</h3>
+                <p>
+                    Ofrecemos servicios de creación de fragancias personalizadas para clientes exclusivos.
+                </p>
+            </div>
+        </div>
+
+        <div class="general-2">
+            <h2>Nuestra Filosofía</h2>
+            <p>
+                En AURUS no solo creamos perfumes, creamos experiencias olfativas que cuentan historias. 
+                Cada fragancia es el resultado de meses de investigación, pruebas y refinamiento. 
+                Nuestros perfumes están diseñados para durar, evolucionando en la piel y revelando diferentes notas a lo largo del día.
+            </p>
+            <a href="servicios.html" class="btn-2">Conoce Más</a>
+        </div>
+    </section>
+
+    <section id="perfumes" class="destacados">
+        <h2>Perfumes Destacados</h2>
+    <div class="vehiculos-container">
+        <!-- Perfume 1 -->
+        <div class="vehiculo-card">
+            <img src="image/perfumes/perfume5.png" alt="Aurus Noble">
+            <div class="vehiculo-info">
+                <h3>Aurus Noble</h3>
+                <p class="precio">$75,000</p>
+                <div class="caracteristicas">
+                    <span>🌿 Notas verdes</span>
+                    <span>🍊 Cítricos</span>
+                    <span>🪵 Maderas nobles</span>
+                    <span>⏳ Duración 12h</span>
+                </div>
+                <button class="btn-vehiculo solicitar-muestra" data-perfume="Aurus Noble" data-precio="$75,000" data-imagen="image/perfumes/perfume5.png">Solicitar Muestra</button>
+            </div>
+        </div>
+        
+        <!-- Perfume 2 -->
+        <div class="vehiculo-card">
+            <img src="image/perfumes/perfume12.png" alt="Aurus Royal">
+            <div class="vehiculo-info">
+                <h3>Aurus Royal</h3>
+                <p class="precio">$80,000</p>
+                <div class="caracteristicas">
+                    <span>🌹 Rosas de Bulgaria</span>
+                    <span>🍓 Frutos rojos</span>
+                    <span>🍯 Vainilla</span>
+                    <span>⏳ Duración 14h</span>
+                </div>
+                <button class="btn-vehiculo solicitar-muestra" data-perfume="Aurus Royal" data-precio="$80,000" data-imagen="image/perfumes/perfume12.png">Solicitar Muestra</button>
+            </div>
+        </div>  
+
+        <!-- Perfume 3 -->
+        <div class="vehiculo-card">
+            <img src="image/perfumes/perfume17.png" alt="Aurus Mystique">
+            <div class="vehiculo-info">
+                <h3>Aurus Mystique</h3>
+                <p class="precio">$85,000</p>
+                <div class="caracteristicas">
+                    <span>🌶️ Especias orientales</span>
+                    <span>🦪 Ambar</span>
+                    <span>🍫 Cacao</span>
+                    <span>⏳ Duración 16h</span>
+                </div>
+                <button class="btn-vehiculo solicitar-muestra" data-perfume="Aurus Mystique" data-precio="$85,000" data-imagen="image/perfumes/perfume17.png">Solicitar Muestra</button>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="ver-mas">
+        <a href="masculinos.html" class="btn-2">Perfumes Masculinos</a>
+        <a href="femeninos.html" class="btn-2">Perfumes Femeninos</a>
+        <a href="unisex.html" class="btn-2">Perfumes Unisex</a>
+        <a href="ofertas.html" class="btn-2">Ofertas Especiales</a>
+    </div>
+    </section>
+
+    <section class="financiamiento-banner">
+        <div class="container">
+            <h2>¿Necesitas asesoría en fragancias?</h2>
+            <p>Nuestros expertos en perfumes te ayudarán a encontrar la fragancia perfecta para cada ocasión y personalidad.</p>
+            <div class="beneficios">
+                <div class="beneficio">  
+                    <p>Asesoría personalizada</p>
+                </div>
+                <div class="beneficio">
+                    <p>Muestras gratuitas</p>
+                </div>
+                <div class="beneficio">
+                    <p>Envíos express</p>
+                </div>
+            </div>
+            <a href="contacto.html" class="btn-solicredito">Agendar Cita</a>
+        </div>
+    </section>
+
+    <section id="reseñas" class="reseñas">
+        <h2>Lo que dicen nuestros clientes</h2>
+        <div class="reseñas-container">
+            <!-- Reseña 1 -->
+            <div class="reseña">
+                <div class="reseña-header">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Cliente 1" class="reseña-foto">
+                    <div class="reseña-info">
+                        <h4>Carlos Méndez</h4>
+                        <div class="reseña-estrellas">
+                            ★★★★★
+                        </div>
+                    </div>
+                </div>
+                <p class="reseña-texto">
+                    "Aurus Noble es simplemente espectacular. Recibo cumplidos cada vez que lo uso. La duración es increíble, aún lo percibo al final del día."
+                </p>
+            </div>
+            
+            <!-- Reseña 2 -->
+            <div class="reseña">
+                <div class="reseña-header">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente 2" class="reseña-foto">
+                    <div class="reseña-info">
+                        <h4>Laura Gómez</h4>
+                        <div class="reseña-estrellas">
+                            ★★★★★
+                        </div>
+                    </div>
+                </div>
+                <p class="reseña-texto">
+                    "Royal es mi fragancia favorita. Es elegante, sofisticada y perfecta para cualquier ocasión. Vale cada peso invertido."
+                </p>
+            </div>
+            
+            <!-- Reseña 3 -->
+            <div class="reseña">
+                <div class="reseña-header">
+                    <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Cliente 3" class="reseña-foto">
+                    <div class="reseña-info">
+                        <h4>Andrés Ramírez</h4>
+                        <div class="reseña-estrellas">
+                            ★★★★★
+                        </div>
+                    </div>
+                </div>
+                <p class="reseña-texto">
+                    "El servicio de personalización de Aurus es increíble. Crearon un perfume único para mi boda que capturaba perfectamente lo que quería."
+                </p>
+            </div>
+            
+            <!-- Reseña 4 -->
+            <div class="reseña">
+                <div class="reseña-header">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente 4" class="reseña-foto">
+                    <div class="reseña-info">
+                        <h4>Sofía Castro</h4>
+                        <div class="reseña-estrellas">
+                            ★★★★★
+                        </div>
+                    </div>
+                </div>
+                <p class="reseña-texto">
+                    "Mystique es pura magia. Es misterioso, sensual y completamente adictivo. Recibo preguntas constantemente sobre qué perfume estoy usando."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="marcas">
+        <h2>Ingredientes que utilizamos</h2>
+        <div class="marcas-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png" alt="Rosa">
+            <img src="https://cdn-icons-png.flaticon.com/512/2489/2489495.png" alt="Vainilla">
+            <img src="https://cdn-icons-png.flaticon.com/512/3069/3069343.png" alt="Cítricos">
+            <img src="https://cdn-icons-png.flaticon.com/512/2489/2489476.png" alt="Sándalo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3069/3069358.png" alt="Jazmín">
+        </div>
+    </section>
+
+    <!-- Modal de Solicitud de Muestra -->
+    <div id="muestraModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <h2>Solicitar Muestra</h2>
+                <p>Completa el formulario para recibir una muestra del perfume seleccionado</p>
+            </div>
+            
+            <div class="perfume-seleccionado">
+                <img id="modal-perfume-imagen" src="" alt="Perfume seleccionado">
+                <h4 id="modal-perfume-nombre"></h4>
+                <p class="precio" id="modal-perfume-precio"></p>
+            </div>
+            
+            <form id="formMuestra">
+                <div class="form-group">
+                    <label for="nombre">Nombre completo*</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Correo electrónico*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="telefono">Teléfono*</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="direccion">Dirección de envío*</label>
+                    <textarea id="direccion" name="direccion" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ciudad">Ciudad*</label>
+                    <input type="text" id="ciudad" name="ciudad" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pais">País*</label>
+                    <select id="pais" name="pais" required>
+                        <option value="">Selecciona un país</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Chile">Chile</option>
+                        <option value="México">México</option>
+                        <option value="España">España</option>
+                        <option value="Estados Unidos">Estados Unidos</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="comentarios">Comentarios adicionales</label>
+                    <textarea id="comentarios" name="comentarios"></textarea>
+                </div>
+                
+                <div class="form-submit">
+                    <button type="submit" class="btn-submit">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer container">
+        <div class="footer-txt">
+            <a href="index.html" class="logo">AURUS</a>
+            <p>
+                &copy; 2025 AURUS Perfumes. Todos los derechos reservados<br>
+                Cra. 11 #82-71, Bogotá<br>
+                Teléfono: (601) 123 4567<br>
+                Email: info@aurusperfumes.com<br>
+                Horario: Lunes a Viernes 9am - 7pm / Sábados 10am - 4pm
+            </p>
+
+            <div class="form-txt">
+                <a href="politicas.html" target="_blank">Políticas de Privacidad</a>
+                <a href="terminos.html" target="_blank">Términos y Condiciones</a>
+            </div>
+        </div>
+
+        <ul class="wrapper">
+            <li class="icon facebook">
+                <a href="https://www.facebook.com/LeyserRB" target="_blank">
+                    <span class="tooltip">Facebook</span>
+                    <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon instagram">
+                <a href="https://www.instagram.com/leyser_arb/" target="_blank">
+                    <span class="tooltip">Instagram</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon whatsapp">
+                <a href="#" target="_blank">
+                    <span class="tooltip">WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" fill="currentColor" viewBox="0 0 448 512">
+                        <path d="M380.9 97.1C339 55.1 283.3 32 224.5 32c-118.4 0-214.4 96-214.5 214.3 0 37.7 9.8 74.4 28.4 107l-30.1 110.6 113.3-29.7c31.6 17.3 67.3 26.3 102.7 26.3h.1c118.4 0 214.4-96 214.5-214.3.1-57.8-22.4-112.6-63.9-154.1zM224.5 438.6c-30.3 0-60-8.1-86.1-23.4l-6.2-3.7-67.2 17.6 17.9-65.3-4.1-6.4c-17.8-27.9-27.2-60.1-27.2-93.2.1-97.1 79.2-176.2 176.4-176.2 47 0 91.2 18.3 124.4 51.5 33.2 33.2 51.4 77.4 51.3 124.4 0 97-79.2 176.1-176.3 176.1zm101-138.7c-5.5-2.8-32.5-16-37.6-17.8-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 17.8-17.5 21.5c-3.2 3.7-6.4 4.2-11.9 1.4-32.5-16.3-53.8-29.1-75.1-66.1-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.3-17.1-41.5-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.5-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.2 59.7 95 83.8 13.3 5.7 23.7 9.1 31.8 11.6 13.4 4.2 25.6 3.6 35.3 2.2 10.8-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.3-2.4-5-3.9-10.5-6.6z"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </footer>
+
+    <script>
+        // JavaScript para Aurus Perfumes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Efecto smooth scroll para los enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Función de búsqueda
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (searchTerm) {
+                    alert(`Buscando: ${searchTerm}\nEsta función conectaría con una base de datos en un sitio real.`);
+                    // Aquí iría la lógica para buscar en una base de datos real
+                } else {
+                    alert('Por favor ingresa un término de búsqueda');
+                }
+            });
+
+            // Permitir búsqueda con Enter
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+
+            // Animación para las tarjetas al aparecer
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.general-card, .vehiculo-card, .reseña').forEach(card => {
+                observer.observe(card);
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                card.classList.add('visible');
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+
+            // Modal de solicitud de muestra
+            const modal = document.getElementById('muestraModal');
+            const btnSolicitar = document.querySelectorAll('.solicitar-muestra');
+            const span = document.getElementsByClassName('close')[0];
+            const formMuestra = document.getElementById('formMuestra');
+
+            // Mostrar modal con datos del perfume seleccionado
+            btnSolicitar.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const perfumeNombre = this.getAttribute('data-perfume');
+                    const perfumePrecio = this.getAttribute('data-precio');
+                    const perfumeImagen = this.getAttribute('data-imagen');
+                    
+                    document.getElementById('modal-perfume-nombre').textContent = perfumeNombre;
+                    document.getElementById('modal-perfume-precio').textContent = perfumePrecio;
+                    document.getElementById('modal-perfume-imagen').src = perfumeImagen;
+                    document.getElementById('modal-perfume-imagen').alt = perfumeNombre;
+                    
+                    modal.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Evitar scroll cuando el modal está abierto
+                });
+            });
+
+            // Cerrar modal al hacer clic en la X
+            span.onclick = function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            // Cerrar modal al hacer clic fuera del contenido
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+
+            // Enviar formulario
+            formMuestra.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Aquí iría la lógica para enviar el formulario a un servidor
+                const perfumeNombre = document.getElementById('modal-perfume-nombre').textContent;
+                const nombre = document.getElementById('nombre').value;
+                const email = document.getElementById('email').value;
+                
+                // Simular envío
+                alert(`Gracias ${nombre}, hemos recibido tu solicitud de muestra para ${perfumeNombre}. Te enviaremos un correo a ${email} con los detalles.`);
+                
+                // Resetear formulario y cerrar modal
+                formMuestra.reset();
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // Simulación de carrito de compras (funcionalidad básica)
+            function agregarAlCarrito(nombreProducto, precio) {
+                let carrito = JSON.parse(localStorage.getItem('carritoAurus')) || [];
+                carrito.push({nombre: nombreProducto, precio: precio});
+                localStorage.setItem('carritoAurus', JSON.stringify(carrito));
+                
+                alert(`${nombreProducto} ha sido agregado al carrito`);
+                actualizarContadorCarrito();
+            }
+
+            function actualizarContadorCarrito() {
+                let carrito = JSON.parse(localStorage.getItem('carritoAurus')) || [];
+                const contador = document.getElementById('contador-carrito');
+                if (contador) {
+                    contador.textContent = carrito.length;
+                    contador.style.display = carrito.length > 0 ? 'flex' : 'none';
+                }
+            }
+
+            // Inicializar contador de carrito
+            window.onload = actualizarContadorCarrito;
+
+            // Animación de carga
+            const loader = document.getElementById('loader');
+            
+            // Ocultar loader cuando todo esté cargado
+            window.addEventListener('load', function() {
+                // Añadir animación de desvanecimiento
+                loader.style.animation = 'fadeOut 1.5s forwards';
+                
+                // Eliminar el loader del DOM después de la animación
+                setTimeout(function() {
+                    loader.remove();
+                }, 1500);
+            });
+            
+            // Ocultar loader después de 12 segundos como máximo (por si hay algún problema de carga)
+            setTimeout(function() {
+                if (loader) {
+                    loader.style.animation = 'fadeOut 1.5s forwards';
+                    setTimeout(function() {
+                        loader.remove();
+                    }, 1500);
+                }
+            }, 12000);
+
+            const chatToggle = document.getElementById('chat-toggle');
+            const chatContainer = document.getElementById('chat-container');
+            const closeChat = document.getElementById('close-chat');
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const suggestions = document.querySelectorAll('.suggestion');
+
+            // Estado del chat
+            let chatVisible = false;
+
+            // Mostrar/ocultar chat
+            chatToggle.addEventListener('click', toggleChat);
+            closeChat.addEventListener('click', toggleChat);
+
+            function toggleChat() {
+                chatVisible = !chatVisible;
+                if (chatVisible) {
+                    chatContainer.classList.add('visible');
+                    userInput.focus();
+                    // Mostrar mensaje de bienvenida solo si es la primera vez
+                    if (chatMessages.children.length === 0) {
+                        setTimeout(() => {
+                            addBotMessage('¡Hola! Soy AURCHAT, tu asistente virtual de perfumes Aurus. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre nuestras fragancias, recomendaciones o cómo hacer pedidos.');
+                        }, 500);
+                    }
+                } else {
+                    chatContainer.classList.remove('visible');
+                }
+            }
+
+            // Enviar mensaje al hacer clic en el botón
+            sendButton.addEventListener('click', sendMessage);
+
+            // Enviar mensaje al presionar Enter
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+
+            // Sugerencias rápidas
+            suggestions.forEach(button => {
+                button.addEventListener('click', function() {
+                    userInput.value = this.textContent;
+                    userInput.focus();
+                });
+            });
+
+            function sendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+
+                addUserMessage(message);
+                userInput.value = '';
+                
+                // Mostrar indicador de que el bot está escribiendo
+                showTypingIndicator();
+                
+                // Simular tiempo de respuesta
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    const response = getBotResponse(message);
+                    addBotMessage(response);
+                }, 1000 + Math.random() * 2000); // Tiempo aleatorio entre 1-3 segundos
+            }
+
+            function addUserMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'message-user');
+                
+                const contentElement = document.createElement('div');
+                contentElement.classList.add('message-content', 'user-message');
+                contentElement.textContent = message;
+                
+                const timeElement = document.createElement('div');
+                timeElement.classList.add('message-time');
+                timeElement.textContent = getCurrentTime();
+                
+                messageElement.appendChild(contentElement);
+                messageElement.appendChild(timeElement);
+                chatMessages.appendChild(messageElement);
+                
+                scrollToBottom();
+            }
+
+            function addBotMessage(message) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'message-bot');
+                
+                const contentElement = document.createElement('div');
+                contentElement.classList.add('message-content', 'bot-message');
+                contentElement.textContent = message;
+                
+                const timeElement = document.createElement('div');
+                timeElement.classList.add('message-time');
+                timeElement.textContent = getCurrentTime();
+                
+                messageElement.appendChild(contentElement);
+                messageElement.appendChild(timeElement);
+                chatMessages.appendChild(messageElement);
+                
+                scrollToBottom();
+            }
+
+            function showTypingIndicator() {
+                const typingElement = document.createElement('div');
+                typingElement.classList.add('typing-indicator');
+                typingElement.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('typing-dot');
+                    typingElement.appendChild(dot);
+                }
+                
+                chatMessages.appendChild(typingElement);
+                scrollToBottom();
+            }
+
+            function removeTypingIndicator() {
+                const typingElement = document.getElementById('typing-indicator');
+                if (typingElement) {
+                    typingElement.remove();
+                }
+            }
+
+            function scrollToBottom() {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function getCurrentTime() {
+                const now = new Date();
+                return `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+            }
+
+            function getBotResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Respuestas basadas en palabras clave
+                if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') || lowerMessage.includes('buenas tardes')) {
+                    return '¡Hola de nuevo! ¿En qué puedo ayudarte hoy con nuestros perfumes Aurus?';
+                }
+                
+                if (lowerMessage.includes('gracias')) {
+                    return '¡De nada! Estoy aquí para ayudarte con cualquier otra pregunta sobre nuestros perfumes.';
+                }
+                
+                if (lowerMessage.includes('adiós') || lowerMessage.includes('chao') || lowerMessage.includes('hasta luego')) {
+                    return '¡Hasta luego! Si tienes más preguntas sobre perfumes Aurus, no dudes en volver. ¡Que tengas un día fragante!';
+                }
+                
+                if (lowerMessage.includes('hombre') || lowerMessage.includes('masculino') || lowerMessage.includes('varonil')) {
+                    return 'Nuestra línea masculina Aurus incluye:\n\n1. Aurus Black - Notas amaderadas con toques de pimienta negra\n2. Aurus Sport - Fresco con acordes cítricos y almizcle\n3. Aurus Elite - Sofisticado con vetiver y cuero\n4. Aurus Blue - Acuático para el día a día\n\n¿Te gustaría conocer más detalles de alguno?';
+                }
+                
+                if (lowerMessage.includes('mujer') || lowerMessage.includes('femenino') || lowerMessage.includes('dama')) {
+                    return 'Para mujeres, nuestras fragancias destacadas son:\n\n1. Aurus Bloom - Floral con rosas y peonía\n2. Aurus Sensation - Oriental con vainilla y ámbar\n3. Aurus Delight - Frutal con notas de pera y frambuesa\n4. Aurus Pure - Fresco con lirio y sandalia\n\n¿Buscas algo para alguna ocasión especial?';
+                }
+                
+                if (lowerMessage.includes('vendido') || lowerMessage.includes('popular') || lowerMessage.includes('éxito')) {
+                    return 'Los 5 perfumes Aurus más vendidos son:\n\n1. Aurus Signature (unisex) - Nuestro bestseller\n2. Aurus Noir (masculino) - Elegancia intensa\n3. Aurus Rose (femenino) - Romanticismo floral\n4. Aurus Fresh (unisex) - Para el día a día\n5. Aurus Mystique (femenino) - Misterio oriental\n\nTodos disponibles en diferentes tamaños.';
+                }
+                
+                if (lowerMessage.includes('día') || lowerMessage.includes('diario') || lowerMessage.includes('oficina') || lowerMessage.includes('trabajo')) {
+                    return 'Para uso diario recomiendo:\n\n- Aurus Fresh (notas cítricas)\n- Aurus Breeze (acuático y limpio)\n- Aurus Light (floral suave)\n\nSon fragancias ligeras que no abruman en espacios cerrados. Perfectas para la oficina o el día a día.';
+                }
+                
+                if (lowerMessage.includes('noche') || lowerMessage.includes('especial') || lowerMessage.includes('evento') || lowerMessage.includes('fiesta')) {
+                    return 'Para ocasiones especiales:\n\n- Aurus Mystique (notas orientales intensas)\n- Aurus Velvet (ambarado y especiado)\n- Aurus Gold (lujoso con notas de azahar)\n- Aurus Passion (floral intenso con vainilla)\n\nEstas fragancias tienen mayor proyección y duración.';
+                }
+                
+                if (lowerMessage.includes('pedido') || lowerMessage.includes('comprar') || lowerMessage.includes('envío') || lowerMessage.includes('carrito')) {
+                    return 'Puedes comprar en 3 sencillos pasos:\n1. Selecciona tus productos\n2. Ve a tu carrito de compras\n3. Completa el formulario de envío\n\nAceptamos todas las tarjetas y PayPal. Envíos en 24-48h. ¿Necesitas ayuda con algún paso?';
+                }
+                
+                if (lowerMessage.includes('precio') || lowerMessage.includes('coste') || lowerMessage.includes('cuánto cuesta') || lowerMessage.includes('promoción')) {
+                    return 'Tenemos diferentes rangos de precios:\n\n- Eau de Toilette (50ml): $45-$65\n- Eau de Parfum (100ml): $75-$95\n- Sets de regalo: desde $90\n\nActualmente tenemos 10% de descuento en la línea Aurus Noir. ¿Te interesa algún perfume en particular?';
+                }
+                
+                if (lowerMessage.includes('ingrediente') || lowerMessage.includes('nota') || lowerMessage.includes('composición') || lowerMessage.includes('alergia')) {
+                    return 'Todos nuestros perfumes usan ingredientes de alta calidad. Las principales familias olfativas son:\n\n- Florales: rosas, jazmín, peonía\n- Cítricos: limón, bergamota, mandarina\n- Amaderados: sándalo, pachulí, cedro\n- Orientales: vainilla, ámbar, especias\n\n¿Quieres saber la composición exacta de alguna fragancia?';
+                }
+                
+                if (lowerMessage.includes('duración') || lowerMessage.includes('dura') || lowerMessage.includes('permanece') || lowerMessage.includes('fijación')) {
+                    return 'La duración aproximada es:\n\n- Eau de Toilette: 4-6 horas\n- Eau de Parfum: 6-8 horas\n- Perfume: 8+ horas\n\nPara mayor duración, aplica el perfume en puntos de pulso y sobre piel hidratada. Aurus Noir y Aurus Mystique son nuestras fragancias con mayor fijación.';
+                }
+                
+                if (lowerMessage.includes('recomendar') || lowerMessage.includes('sugerir') || lowerMessage.includes('recomendación') || lowerMessage.includes('elegir')) {
+                    return 'Para recomendarte el perfume perfecto, dime:\n1. ¿Es para hombre, mujer o unisex?\n2. ¿Qué tipo de aroma prefieres (floral, cítrico, amaderado, oriental)?\n3. ¿Para qué ocasión lo buscas (diario, noche, evento especial)?\n\nCon esta información puedo sugerirte las mejores opciones.';
+                }
+                
+                if (lowerMessage.includes('entrega') || lowerMessage.includes('envío') || lowerMessage.includes('tiempo') || lowerMessage.includes('recibir')) {
+                    return 'Nuestros tiempos de entrega:\n\n- Envío estándar: 2-3 días hábiles\n- Envío express: 24 horas (costo adicional)\n\nTrabajamos con envíos a todo el país. Los pedidos realizados antes de las 12pm se envían el mismo día.';
+                }
+                
+                if (lowerMessage.includes('devolución') || lowerMessage.includes('cambio') || lowerMessage.includes('política') || lowerMessage.includes('garantía')) {
+                    return 'Nuestra política de devoluciones:\n\n- Aceptamos devoluciones en 14 días\n- Producto debe estar sin usar y en empaque original\n- Reembolsos se procesan en 5 días hábiles\n\nPara cambios, contáctanos y te ayudaremos a encontrar la fragancia perfecta.';
+                }
+                
+                if (lowerMessage.includes('diferencia') || lowerMessage.includes('comparar') || lowerMessage.includes('edt') || lowerMessage.includes('edp')) {
+                    return 'Las principales diferencias:\n\n- Eau de Toilette (EDT): Concentración de 8-12%, dura 4-6h\n- Eau de Parfum (EDP): Concentración 12-18%, dura 6-8h\n- Perfume: Concentración 18-30%, dura 8+h\n\nLa EDP tiene más notas de corazón y fondo, mientras la EDT es más fresca.';
+                }
+                
+                if (lowerMessage.includes('regalo') || lowerMessage.includes('presente') || lowerMessage.includes('ocasión especial') || lowerMessage.includes('cumpleaños')) {
+                    return 'Para regalos te recomiendo:\n\n1. Sets de regalo (perfume + loción)\n2. Aurus Signature (seguro para cualquier gusto)\n3. Aurus Gold (presentación de lujo)\n4. Aurus Love (edición especial para parejas)\n\nTambién ofrecemos empaque de regalo gratuito.';
+                }
+                
+                // Respuesta por defecto
+                return 'Gracias por tu consulta sobre Aurus. ¿Podrías ser más específico para que pueda ayudarte mejor? Por ejemplo, puedes preguntar sobre:\n- Tipos de fragancias\n- Recomendaciones\n- Precios y promociones\n- Proceso de compra\n\nEstoy aquí para ayudarte a encontrar tu perfume perfecto.';
+            }
+            
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurus Perfumes - Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: url('https://images.unsplash.com/photo-1600180758890-6a6c6e1b4f8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /*background: linear-gradient(to bottom, rgba(255, 105, 180, 0.7), rgba(106, 5, 114, 0.9));*/
+            background: linear-gradient(to bottom, rgba(106, 5, 114, 0.8), rgba(61, 0, 79, 0.9));
+            z-index: -1;
+        }
+
+        .login-container {
+            position: relative;
+            width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+            transition: all 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -50%;
+            }
+            100% {
+                left: 150%;
+            }
+        }
+        
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            border-radius: 2px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 30px;
+            outline: none;
+            font-size: 1em;
+            color: #333;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #666;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:valid + label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8em;
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 0 5px;
+        }
+        
+        .role-selection {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .role-btn {
+            flex: 1;
+            margin: 0 5px;
+            padding: 12px;
+            border: none;
+            border-radius: 30px;
+            background: #f0f0f0;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        .role-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .role-btn.active {
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            color: white;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.3);
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .forgot-pass {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s ease;
+        }
+        
+        .forgot-pass:hover {
+            color: #8a2be2;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Mensajes de alerta */
+        .alert {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .alert.success {
+            background: linear-gradient(90deg, #00b09b, #96c93d);
+            opacity: 1;
+            animation: alertIn 0.5s ease, alertOut 0.5s ease 2.5s forwards;
+        }
+        
+        .alert.error {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            opacity: 1;
+            animation: alertIn 0.5s ease, alertOut 0.5s ease 2.5s forwards;
+        }
+        
+        @keyframes alertIn {
+            from {
+                top: -100px;
+                opacity: 0;
+            }
+            to {
+                top: 20px;
+                opacity: 1;
+            }
+        }
+        
+        @keyframes alertOut {
+            from {
+                top: 20px;
+                opacity: 1;
+            }
+            to {
+                top: -100px;
+                opacity: 0;
+            }
+        }
+        
+        .alert i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        /* Efecto de éxito */
+        .success-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(138, 43, 226, 0.8);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .success-effect.active {
+            opacity: 1;
+        }
+        
+        .success-effect h1 {
+            color: white;
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .success-effect .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: checkmarkScale 0.5s ease;
+        }
+        
+        @keyframes checkmarkScale {
+            0% {
+                transform: scale(0);
+            }
+            80% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .success-effect .checkmark::after {
+            content: '✓';
+            font-size: 50px;
+            color: #8a2be2;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(90deg, #8a2be2, #da70d6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="login-container" id="loginContainer">
+        <div class="logo">AURUS</div>
+        <h2>Iniciar Sesión</h2>
+        
+        <div class="input-group">
+            <input type="text" id="username" required>
+            <label for="username">Usuario</label>
+        </div>
+        
+        <div class="input-group">
+            <input type="password" id="password" required>
+            <label for="password">Contraseña</label>
+        </div>
+        
+        <div class="role-selection">
+            <button class="role-btn active" data-role="admin">Administrador</button>
+            <button class="role-btn" data-role="user">Usuario</button>
+        </div>
+        
+        <button class="login-btn" id="loginBtn">Ingresar</button>
+        
+        <a href="#" class="forgot-pass">¿Olvidaste tu contraseña?</a>
+    </div>
+    
+    <div class="particles" id="particles"></div>
+    
+    <!-- Mensajes de alerta -->
+    <div class="alert" id="alert"></div>
+    
+    <!-- Efecto de éxito -->
+    <div class="success-effect" id="successEffect">
+        <div class="checkmark"></div>
+        <h1>¡Bienvenid@!</h1>
+    </div>
+    
+    <script>
+        // Base de datos de usuarios
+        const users = {
+            admin: {
+                password: "admin123",
+                role: "admin",
+                name: "Administrador"
+            },
+            usuario: {
+                password: "cliente123",
+                role: "user",
+                name: "Sr. Usuario"
+            }
+        };
+        
+        // Selección de rol
+        const roleBtns = document.querySelectorAll('.role-btn');
+        let selectedRole = 'admin';
+        
+        roleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                roleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedRole = btn.getAttribute('data-role');
+            });
+        });
+        
+        // Efecto de partículas
+        const particlesContainer = document.getElementById('particles');
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 8 + 2;
+            const posX = Math.random() * 100;
+            const duration = Math.random() * 10 + 5;
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}%`;
+            particle.style.animationDuration = `${duration}s`;
+            
+            particlesContainer.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+        
+        setInterval(createParticle, 300);
+        
+        // Mostrar alerta
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.innerHTML = type === 'success' 
+                ? `<i class="fas fa-check-circle"></i> ${message}`
+                : `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            
+            alert.className = `alert ${type}`;
+            
+            // Resetear la alerta para poder mostrarla de nuevo
+            setTimeout(() => {
+                alert.className = 'alert';
+            }, 3000);
+        }
+        
+        // Efecto de éxito
+        function showSuccessEffect(name) {
+            const successEffect = document.getElementById('successEffect');
+            const h1 = successEffect.querySelector('h1');
+            h1.textContent = `¡Bienvenido, ${name}!`;
+            successEffect.classList.add('active');
+            
+            // Redireccionar después del efecto
+            setTimeout(() => {
+                if(selectedRole === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'perfil.html';
+                }
+            }, 2000);
+        }
+        
+        // Login
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            // Validación
+            if(!username || !password) {
+                showAlert('Por favor ingresa usuario y contraseña', 'error');
+                return;
+            }
+            
+            // Animación de carga
+            const btn = document.getElementById('loginBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+            btn.style.background = 'linear-gradient(90deg, #00b09b, #96c93d)';
+            
+            // Simular verificación con delay
+            setTimeout(() => {
+                // Verificar credenciales
+                if(users[username] && users[username].password === password) {
+                    // Verificar rol seleccionado coincide con el rol del usuario
+                    if(users[username].role !== selectedRole) {
+                        showAlert(`Este usuario no tiene permisos de ${selectedRole === 'admin' ? 'Administrador' : 'Usuario'}`, 'error');
+                        btn.innerHTML = 'Ingresar';
+                        btn.style.background = 'linear-gradient(90deg, #8a2be2, #da70d6)';
+                        return;
+                    }
+                    
+                    // Mostrar efecto de éxito
+                    showSuccessEffect(users[username].name);
+                    
+                    // Animación del formulario
+                    document.getElementById('loginContainer').style.transform = 'scale(0.9)';
+                    document.getElementById('loginContainer').style.opacity = '0';
+                    
+                } else {
+                    showAlert('Usuario o contraseña incorrectos', 'error');
+                    btn.innerHTML = 'Ingresar';
+                    btn.style.background = 'linear-gradient(90deg, #8a2be2, #da70d6)';
+                    
+                    // Efecto de error en los inputs
+                    const inputs = document.querySelectorAll('.input-group input');
+                    inputs.forEach(input => {
+                        input.style.boxShadow = '0 5px 15px rgba(255, 0, 0, 0.3)';
+                        setTimeout(() => {
+                            input.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                        }, 1000);
+                    });
+                }
+            }, 1500);
+        });
+        
+        // Efecto al presionar Enter
+        document.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                document.getElementById('loginBtn').click();
+            }
+        });
+    </script>
+</body>
+</html>

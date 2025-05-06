@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Aurus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3D004F;
+            --secondary-color: #6a4c6d;
+            --accent-color: #D65AA5;
+            --dark-color: #6A0572;
+            --light-color: #f9f3f8;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Panel lateral */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--dark-color), var(--primary-color));
+            color: white;
+            /* Eliminamos transform: translateX(-100%) para que no esté oculto */
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .sidebar-menu li {
+            list-style: none;
+            padding: 10px 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu li:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding-left: 25px;
+        }
+
+        .sidebar-menu li i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .sidebar-menu li.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.shifted {
+            margin-left: 250px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .menu-toggle {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: transform 0.3s;
+        }
+
+        .menu-toggle:hover {
+            transform: scale(1.1);
+            color: var(--secondary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-actions .notification {
+            position: relative;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /*NOTIFICACIONES */
+        /* Estilos para la sección de notificaciones */
+        .notifications-container {
+            margin-top: 20px;
+        }
+
+        .notifications-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .notifications-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notifications-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--secondary-color);
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--accent-color);
+        }
+
+        .notifications-list {
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 30px;
+        }
+
+        .notification-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.3s;
+            animation: slideIn 0.3s ease-out;
+            position: relative;
+        }
+
+        .notification-item.unread {
+            background-color: var(--light-color);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .notification-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .notification-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: var(--accent-color);
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-color);
+        }
+
+        .notification-message {
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .notification-btn {
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .notification-btn.mark-read {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .notification-btn.mark-read:hover {
+            background-color: #d0d0d0;
+        }
+
+        .notification-btn.delete {
+            background-color: #ffebee;
+            color: var(--danger-color);
+        }
+
+        .notification-btn.delete:hover {
+            background-color: #ffcdd2;
+        }
+
+        .notification-settings {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-top: 30px;
+        }
+
+        .notification-settings h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .notification-settings .form-group {
+            margin-bottom: 15px;
+        }
+
+        .notification-settings label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .notification-settings input[type="checkbox"] {
+            width: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .new-notification {
+            animation: pulse 1s infinite;
+        }
+        /* Secciones */
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        /* Perfil */
+        .profile-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-image {
+            flex: 0 0 200px;
+            text-align: center;
+        }
+
+        .profile-image img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-image img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-details {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .detail-group {
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            padding: 8px 12px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Historial de compras */
+        .purchase-history {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status.completed {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+
+        .status.pending {
+            background-color: #fff8e1;
+            color: var(--warning-color);
+        }
+
+        .status.cancelled {
+            background-color: #ffebee;
+            color: var(--danger-color);
+        }
+
+        /* Configuración */
+        .settings-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus, 
+        .form-group textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-info {
+                flex-direction: column;
+            }
+            
+            .profile-image {
+                margin-bottom: 20px;
+                align-self: center;
+            }
+            
+            .main-content.shifted {
+                margin-left: 0;
+            }
+            
+            .sidebar {
+                width: 80%;
+            }
+        }
+
+        /* Animaciones */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 165, 201, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 165, 201, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 165, 201, 0); }
+        }
+
+        /* Tarjetas de estadísticas */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Estilos específicos para Aurus */
+        .perfume-card {
+            display: flex;
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .perfume-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .perfume-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .perfume-details {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .perfume-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .perfume-brand {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .perfume-price {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .fragrance-family {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: var(--light-color);
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            color: var(--secondary-color);
+        }
+
+        /* Estilos para el modal de detalles de compra en la pagina mi perfil en la seccion de mis compras */
+        .purchase-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .purchase-modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideUp 0.3s ease 0.1s forwards;
+        }
+
+        .purchase-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .purchase-modal-header h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .purchase-modal-close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .purchase-modal-close:hover {
+            color: var(--danger-color);
+        }
+
+        .purchase-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .purchase-detail-group {
+            margin-bottom: 15px;
+        }
+
+        .purchase-detail-label {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .purchase-detail-value {
+            padding: 8px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+        }
+
+        .purchase-products-list {
+            margin-top: 20px;
+        }
+
+        .purchase-product {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s;
+        }
+
+        .purchase-product:hover {
+            background-color: #f9f9f9;
+        }
+
+        .purchase-product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+
+        .purchase-product-info {
+            flex: 1;
+        }
+
+        .purchase-product-name {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .purchase-product-price {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+
+        .purchase-total {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .purchase-status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Panel lateral - ahora visible por defecto -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <img src="image/perfilmensaje/perfilprincipal.png" alt="Foto de perfil" class="pulse">
+                <h3>Andres Renteria</h3>
+                <p>Coleccionista VIP</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active" data-section="profile"><i class="fas fa-user"></i> Mi Perfil</li>
+                <li data-section="purchases"><i class="fas fa-shopping-bag"></i> Mis Compras</li>
+                <li data-section="settings"><i class="fas fa-cog"></i> Configuración</li>
+                <li data-section="wishlist"><i class="fas fa-heart"></i> Mi Colección</li>
+                <li data-section="preferences"><i class="fas fa-star"></i> Preferencias</li>
+                <li data-section="security"><i class="fas fa-shield-alt"></i> Seguridad</li>
+                <li data-section="notifications"><i class="fas fa-bell"></i> Notificaciones</li>
+                <li data-section="store"><i class="fas fa-store"></i> Tienda Aurus</li>
+                <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</li>
+            </ul>
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="main-content" id="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <h2>Mi Cuenta Aurus</h2>
+                <div class="user-actions">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">2</span>
+                    </div>
+                    <div class="user">
+                        <i class="fas fa-user-circle" style="font-size: 24px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjetas de estadísticas -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-perfume-bottle"></i>
+                    <div class="value">24</div>
+                    <div class="label">Fragancias</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <div class="value">4.9</div>
+                    <div class="label">Valoración</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-gift"></i>
+                    <div class="value">3</div>
+                    <div class="label">Muestras gratis</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-award"></i>
+                    <div class="value">VIP</div>
+                    <div class="label">Nivel de cliente</div>
+                </div>
+            </div>
+
+            <!-- Sección de perfil (activa por defecto) -->
+            <div class="section" id="profile-section">
+                <h2 class="section-title"><i class="fas fa-user"></i> Información Personal</h2>
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <img src="image/perfilmensaje/perfilprincipal.png" alt="Foto de perfil">
+                        <button class="btn btn-primary" style="margin-top: 15px;">Cambiar Foto</button>
+                    </div>
+                    <div class="profile-details">
+                        <div class="detail-group">
+                            <div class="detail-label">Nombre Completo</div>
+                            <div class="detail-value">Andres Ren_Ber</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Correo Electrónico</div>
+                            <div class="detail-value">andresberr15@prueba.com</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Teléfono</div>
+                            <div class="detail-value">+57 3022386236</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Fecha de Nacimiento</div>
+                            <div class="detail-value">15 de Mayo de 2003</div>
+                        </div>
+                        <div class="detail-group">
+                            <div class="detail-label">Dirección Principal</div>
+                            <div class="detail-value">Mi Dirección Es Cualquiera</div>
+                        </div>
+                        <button class="btn btn-primary">Editar Perfil</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de compras (oculta inicialmente) -->
+            <div class="section" id="purchases-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-shopping-bag"></i> Historial de Compras</h2>
+                <div class="purchase-history">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Pedido</th>
+                                <th>Fecha</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#AUR-98765</td>
+                                <td>15/06/2025</td>
+                                <td>Aurus Noble (100ml), Aurus Noir (50ml)</td>
+                                <td>$150,000</td>
+                                <td><span class="status completed">Completado</span></td>
+                                <td><button class="btn btn-primary">Detalles</button></td>
+                            </tr>
+                            <tr>
+                                <td>#AUR-87654</td>
+                                <td>02/06/2025</td>
+                                <td>Aurus Fleur (50ml), Muestra gratis</td>
+                                <td>$50,000</td>
+                                <td><span class="status completed">Completado</span></td>
+                                <td><button class="btn btn-primary">Detalles</button></td>
+                            </tr>
+                            <tr>
+                                <td>#AUR-76543</td>
+                                <td>25/05/2025</td>
+                                <td>Set Regalo Aurus (3 fragancias)</td>
+                                <td>$183,000</td>
+                                <td><span class="status pending">En proceso</span></td>
+                                <td><button class="btn btn-primary">Detalles</button></td>
+                            </tr>
+                            <tr>
+                                <td>#AUR-65432</td>
+                                <td>10/05/2025</td>
+                                <td>Aurus Sensual(100ml), Crema corporal</td>
+                                <td>$146,000</td>
+                                <td><span class="status completed">Completado</span></td>
+                                <td><button class="btn btn-primary">Detalles</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+
+            <!-- Modal de detalles de la pagina perfil la seccion de mis compras -->
+            <div class="purchase-modal" id="purchase-modal">
+                <div class="purchase-modal-content">
+                    <div class="purchase-modal-header">
+                        <h3>Detalles del Pedido</h3>
+                        <span class="purchase-modal-close">&times;</span>
+                    </div>
+                    
+                    <div class="purchase-details-grid">
+                        <div>
+                            <div class="purchase-detail-group">
+                                <div class="purchase-detail-label">ID del Pedido</div>
+                                <div class="purchase-detail-value" id="modal-order-id">#AUR-98765</div>
+                            </div>
+                            <div class="purchase-detail-group">
+                                <div class="purchase-detail-label">Fecha</div>
+                                <div class="purchase-detail-value" id="modal-order-date">15/06/2025</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="purchase-detail-group">
+                                <div class="purchase-detail-label">Estado</div>
+                                <div class="purchase-detail-value">
+                                    <span class="purchase-status-badge" id="modal-order-status">Completado</span>
+                                </div>
+                            </div>
+                            <div class="purchase-detail-group">
+                                <div class="purchase-detail-label">Método de Pago</div>
+                                <div class="purchase-detail-value" id="modal-payment-method">Tarjeta de crédito</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4>Productos</h4>
+                    <div class="purchase-products-list" id="modal-products-list">
+                        <!-- Los productos se cargarán dinámicamente aquí -->
+                    </div>
+                    
+                    <div class="purchase-total">
+                        Total: <span id="modal-order-total">$150,000</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de configuración (oculta inicialmente) -->
+            <div class="section" id="settings-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-cog"></i> Configuración de Cuenta</h2>
+                <form class="settings-form">
+                    <div>
+                        <div class="form-group">
+                            <label for="language">Idioma preferido</label>
+                            <select id="language">
+                                <option value="es">Español</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="theme">Tema</label>
+                            <select id="theme">
+                                <option value="light">Claro</option>
+                                <option value="dark">Oscuro</option>
+                                <option value="system">Sistema</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="notifications">Notificaciones por email</label>
+                            <select id="notifications">
+                                <option value="all">Todas</option>
+                                <option value="important">Solo importantes</option>
+                                <option value="none">Ninguna</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="newsletter">Suscripción a newsletter</label>
+                            <select id="newsletter">
+                                <option value="yes">Sí</option>
+                                <option value="no">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bio">Sobre mi relación con las fragancias</label>
+                        <textarea id="bio" rows="4" placeholder="Cuéntanos qué tipo de fragancias prefieres..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+
+            <!-- Sección de colección/wishlist -->
+            <div class="section" id="wishlist-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-heart"></i> Mi Colección de Fragancias</h2>
+                <div class="wishlist-grid">
+                    <div class="perfume-card">
+                        <img src="image/perfumes/perfume1.png" alt="Aurus Éclat" class="perfume-image">
+                        <div class="perfume-details">
+                            <div class="perfume-name">Aurus Noble</div>
+                            <div class="perfume-brand">Aurus Noble Collection</div>
+                            <span class="fragrance-family">Floral</span>
+                            <span class="fragrance-family">Oriental</span>
+                            <div class="perfume-price">$50,000</div>
+                        </div>
+                    </div>
+                    <div class="perfume-card">
+                        <img src="image/perfumes/perfume5.png" alt="Aurus Noir" class="perfume-image">
+                        <div class="perfume-details">
+                            <div class="perfume-name">Aurus Noir</div>
+                            <div class="perfume-brand">Aurus Noir Collection</div>
+                            <span class="fragrance-family">Amaderado</span>
+                            <span class="fragrance-family">Especiado</span>
+                            <div class="perfume-price">$85,000</div>
+                        </div>
+                    </div>
+                    <div class="perfume-card">
+                        <img src="image/perfumes/perfume6.png" alt="Aurus Fleur" class="perfume-image">
+                        <div class="perfume-details">
+                            <div class="perfume-name">Aurus Oud</div>
+                            <div class="perfume-brand">Aurus Oud Collection</div>
+                            <span class="fragrance-family">Floral</span>
+                            <span class="fragrance-family">Frutal</span>
+                            <div class="perfume-price">$90,000</div>
+                        </div>
+                    </div>
+                    <div class="perfume-card">
+                        <img src="image/perfumes/perfume18.png" alt="Aurus Bois" class="perfume-image">
+                        <div class="perfume-details">
+                            <div class="perfume-name">Aurus Orchid</div>
+                            <div class="perfume-brand">Aurus Orchid Collection</div>
+                            <span class="fragrance-family">Amaderado</span>
+                            <span class="fragrance-family">Fougère</span>
+                            <div class="perfume-price">$80,00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de preferencias -->
+            <div class="section" id="preferences-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-star"></i> Mis Preferencias de Fragancia</h2>
+                <form class="settings-form">
+                    <div>
+                        <div class="form-group">
+                            <label>Familias olfativas favoritas</label>
+                            <div>
+                                <input type="checkbox" id="floral" name="families" checked>
+                                <label for="floral">Floral</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="oriental" name="families" checked>
+                                <label for="oriental">Oriental</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="woody" name="families">
+                                <label for="woody">Amaderado</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="fresh" name="families">
+                                <label for="fresh">Fresco</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label for="intensity">Intensidad preferida</label>
+                            <select id="intensity">
+                                <option value="light">Ligera</option>
+                                <option value="medium" selected>Media</option>
+                                <option value="strong">Intensa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="season">Estación favorita</label>
+                            <select id="season">
+                                <option value="spring">Primavera</option>
+                                <option value="summer">Verano</option>
+                                <option value="autumn">Otoño</option>
+                                <option value="winter">Invierno</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar Preferencias</button>
+                </form>
+            </div>
+
+            <!-- Sección de seguridad -->
+            <div class="section" id="security-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-shield-alt"></i> Seguridad</h2>
+                <p>Configuración de seguridad y contraseña.</p>
+            </div>
+
+            <!-- Sección de notificaciones 
+            <div class="section" id="notifications-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-bell"></i> Notificaciones</h2>
+                <p>Historial y configuración de notificaciones.</p>
+            </div> -->
+
+            <div class="section" id="notifications-section" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-bell"></i> Notificaciones</h2>
+                
+                <div class="notifications-container">
+                    <div class="notifications-header">
+                        <h3>Tus Alertas y Notificaciones</h3>
+                        <div class="notifications-actions">
+                            <button class="btn btn-primary" id="mark-all-read">
+                                <i class="fas fa-check-double"></i> Marcar todas como leídas
+                            </button>
+                            <button class="btn btn-secondary" id="clear-notifications">
+                                <i class="fas fa-trash"></i> Limpiar notificaciones
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="notifications-tabs">
+                        <button class="tab-btn active" data-tab="all">Todas</button>
+                        <button class="tab-btn" data-tab="unread">No leídas</button>
+                        <button class="tab-btn" data-tab="promotions">Promociones</button>
+                        <button class="tab-btn" data-tab="system">Sistema</button>
+                    </div>
+                    
+                    <div class="notifications-list">
+                        <!-- Notificaciones se cargarán dinámicamente aquí -->
+                    </div>
+                    
+                    <div class="notification-settings">
+                        <h3><i class="fas fa-cog"></i> Configuración de Notificaciones</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="email-promotions" checked>
+                                    Recibir promociones por email
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="email-orders" checked>
+                                    Notificaciones de pedidos
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="email-restock" checked>
+                                    Avisos de reposición
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" name="push-notifications" checked>
+                                    Notificaciones push
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Configuración</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.main-content').style.marginLeft = '250px';
+
+            // Navegación entre secciones
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            const sections = document.querySelectorAll('.section');
+
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remover clase active de todos los items
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    
+                    // Agregar clase active al item clickeado
+                    this.classList.add('active');
+                    
+                    // Obtener la sección correspondiente
+                    const section = this.getAttribute('data-section');
+                    
+                    // Manejar redirección a tienda
+                    if (section === 'store') {
+                        window.location.href = 'index.html';
+                        return;
+                    }
+                    
+                    // Manejar cierre de sesión
+                    if (this.id === 'logout-btn') {
+                        return;
+                    }
+                    
+                    // Manejo normal de secciones
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    const sectionId = section + '-section';
+                    if (sectionId !== 'undefined-section') {
+                        document.getElementById(sectionId).style.display = 'block';
+                    }
+                });
+            });
+
+            // Simular carga de datos
+            setTimeout(() => {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.style.opacity = '1';
+                });
+            }, 300);
+
+            // Animación para el botón de notificaciones
+            const notificationBtn = document.querySelector('.notification');
+            if (notificationBtn) {
+                notificationBtn.addEventListener('click', function() {
+                    this.querySelector('i').classList.add('fa-shake');
+                    setTimeout(() => {
+                        this.querySelector('i').classList.remove('fa-shake');
+                    }, 500);
+                });
+            }
+
+            // Cambiar tema (ejemplo)
+            const themeSelect = document.getElementById('theme');
+            if (themeSelect) {
+                themeSelect.addEventListener('change', function() {
+                    if (this.value === 'dark') {
+                        document.body.style.backgroundColor = '#1a1a1a';
+                        document.body.style.color = '#f0f0f0';
+                    } else {
+                        document.body.style.backgroundColor = '#f5f5f5';
+                        document.body.style.color = '#333';
+                    }
+                });
+            }
+
+            // Manejo de logout
+            const logoutButtons = document.querySelectorAll('#logout-btn, #logout-button');
+            
+            logoutButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡Estás a punto de cerrar tu sesión!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, cerrar sesión',
+                        cancelButtonText: 'Cancelar',
+                        customClass: {
+                            popup: 'animated bounceIn'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Redirigir a login.html
+                            window.location.href = 'login.html';
+                        }
+                    });
+                });
+            });
+        });
+
+        // Datos de ejemplo para notificaciones
+        const notificationsData = [
+            {
+                id: 1,
+                title: "¡Nueva colección disponible!",
+                message: "La nueva colección Otoño 2023 ya está disponible en nuestra tienda.",
+                time: "Hace 2 horas",
+                read: false,
+                type: "promotions",
+                icon: "fas fa-gift"
+            },
+            {
+                id: 2,
+                title: "Tu pedido ha sido enviado",
+                message: "Tu pedido #AUR-98765 ha sido enviado. Llegará en 2-3 días hábiles.",
+                time: "Ayer",
+                read: true,
+                type: "system",
+                icon: "fas fa-truck"
+            },
+            {
+                id: 3,
+                title: "Producto disponible nuevamente",
+                message: "Aurus Éclat está nuevamente disponible en nuestra tienda.",
+                time: "Ayer",
+                read: false,
+                type: "promotions",
+                icon: "fas fa-box-open"
+            },
+            {
+                id: 4,
+                title: "¡Oferta especial por tiempo limitado!",
+                message: "20% de descuento en toda la colección Noir hasta el 30 de noviembre.",
+                time: "Hace 3 días",
+                read: true,
+                type: "promotions",
+                icon: "fas fa-percentage"
+            },
+            {
+                id: 5,
+                title: "Actualización de cuenta requerida",
+                message: "Por favor actualiza tu información de pago para continuar disfrutando de los beneficios VIP.",
+                time: "Hace 5 días",
+                read: false,
+                type: "system",
+                icon: "fas fa-exclamation-circle"
+            }
+        ];
+
+        // Función para renderizar notificaciones
+        function renderNotifications(filter = 'all') {
+            const notificationsList = document.querySelector('.notifications-list');
+            notificationsList.innerHTML = '';
+            
+            let filteredNotifications = notificationsData;
+            
+            if (filter === 'unread') {
+                filteredNotifications = notificationsData.filter(n => !n.read);
+            } else if (filter !== 'all') {
+                filteredNotifications = notificationsData.filter(n => n.type === filter);
+            }
+            
+            if (filteredNotifications.length === 0) {
+                notificationsList.innerHTML = '<div class="no-notifications">No hay notificaciones para mostrar</div>';
+                return;
+            }
+            
+            filteredNotifications.forEach(notification => {
+                const notificationItem = document.createElement('div');
+                notificationItem.className = `notification-item ${notification.read ? '' : 'unread'}`;
+                notificationItem.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="${notification.icon}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <div class="notification-title">${notification.title}</div>
+                        <div class="notification-message">${notification.message}</div>
+                        <div class="notification-time">${notification.time}</div>
+                        <div class="notification-actions">
+                            <button class="notification-btn mark-read" data-id="${notification.id}">
+                                <i class="fas fa-check"></i> Marcar como leída
+                            </button>
+                            <button class="notification-btn delete" data-id="${notification.id}">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                notificationsList.appendChild(notificationItem);
+            });
+            
+            // Actualizar contador de notificaciones no leídas
+            updateUnreadCount();
+        }
+
+        // Función para actualizar el contador de notificaciones no leídas
+        function updateUnreadCount() {
+            const unreadCount = notificationsData.filter(n => !n.read).length;
+            const badge = document.querySelector('.notification-badge');
+            
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount;
+                badge.style.display = 'flex';
+                
+                // Agregar animación si hay notificaciones nuevas
+                if (unreadCount > parseInt(badge.textContent || '0')) {
+                    badge.classList.add('new-notification');
+                    setTimeout(() => {
+                        badge.classList.remove('new-notification');
+                    }, 2000);
+                }
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // Función para marcar notificación como leída
+        function markAsRead(id) {
+            const notification = notificationsData.find(n => n.id === id);
+            if (notification) {
+                notification.read = true;
+                renderNotifications(document.querySelector('.tab-btn.active').dataset.tab);
+            }
+        }
+
+        // Función para eliminar notificación
+        function deleteNotification(id) {
+            const index = notificationsData.findIndex(n => n.id === id);
+            if (index !== -1) {
+                notificationsData.splice(index, 1);
+                renderNotifications(document.querySelector('.tab-btn.active').dataset.tab);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Renderizar notificaciones al cargar
+            renderNotifications();
+            
+            // Tabs de notificaciones
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderNotifications(this.dataset.tab);
+                });
+            });
+            
+            // Marcar todas como leídas
+            document.getElementById('mark-all-read').addEventListener('click', function() {
+                notificationsData.forEach(n => n.read = true);
+                renderNotifications(document.querySelector('.tab-btn.active').dataset.tab);
+            });
+            
+            // Limpiar notificaciones
+            document.getElementById('clear-notifications').addEventListener('click', function() {
+                notificationsData.length = 0;
+                renderNotifications();
+            });
+            
+            // Delegación de eventos para los botones de notificación
+            document.querySelector('.notifications-list').addEventListener('click', function(e) {
+                if (e.target.closest('.mark-read')) {
+                    const id = parseInt(e.target.closest('.mark-read').dataset.id);
+                    markAsRead(id);
+                } else if (e.target.closest('.delete')) {
+                    const id = parseInt(e.target.closest('.delete').dataset.id);
+                    deleteNotification(id);
+                }
+            });
+            
+            // Guardar configuración
+            document.querySelector('.notification-settings form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Configuración guardada',
+                    text: 'Tus preferencias de notificaciones han sido actualizadas.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+            });
+        });
+
+        // Simular notificación en tiempo real (para demostración)
+        setTimeout(() => {
+            const newNotification = {
+                id: Date.now(),
+                title: "¡Nueva oferta especial!",
+                message: "15% de descuento en tu próxima compra con el código AURUS15.",
+                time: "Ahora",
+                read: false,
+                type: "promotions",
+                icon: "fas fa-tag"
+            };
+            
+            notificationsData.unshift(newNotification);
+            renderNotifications(document.querySelector('.tab-btn.active').dataset.tab);
+            
+            // Mostrar notificación push
+            if (Notification.permission === "granted") {
+                new Notification(newNotification.title, {
+                    body: newNotification.message,
+                    icon: "https://via.placeholder.com/100"
+                });
+            }
+        }, 10000);
+
+        // Solicitar permiso para notificaciones
+        if (Notification.permission !== "denied") {
+            Notification.requestPermission();
+        }
+
+        // Diseño del modal del boton de detalles en la pagina de perfil en la seccion de mis compras
+        const ordersData = {
+            "AUR-98765": {
+                date: "15/06/2025",
+                products: [
+                    { 
+                        name: "Aurus Noble (100ml)", 
+                        price: "$120,000", 
+                        image: "image/perfumes/perfume1.png",
+                        quantity: 1
+                    },
+                    { 
+                        name: "Aurus Noir (50ml)", 
+                        price: "$80,000", 
+                        image: "image/perfumes/perfume5.png",
+                        quantity: 1
+                    }
+                ],
+                total: "$150,000",
+                status: "Completado",
+                paymentMethod: "Tarjeta de crédito",
+                discount: "$50,000",
+                shipping: "Envío estándar (Gratis)"
+            },
+            "AUR-87654": {
+                date: "02/06/2025",
+                products: [
+                    { 
+                        name: "Aurus Fleur (50ml)", 
+                        price: "$50,000", 
+                        image: "image/perfumes/perfume6.png",
+                        quantity: 1
+                    },
+                    { 
+                        name: "Muestra gratis", 
+                        price: "$0", 
+                        image: "image/perfumes/sample.png",
+                        quantity: 1
+                    }
+                ],
+                total: "$50,000",
+                status: "Completado",
+                paymentMethod: "Transferencia bancaria",
+                discount: "$0",
+                shipping: "Envío express ($10,000)"
+            },
+            "AUR-76543": {
+                date: "25/05/2025",
+                products: [
+                    { 
+                        name: "Set Regalo Aurus (3 fragancias)", 
+                        price: "$183,000", 
+                        image: "image/perfumes/gift-set.png",
+                        quantity: 1
+                    }
+                ],
+                total: "$183,000",
+                status: "En proceso",
+                paymentMethod: "Tarjeta de crédito",
+                discount: "$20,000",
+                shipping: "Envío estándar (Gratis)"
+            },
+            "AUR-65432": {
+                date: "10/05/2025",
+                products: [
+                    { 
+                        name: "Aurus Sensual (100ml)", 
+                        price: "$130,000", 
+                        image: "image/perfumes/perfume18.png",
+                        quantity: 1
+                    },
+                    { 
+                        name: "Crema corporal", 
+                        price: "$45,000", 
+                        image: "image/perfumes/body-cream.png",
+                        quantity: 1
+                    }
+                ],
+                total: "$146,000",
+                status: "Completado",
+                paymentMethod: "Transferencia bancaria",
+                discount: "$29,000",
+                shipping: "Envío estándar (Gratis)"
+            }
+        };
+
+        // Función para mostrar los detalles del pedido
+        function showOrderDetails(orderId) {
+            const order = ordersData[orderId];
+            if (!order) return;
+            
+            // Actualizar los datos en el modal
+            document.getElementById('modal-order-id').textContent = `#${orderId}`;
+            document.getElementById('modal-order-date').textContent = order.date;
+            document.getElementById('modal-order-total').textContent = order.total;
+            document.getElementById('modal-payment-method').textContent = order.paymentMethod;
+            
+            // Actualizar el estado con la clase adecuada
+            const statusElement = document.getElementById('modal-order-status');
+            statusElement.textContent = order.status;
+            statusElement.className = 'purchase-status-badge ' + 
+                (order.status === 'Completado' ? 'completed' : 
+                order.status === 'En proceso' ? 'pending' : 'cancelled');
+            
+            // Actualizar la lista de productos
+            const productsList = document.getElementById('modal-products-list');
+            productsList.innerHTML = '';
+            
+            order.products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.className = 'purchase-product';
+                productElement.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="purchase-product-img">
+                    <div class="purchase-product-info">
+                        <div class="purchase-product-name">${product.name}</div>
+                        <div class="purchase-product-price">${product.price} x ${product.quantity}</div>
+                    </div>
+                `;
+                productsList.appendChild(productElement);
+            });
+            
+            // Mostrar el modal
+            const modal = document.getElementById('purchase-modal');
+            modal.style.display = 'flex';
+            
+            // Deshabilitar el scroll del body
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar el modal
+        function closePurchaseModal() {
+            const modal = document.getElementById('purchase-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners para los botones de detalles
+        document.addEventListener('DOMContentLoaded', function() {
+            // Asignar evento a los botones existentes
+            document.querySelectorAll('.purchase-history .btn-primary').forEach(button => {
+                button.addEventListener('click', function() {
+                    const orderId = this.closest('tr').querySelector('td').textContent.replace('#', '');
+                    showOrderDetails(orderId);
+                });
+            });
+            
+            // Cerrar modal al hacer clic en la X
+            document.querySelector('.purchase-modal-close').addEventListener('click', closePurchaseModal);
+            
+            // Cerrar modal al hacer clic fuera del contenido
+            document.getElementById('purchase-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closePurchaseModal();
+                }
+            });
+            
+            // Cerrar modal con la tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && document.getElementById('purchase-modal').style.display === 'flex') {
+                    closePurchaseModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

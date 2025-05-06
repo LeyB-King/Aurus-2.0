@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club del Perfume Aurus - Suscripciones Exclusivas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --purple-dark: #3D004F;
+            --purple-medium: #6A0572;
+            --pink: #FF69B4;
+            --pink-light: #FF9EC6;
+            --pink-lighter: #FFCEE0;
+            --gold: #D4AF37;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f3f7;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-medium));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .perfume-bottle {
+            position: absolute;
+            width: 80px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 30px 30px 10px 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .bottle-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .bottle-2 {
+            top: 30%;
+            right: 15%;
+            animation-delay: 1s;
+            height: 120px;
+        }
+        
+        .bottle-3 {
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 2s;
+            width: 60px;
+            height: 100px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .intro-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(61, 0, 79, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--purple-dark), var(--pink));
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(106, 5, 114, 0.2);
+        }
+        
+        .benefit-card i {
+            font-size: 3rem;
+            color: var(--purple-medium);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--purple-medium), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .benefit-card h3 {
+            margin-bottom: 1rem;
+            color: var(--purple-dark);
+        }
+        
+        .pricing-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .pricing-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tab-btn {
+            padding: 0.8rem 2rem;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--purple-dark);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab-btn:first-child {
+            border-radius: 30px 0 0 30px;
+        }
+        
+        .tab-btn:last-child {
+            border-radius: 0 30px 30px 0;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(90deg, var(--purple-dark), var(--purple-medium));
+            color: white;
+        }
+        
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(106, 5, 114, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid rgba(61, 0, 79, 0.1);
+        }
+        
+        .pricing-card:hover {
+            transform: scale(1.03);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--pink);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--pink);
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            color: var(--purple-dark);
+            position: relative;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 2rem 0;
+        }
+        
+        .pricing-card ul li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .pricing-card ul li::before {
+            content: "✓";
+            color: var(--pink);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(45deg, var(--purple-dark), var(--purple-medium));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(106, 5, 114, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(106, 5, 114, 0.4);
+            background: linear-gradient(45deg, var(--purple-medium), var(--pink));
+        }
+        
+        .btn-outline {
+            background: white;
+            color: var(--purple-dark);
+            border: 2px solid var(--purple-medium);
+        }
+        
+        .btn-outline:hover {
+            background: var(--purple-medium);
+            color: white;
+        }
+        
+        .testimonials {
+            margin: 4rem 0;
+            background: linear-gradient(135deg, rgba(61, 0, 79, 0.03), rgba(255, 105, 180, 0.03));
+            padding: 3rem;
+            border-radius: 15px;
+        }
+        
+        .testimonial-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 2rem;
+            padding: 1rem 0;
+            scrollbar-width: none;
+        }
+        
+        .testimonial-slider::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .testimonial-card {
+            min-width: 300px;
+            scroll-snap-align: start;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-card .quote {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 2px solid var(--pink-light);
+        }
+        
+        .user-name {
+            font-weight: bold;
+            color: var(--purple-dark);
+        }
+        
+        .user-sub {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+        
+        .faq-section {
+            margin: 4rem 0;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--purple-dark);
+            transition: background 0.3s;
+        }
+        
+        .faq-question:hover {
+            background: rgba(255, 105, 180, 0.05);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        .faq-toggle {
+            transition: transform 0.3s;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--purple-dark), var(--purple-medium));
+            color: white;
+            border-radius: 15px;
+            margin: 4rem 0;
+        }
+        
+        .cta-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+        
+        .cta-section p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        footer {
+            background: var(--purple-dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--pink);
+        }
+        
+        .social-icons {
+            margin: 2rem 0;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-icons a:hover {
+            color: var(--pink);
+        }
+        
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal de pago */
+        .payment-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .payment-modal.active {
+            display: flex;
+        }
+        
+        .payment-content {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--purple-dark);
+        }
+        
+        .payment-form h3 {
+            color: var(--purple-dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--purple-dark);
+        }
+        
+        .form-group label.required::after {
+            content: "*";
+            color: var(--pink);
+            margin-left: 4px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--purple-medium);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(106, 5, 114, 0.1);
+        }
+        
+        .payment-method {
+            margin-bottom: 1.5rem;
+        }
+        
+        .payment-method select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: white;
+        }
+        
+        .card-container {
+            display: none;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+            border-radius: 10px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .credit-card {
+            background: linear-gradient(135deg, #3a3a3a, #1a1a1a);
+            border-radius: 12px;
+            padding: 1.5rem;
+            color: white;
+            max-width: 350px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            height: 200px;
+            perspective: 1000px;
+        }
+        
+        .card-logo {
+            text-align: right;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-logo img {
+            height: 30px;
+        }
+        
+        .card-number {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            font-family: monospace;
+        }
+        
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+        
+        .card-name, .card-expiry {
+            font-family: monospace;
+        }
+        
+        .card-cvv {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            color: #333;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            backface-visibility: hidden;
+            transform: rotateY(180deg);
+            transition: transform 0.6s;
+        }
+        
+        .card-cvv .cvv-label {
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        
+        .card-cvv .cvv-number {
+            font-size: 1rem;
+            font-family: monospace;
+            background: #eee;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+        }
+        
+        .credit-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .card-fields .form-group:last-child {
+            grid-column: span 2;
+        }
+        
+        .bank-transfer {
+            display: none;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        
+        .bank-transfer.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .bank-info {
+            margin-bottom: 1.5rem;
+        }
+        
+        .bank-info p {
+            margin-bottom: 0.5rem;
+        }
+        
+        .qr-code {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+        
+        .qr-code img {
+            max-width: 200px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: white;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, var(--purple-dark), var(--purple-medium));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(45deg, var(--purple-medium), var(--pink));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 5, 114, 0.3);
+        }
+        
+        /* Confirmación de pago */
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .confirmation.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+            animation: bounce 1s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 
+            40% {transform: translateY(-30px);} 
+            60% {transform: translateY(-15px);} 
+        }
+        
+        .confirmation h3 {
+            color: var(--purple-dark);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .confirmation p {
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        
+        .confirmation .btn {
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .pricing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonial-slider {
+                padding: 1rem;
+            }
+            
+            .payment-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+            
+            .card-fields {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-fields .form-group:last-child {
+                grid-column: span 1;
+            }
+        }
+        
+        /* Animaciones adicionales */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Efecto de confeti */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--pink);
+            opacity: 0.7;
+            animation: confetti-fall 5s linear infinite;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="perfume-bottle bottle-1"></div>
+        <div class="perfume-bottle bottle-2"></div>
+        <div class="perfume-bottle bottle-3"></div>
+        
+        <div class="header-content">
+            <h1>Club del Perfume Aurus</h1>
+            <p class="subtitle">Descubre fragancias exclusivas, recibe muestras mensuales y disfruta de beneficios especiales como miembro de nuestro selecto club de amantes del perfume.</p>  
+            <!-- <a href="#pricing" class="btn pulse-animation">Únete Ahora</a> -->
+            <a href="index.html" class="btn pulse-animation">Visitar Aurus</a>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro-section">
+            <h2>Vive una Experiencia Olfativa Exclusiva</h2>
+            <p>Como miembro del Club del Perfume Aurus, recibirás fragancias seleccionadas por nuestros expertos cada mes, junto con descuentos exclusivos, acceso anticipado a nuevos lanzamientos y contenido especial sobre el mundo de la perfumería.</p>
+        </section>
+        
+        <section>
+            <h2 class="section-title">Beneficios Exclusivos</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Muestras Mensuales</h3>
+                    <p>Recibe 3 fragancias exclusivas cada mes, seleccionadas según tus preferencias.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <i class="fas fa-percentage"></i>
+                    <h3>Descuentos</h3>
+                    <p>20% de descuento en todas las compras de nuestra tienda online.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Lanzamientos Exclusivos</h3>
+                    <p>Acceso anticipado a nuevas fragancias antes que el público general.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Envío Gratis</h3>
+                    <p>En todos tus pedidos, sin mínimo de compra.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <i class="fas fa-book"></i>
+                    <h3>Guía de Perfumes</h3>
+                    <p>Recibe una guía detallada con información sobre las fragancias del mes.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Eventos VIP</h3>
+                    <p>Invitaciones a eventos exclusivos y talleres de perfumería.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="pricing" class="pricing-section">
+            <h2 class="section-title">Elige tu Membresía</h2>
+            <p>Selecciona el plan que mejor se adapte a tus necesidades y comienza tu viaje olfativo con Aurus.</p>
+            
+            <div class="pricing-tabs">
+                <button class="tab-btn active">Mensual</button>
+                <button class="tab-btn">Anual (Ahorra 20%)</button>
+            </div>
+            
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Explorador</h3>
+                    <div class="price">$30,900<span>/mes</span></div>
+                    <ul>
+                        <li>2 muestras de perfume mensuales</li>
+                        <li>10% de descuento en compras</li>
+                        <li>Envío gratis en pedidos +$50</li>
+                        <li>Guía digital de fragancias</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline select-plan" data-plan="Explorador" data-price="30900">Seleccionar</a>
+                </div>
+                
+                <div class="pricing-card popular">
+                    <div class="popular-badge">MÁS POPULAR</div>
+                    <h3>Connoisseur</h3>
+                    <div class="price">$55,900<span>/mes</span></div>
+                    <ul>
+                        <li>4 muestras de perfume premium</li>
+                        <li>20% de descuento en compras</li>
+                        <li>Envío gratis en todos los pedidos</li>
+                        <li>Guía premium con notas olfativas</li>
+                        <li>Acceso anticipado a lanzamientos</li>
+                    </ul>
+                    <a href="#" class="btn select-plan" data-plan="Connoisseur" data-price="55900">Seleccionar</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Coleccionista</h3>
+                    <div class="price">$89,900<span>/mes</span></div>
+                    <ul>
+                        <li>6 muestras de edición limitada</li>
+                        <li>25% de descuento en compras</li>
+                        <li>Envío gratis y prioritario</li>
+                        <li>Guía de coleccionista firmada</li>
+                        <li>Acceso VIP a eventos exclusivos</li>
+                        <li>Botella de regalo cada trimestre</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline select-plan" data-plan="Coleccionista" data-price="89900">Seleccionar</a>
+                </div>
+            </div>
+        </section>
+        
+        <section class="testimonials">
+            <h2 class="section-title">Lo que dicen nuestros miembros</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                    <p class="quote">Me encanta descubrir nuevas fragancias cada mes. El Club Aurus ha ampliado mi colección y mi conocimiento sobre perfumes.</p>
+                    <div class="user-info">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="María G.">
+                        <div>
+                            <div class="user-name">María G.</div>
+                            <div class="user-sub">Miembro desde 2021</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="quote">La selección es siempre impecable. He encontrado mi perfume signature gracias al club. ¡Totalmente recomendado!</p>
+                    <div class="user-info">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Carlos R.">
+                        <div>
+                            <div class="user-name">Carlos R.</div>
+                            <div class="user-sub">Miembro desde 2022</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="quote">Los descuentos y beneficios hacen que la membresía valga cada centavo. Además, el packaging es una delicia.</p>
+                    <div class="user-info">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Ana L.">
+                        <div>
+                            <div class="user-name">Ana L.</div>
+                            <div class="user-sub">Miembro desde 2020</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="faq-section">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>¿Cómo funciona el Club del Perfume Aurus?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>El Club del Perfume Aurus es un servicio de suscripción mensual donde recibes una selección cuidadosamente curada de fragancias exclusivas cada mes. Puedes elegir entre diferentes niveles de membresía según tus intereses y presupuesto.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>¿Puedo cancelar mi membresía en cualquier momento?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Sí, puedes cancelar tu membresía en cualquier momento sin penalización. Tu suscripción permanecerá activa hasta el final del período de facturación actual.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>¿Cómo personalizan las fragancias según mis preferencias?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Al unirte al club, completarás un breve cuestionario sobre tus preferencias olfativas (notas que te gustan, intensidad preferida, ocasiones de uso, etc.). Nuestros expertos utilizan esta información para seleccionar las fragancias que mejor se adapten a tu gusto.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>¿Qué incluye exactamente cada envío mensual?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Cada envío incluye las muestras de perfume según tu nivel de membresía (de 2 a 6 fragancias), una guía detallada con información sobre cada fragancia, notas olfativas y consejos de aplicación. Los niveles superiores también incluyen accesorios y regalos exclusivos.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>¿Hacen envíos internacionales?</span>
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Sí, enviamos a la mayoría de los países. Los costos de envío internacional varían según la ubicación y se calculan al momento del checkout. Los miembros Connoisseur y Coleccionista disfrutan de envío internacional gratuito.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <h2>Únete al Club del Perfume Aurus Hoy</h2>
+            <p>Descubre un mundo de fragancias exclusivas y conviértete en parte de nuestra comunidad de amantes del perfume. Elige tu membresía y comienza tu viaje olfativo.</p>
+            <a href="#pricing" class="btn pulse-animation">Suscríbete Ahora</a>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <img src="image/perfilmensaje/perfilprincipal.png" alt="Aurus Perfumes" width="150">
+            
+            <div class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Preguntas Frecuentes</a>
+                <a href="#">Contacto</a>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+            
+            <p class="copyright">© 2023 Club del Perfume Aurus. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Pago -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-content">
+            <span class="close-modal">&times;</span>
+            
+            <div class="payment-form" id="paymentForm">
+                <h3>Completa tu Suscripción</h3>
+                <p>Estás suscribiéndote al plan <span id="selectedPlan">Connoisseur</span> por <span id="selectedPrice">$55,900/mes</span></p>
+                
+                <form id="subscriptionForm">
+                    <div class="form-group">
+                        <label for="name" class="required">Nombre Completo</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="required">Correo Electrónico</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address" class="required">Dirección de Envío</label>
+                        <textarea id="address" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone" class="required">Teléfono</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    
+                    <div class="payment-method">
+                        <label for="paymentMethod" class="required">Método de Pago</label>
+                        <select id="paymentMethod" class="form-control" required>
+                            <option value="">Seleccione un método</option>
+                            <option value="credit">Tarjeta de Crédito/Débito</option>
+                            <option value="transfer">Transferencia Bancaria</option>
+                        </select>
+                    </div>
+                    
+                    <div class="card-container" id="creditCardForm">
+                        <div class="credit-card" id="creditCard">
+                            <div class="card-logo">
+                                <img src="image/perfilmensaje/perfilprincipal.png" alt="Card Logo" id="cardType">
+                            </div>
+                            <div class="card-number" id="displayCardNumber">•••• •••• •••• ••••</div>
+                            <div class="card-info">
+                                <div class="card-name" id="displayCardName">NOMBRE TITULAR</div>
+                                <div class="card-expiry" id="displayCardExpiry">MM/AA</div>
+                            </div>
+                            <div class="card-cvv">
+                                <div class="cvv-label">Código de Seguridad</div>
+                                <div class="cvv-number" id="displayCardCvv">•••</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-fields">
+                            <div class="form-group">
+                                <label for="cardNumber" class="required">Número de Tarjeta</label>
+                                <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456" maxlength="19">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cardName" class="required">Nombre en la Tarjeta</label>
+                                <input type="text" id="cardName" class="form-control" placeholder="Como aparece en la tarjeta">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cardExpiry" class="required">Fecha de Expiración</label>
+                                <input type="text" id="cardExpiry" class="form-control" placeholder="MM/AA" maxlength="5">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cardCvv" class="required">CVV</label>
+                                <input type="text" id="cardCvv" class="form-control" placeholder="•••" maxlength="3">
+                                <small class="text-muted">Últimos 3 dígitos en el dorso de tu tarjeta</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="cardBrand">Tipo de Tarjeta</label>
+                                <select id="cardBrand" class="form-control">
+                                    <option value="visa">Visa</option>
+                                    <option value="mastercard">Mastercard</option>
+                                    <option value="amex">American Express</option>
+                                    <option value="other">Otra</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bank-transfer" id="bankTransferForm">
+                        <div class="bank-info">
+                            <p><strong>Banco:</strong> Banco Nacional de Colombia</p>
+                            <p><strong>Tipo de Cuenta:</strong> Cuenta Corriente</p>
+                            <p><strong>Número de Cuenta:</strong> 123-456789-01</p>
+                            <p><strong>A Nombre de:</strong> Club del Perfume Aurus SAS</p>
+                            <p><strong>NIT:</strong> 901.234.567-8</p>
+                        </div>
+                        
+                        <div class="qr-code">
+                            <p>Escanea este código QR para pagar con Nequi o Daviplata:</p>
+                            <img src="image/logos/NQ.png" alt="QR Code">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="transferProof" class="required">Comprobante de Transferencia</label>
+                            <input type="file" id="transferProof" class="form-control" accept="image/*,.pdf">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Confirmar Suscripción</button>
+                </form>
+            </div>
+            
+            <div class="confirmation" id="confirmation">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>¡Suscripción Exitosa!</h3>
+                <p>Gracias por unirte al Club del Perfume Aurus. Hemos enviado los detalles de tu suscripción a tu correo electrónico.</p>
+                <p>Tu primer envío estará en camino pronto.</p>
+                <a href="#" class="btn" id="closeConfirmation">Cerrar</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentNode;
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Tabs de precios
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Aquí iría la lógica para cambiar los precios entre mensual y anual
+                // Por simplicidad, no lo implementamos en este ejemplo
+            });
+        });
+        
+        // Modal de pago
+        const modal = document.getElementById('paymentModal');
+        const selectPlanBtns = document.querySelectorAll('.select-plan');
+        const closeModal = document.querySelector('.close-modal');
+        const closeConfirmation = document.getElementById('closeConfirmation');
+        const paymentForm = document.getElementById('paymentForm');
+        const confirmation = document.getElementById('confirmation');
+        
+        selectPlanBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const plan = btn.getAttribute('data-plan');
+                const price = btn.getAttribute('data-price');
+                
+                document.getElementById('selectedPlan').textContent = plan;
+                document.getElementById('selectedPrice').textContent = `$${parseInt(price).toLocaleString('es-CO')}/mes`;
+                
+                modal.classList.add('active');
+            });
+        });
+        
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+        
+        closeConfirmation.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.remove('active');
+            paymentForm.style.display = 'block';
+            confirmation.style.display = 'none';
+        });
+        
+        // Métodos de pago
+        const paymentMethod = document.getElementById('paymentMethod');
+        const creditCardForm = document.getElementById('creditCardForm');
+        const bankTransferForm = document.getElementById('bankTransferForm');
+        
+        paymentMethod.addEventListener('change', (e) => {
+            creditCardForm.style.display = 'none';
+            bankTransferForm.style.display = 'none';
+            
+            if (e.target.value === 'credit') {
+                creditCardForm.style.display = 'block';
+            } else if (e.target.value === 'transfer') {
+                bankTransferForm.style.display = 'block';
+            }
+        });
+        
+        // Tarjeta de crédito interactiva
+        const creditCard = document.getElementById('creditCard');
+        const cardNumber = document.getElementById('cardNumber');
+        const cardName = document.getElementById('cardName');
+        const cardExpiry = document.getElementById('cardExpiry');
+        const cardCvv = document.getElementById('cardCvv');
+        
+        cardNumber.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formatted = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = formatted;
+            
+            // Actualizar tarjeta visual
+            document.getElementById('displayCardNumber').textContent = 
+                formatted || '•••• •••• •••• ••••';
+                
+            // Detectar tipo de tarjeta
+            if (/^4/.test(value)) {
+                document.getElementById('cardType').src = 'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg';
+                document.getElementById('cardBrand').value = 'visa';
+            } else if (/^5[1-5]/.test(value)) {
+                document.getElementById('cardType').src = 'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
+                document.getElementById('cardBrand').value = 'mastercard';
+            } else if (/^3[47]/.test(value)) {
+                document.getElementById('cardType').src = 'https://upload.wikimedia.org/wikipedia/commons/3/30/American_Express_logo.svg';
+                document.getElementById('cardBrand').value = 'amex';
+            } else {
+                document.getElementById('cardType').src = 'https://via.placeholder.com/60x30';
+                document.getElementById('cardBrand').value = 'other';
+            }
+        });
+        
+        cardName.addEventListener('input', (e) => {
+            document.getElementById('displayCardName').textContent = 
+                e.target.value.toUpperCase() || 'NOMBRE TITULAR';
+        });
+        
+        cardExpiry.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            }
+            e.target.value = value;
+            
+            document.getElementById('displayCardExpiry').textContent = 
+                value || 'MM/AA';
+        });
+        
+        cardCvv.addEventListener('focus', () => {
+            creditCard.classList.add('flipped');
+        });
+        
+        cardCvv.addEventListener('blur', () => {
+            creditCard.classList.remove('flipped');
+        });
+        
+        cardCvv.addEventListener('input', (e) => {
+            document.getElementById('displayCardCvv').textContent = 
+                e.target.value.replace(/./g, '•') || '•••';
+        });
+        
+        // Formulario de suscripción
+        document.getElementById('subscriptionForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simular procesamiento de pago
+            setTimeout(() => {
+                paymentForm.style.display = 'none';
+                confirmation.style.display = 'block';
+                
+                // Crear efecto de confeti
+                createConfetti();
+            }, 1500);
+        });
+        
+        function createConfetti() {
+            const colors = ['#FF69B4', '#6A0572', '#D4AF37', '#3D004F', '#FF9EC6'];
+            const container = document.querySelector('.payment-content');
+            
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Cerrar modal al hacer clic fuera
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURUS - Eventos</title>
+    <style>
+        /* Estilos CSS para Aurus Perfumes */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: #12000c;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            min-height: 0px;
+            position: relative;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #menu {
+            display: none;
+        }
+
+        .menu-icon {
+            width: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .navbar {
+            display: flex;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar ul li {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            color: #FF69B4;
+        }
+
+        .submenu {
+            position: absolute;
+            background: white;
+            width: 200px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            top: 35px;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar ul li:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            top: 45px;
+        }
+
+        .submenu li {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .submenu li a {
+            color: #000000 !important;
+        }
+
+        .submenu li a:hover {
+            color: #FF69B4 !important;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            background: #6A0572;
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #3D004F;
+        }
+
+        /* Sección Eventos */
+        .eventos {
+            padding: 80px 0;
+        }
+
+        .eventos-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .eventos-header h1 {
+            font-size: 2.8rem;
+            color: #6A0572;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .eventos-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #656875;
+            line-height: 1.6;
+        }
+
+        .evento-categoria {
+            margin-bottom: 60px;
+        }
+
+        .categoria-titulo {
+            font-size: 2.2rem;
+            color: #6A0572;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .categoria-titulo:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #6A0572, #3D004F);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .eventos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .evento-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .evento-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(106, 5, 114, 0.2);
+        }
+
+        .evento-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .evento-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .evento-card:hover .evento-img img {
+            transform: scale(1.1);
+        }
+
+        .evento-info {
+            padding: 25px;
+        }
+
+        .evento-info h3 {
+            font-size: 1.5rem;
+            color: #6A0572;
+            margin-bottom: 15px;
+        }
+
+        .evento-info p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .evento-caracteristicas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .evento-caracteristica {
+            background: #f0e6d6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #6A0572;
+            font-weight: 500;
+        }
+
+        .btn-evento {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #6A0572;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-evento:hover {
+            background: #3D004F;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Sección CTA */
+        .cta-eventos {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #6A0572 0%, #3D004F 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-eventos h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-eventos p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 0;
+            width: 100%;
+        }
+
+        .footer-txt .logo {
+            color: #6A0572;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .footer-socials-container {
+            width: 40%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .wrapper {
+            display: inline-flex;
+            list-style: none;
+            height: 120px;
+            padding-top: 40px;
+            font-family: "Poppins", sans-serif;
+            justify-content: flex-start;
+        }
+        
+        .footer-txt {
+            width: 60%;
+            text-align: left;
+            padding-right: 50px;
+        }
+        
+        .footer-txt p {
+            font-size: 16px;
+            color: #656875;
+            margin-bottom: 25px;
+        }
+        
+        .wrapper .icon {
+            position: relative;
+            background: #fff;
+            border-radius: 50%;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip {
+            position: absolute;
+            top: 0;
+            font-size: 14px;
+            background: #fff;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip::before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            background: #fff;
+            bottom: -3px;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+        }
+        
+        .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        .wrapper .facebook:hover,
+        .wrapper .facebook:hover .tooltip,
+        .wrapper .facebook:hover .tooltip::before {
+            background: #1877f2;
+            color: #fff;
+        }
+        
+        .wrapper .twitter:hover,
+        .wrapper .twitter:hover .tooltip,
+        .wrapper .twitter:hover .tooltip::before {
+            background: #1da1f2;
+            color: #fff;
+        }
+        
+        .wrapper .instagram:hover,
+        .wrapper .instagram:hover .tooltip,
+        .wrapper .instagram:hover .tooltip::before {
+            background: #e4405f;
+            color: #fff;
+        }
+        
+        .wrapper .whatsapp:hover,
+        .wrapper .whatsapp:hover .tooltip,
+        .wrapper .whatsapp:hover .tooltip::before {
+            background: #25d366;
+            color: #fff;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background-color: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6A0572;
+        }
+
+        .modal-title {
+            color: #6A0572;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .modal-content {
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .modal-content p {
+            margin-bottom: 15px;
+        }
+
+        .modal-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .modal-feature {
+            background: #f0e6d6;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #6A0572;
+            font-weight: 500;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        .modal-btn-cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #d0d0d0;
+        }
+
+        .modal-btn-submit {
+            background: #6A0572;
+            color: white;
+        }
+
+        .modal-btn-submit:hover {
+            background: #3D004F;
+        }
+
+        /* Formulario de Inscripción */
+        .form-container {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f9f5f0;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #6A0572;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            background: #6A0572;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-submit:hover {
+            background: #3D004F;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .header-content {
+                flex-direction: column;
+                padding-top: 80px;
+            }
+
+            .header-txt, .header-img {
+                width: 100%;
+            }
+
+            .header-img {
+                margin-top: 40px;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .navbar {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: #222;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+
+            .navbar ul li {
+                margin: 15px 0;
+            }
+
+            .submenu {
+                position: absolute;
+                background: #333;
+                width: auto;
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .submenu li {
+                padding: 10px;
+                border-bottom: 1px solid #555;
+            }
+
+            .submenu li:last-child {
+                border-bottom: none;
+            }
+
+            #menu:checked ~ .navbar {
+                left: 0;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .eventos-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .categoria-titulo {
+                font-size: 1.8rem;
+            }
+
+            .modal-container {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .modal-title {
+                font-size: 1.5rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .modal-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .eventos-header h1 {
+                font-size: 2rem;
+            }
+            
+            .categoria-titulo {
+                font-size: 1.6rem;
+            }
+            
+            .eventos-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-eventos h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .eventos-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .eventos-header p {
+                font-size: 1rem;
+            }
+            
+            .evento-info h3 {
+                font-size: 1.3rem;
+            }
+            
+            .btn-evento {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+            }
+            
+            .cta-eventos h2 {
+                font-size: 1.6rem;
+            }
+
+            .modal-container {
+                padding: 15px;
+            }
+
+            .modal-title {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="menu container">
+            <a href="index.html" class="logo">AURUS</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="https://cdn-icons-png.flaticon.com/512/56/56763.png" class="menu-icon" alt="">
+            </label>
+
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">🏠 Inicio</a></li>
+              
+                    <li><a href="#">🧴 Perfumes</a>
+                        <ul class="submenu">
+                            <li><a href="masculinos.html">♂️ Masculinos</a></li>
+                            <li><a href="femeninos.html">♀️ Femeninos</a></li>
+                            <li><a href="unisex.html">⚧️ Unisex</a></li> 
+                            <li><a href="ofertas.html">🔥 Ofertas</a></li>
+                        </ul>
+                    </li>
+              
+                    <li><a href="servicios.html">🔧 Servicios</a>
+                        <ul class="submenu">
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="personalizado.html">🎨 Personalizado</a></li>
+                            <li><a href="regalos.html">🎁 Regalos</a></li>
+                    </ul></li>
+
+                    <li><a href="contacto.html">📞 Contacto</a></li>
+                </ul>
+            </nav>
+              
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Buscar perfumes, fragancias...">
+                <button id="search-button">Buscar</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="eventos">
+        <div class="container">
+            <div class="eventos-header">
+                <h1>Eventos de Perfumería</h1>
+                <p>Descubre nuestros exclusivos eventos donde la magia de las fragancias cobra vida. Experiencias únicas para amantes de la perfumería.</p>
+            </div>
+            
+            <!-- Lanzamientos de Perfumes -->
+            <div class="evento-categoria">
+                <h2 class="categoria-titulo">Lanzamientos de Perfumes</h2>
+                <div class="eventos-container">
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/exclusivo.jpg" alt="Lanzamiento Exclusivo">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Lanzamiento Exclusivo</h3>
+                            <p>Presentaciones íntimas de nuestras nuevas fragancias con invitados especiales, influencers y prensa especializada.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Celebridades</span>
+                                <span class="evento-caracteristica">Experiencias sensoriales</span>
+                                <span class="evento-caracteristica">Regalos exclusivos</span>
+                            </div>
+                            <button class="btn-evento" data-event="lanzamiento-exclusivo">Más información</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/nochedefragancia.webp" alt="Noche de Fragancias">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Noche de Fragancias</h3>
+                            <p>Evento nocturno donde presentamos nuestras nuevas creaciones con degustación de cócteles inspirados en las notas olfativas.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Cócteles temáticos</span>
+                                <span class="evento-caracteristica">Live music</span>
+                                <span class="evento-caracteristica">Kit de bienvenida</span>
+                            </div>
+                            <button class="btn-evento" data-event="noche-fragancias">Más información</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/colecciónlimitada.jpg" alt="Colección Limitada">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Colección Limitada</h3>
+                            <p>Presentación de ediciones especiales y limitadas con la presencia del perfumista creador y firma de botellas.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Edición numerada</span>
+                                <span class="evento-caracteristica">Encuentro con creador</span>
+                                <span class="evento-caracteristica">Firma de botellas</span>
+                            </div>
+                            <button class="btn-evento" data-event="coleccion-limitada">Más información</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ferias y Exposiciones -->
+            <div class="evento-categoria">
+                <h2 class="categoria-titulo">Ferias y Exposiciones</h2>
+                <div class="eventos-container">
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/feriainternacional.jpg" alt="Feria Internacional">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Feria Internacional de Perfumes</h3>
+                            <p>Participación en la feria más importante del sector donde presentamos nuestras novedades y tendencias.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Stand interactivo</span>
+                                <span class="evento-caracteristica">Pruebas exclusivas</span>
+                                <span class="evento-caracteristica">Descuentos especiales</span>
+                            </div>
+                            <button class="btn-evento" data-event="feria-internacional">Ver fechas</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/Expotendencias.webp" alt="Expo Tendencias">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Expo Tendencias Olfativas</h3>
+                            <p>Evento donde exploramos las futuras tendencias en perfumería con demostraciones en vivo.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Conferencias</span>
+                                <span class="evento-caracteristica">Demostraciones</span>
+                                <span class="evento-caracteristica">Networking</span>
+                            </div>
+                            <button class="btn-evento" data-event="expo-tendencias">Ver fechas</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/mercadoartesanal.jpg" alt="Mercado Artesanal">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Mercado de Perfumes Artesanales</h3>
+                            <p>Feria dedicada a las fragancias artesanales y de nicho, con la participación de las mejores marcas.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Artesanal</span>
+                                <span class="evento-caracteristica">Edición limitada</span>
+                                <span class="evento-caracteristica">Firmas exclusivas</span>
+                            </div>
+                            <button class="btn-evento" data-event="mercado-artesanal">Ver fechas</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Masterclass y Talleres -->
+            <div class="evento-categoria">
+                <h2 class="categoria-titulo">Masterclass y Talleres</h2>
+                <div class="eventos-container">
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/masterclassdeperfume.jpg" alt="Masterclass de Perfume">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Masterclass de Perfume</h3>
+                            <p>Sesión intensiva con nuestros perfumistas donde aprenderás sobre notas olfativas y composición.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Experto perfumista</span>
+                                <span class="evento-caracteristica">Kit de materiales</span>
+                                <span class="evento-caracteristica">Diploma</span>
+                            </div>
+                            <button class="btn-evento" data-event="masterclass-perfume">Inscribirse</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/tallerdecreación.jpg" alt="Taller de Creación">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Taller de Creación de Perfume</h3>
+                            <p>Taller práctico donde crearás tu propia fragancia personalizada bajo la guía de nuestros expertos.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Creación personal</span>
+                                <span class="evento-caracteristica">Botella grabada</span>
+                                <span class="evento-caracteristica">Certificado</span>
+                            </div>
+                            <button class="btn-evento" data-event="taller-creacion">Inscribirse</button>
+                        </div>
+                    </div>
+                    
+                    <div class="evento-card">
+                        <div class="evento-img">
+                            <img src="image/eventos/seminariodehistoria.png" alt="Seminario de Historia">
+                        </div>
+                        <div class="evento-info">
+                            <h3>Seminario de Historia del Perfume</h3>
+                            <p>Recorrido por la evolución de la perfumería desde la antigüedad hasta las últimas innovaciones.</p>
+                            <div class="evento-caracteristicas">
+                                <span class="evento-caracteristica">Conferencista experto</span>
+                                <span class="evento-caracteristica">Muestras históricas</span>
+                                <span class="evento-caracteristica">Material didáctico</span>
+                            </div>
+                            <button class="btn-evento" data-event="seminario-historia">Inscribirse</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta-eventos">
+        <div class="container">
+            <h2>¿Quieres organizar un evento personalizado?</h2>
+            <p>Contáctanos para diseñar una experiencia olfativa única para tu grupo, empresa o evento especial.</p>
+            <a href="contacto.html" class="btn-1">Contactar ahora</a>
+        </div>
+    </section>
+
+    <footer class="footer container">
+        <div class="footer-txt">
+            <a href="index.html" class="logo">AURUS</a>
+            <p>
+                &copy; 2025 AURUS Perfumes. Todos los derechos reservados<br>
+                Cra. 11 #82-71, Bogotá<br>
+                Teléfono: (601) 123 4567<br>
+                Email: info@aurusperfumes.com<br>
+                Horario: Lunes a Viernes 9am - 7pm / Sábados 10am - 4pm
+            </p>
+
+            <div class="form-txt">
+                <a href="politicas.html" target="_blank">Políticas de Privacidad</a>
+                <a href="terminos.html" target="_blank">Términos y Condiciones</a>
+            </div>
+        </div>
+
+        <ul class="wrapper">
+            <li class="icon facebook">
+                <a href="https://www.facebook.com/LeyserRB" target="_blank">
+                    <span class="tooltip">Facebook</span>
+                    <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon instagram">
+                <a href="https://www.instagram.com/leyser_arb/" target="_blank">
+                    <span class="tooltip">Instagram</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon whatsapp">
+                <a href="#" target="_blank">
+                    <span class="tooltip">WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" fill="currentColor" viewBox="0 0 448 512">
+                        <path d="M380.9 97.1C339 55.1 283.3 32 224.5 32c-118.4 0-214.4 96-214.5 214.3 0 37.7 9.8 74.4 28.4 107l-30.1 110.6 113.3-29.7c31.6 17.3 67.3 26.3 102.7 26.3h.1c118.4 0 214.4-96 214.5-214.3.1-57.8-22.4-112.6-63.9-154.1zM224.5 438.6c-30.3 0-60-8.1-86.1-23.4l-6.2-3.7-67.2 17.6 17.9-65.3-4.1-6.4c-17.8-27.9-27.2-60.1-27.2-93.2.1-97.1 79.2-176.2 176.4-176.2 47 0 91.2 18.3 124.4 51.5 33.2 33.2 51.4 77.4 51.3 124.4 0 97-79.2 176.1-176.3 176.1zm101-138.7c-5.5-2.8-32.5-16-37.6-17.8-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 17.8-17.5 21.5c-3.2 3.7-6.4 4.2-11.9 1.4-32.5-16.3-53.8-29.1-75.1-66.1-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.3-17.1-41.5-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.5-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.2 59.7 95 83.8 13.3 5.7 23.7 9.1 31.8 11.6 13.4 4.2 25.6 3.6 35.3 2.2 10.8-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.3-2.4-5-3.9-10.5-6.6z"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </footer>
+
+    <!-- Modal para información de eventos -->
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal-container">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h2 class="modal-title" id="modalTitle">Título del Evento</h2>
+            <div class="modal-content" id="modalContent">
+                <p>Descripción detallada del evento.</p>
+                <div class="modal-features" id="modalFeatures">
+                    <!-- Características dinámicas -->
+                </div>
+                <p>Fecha: <span id="modalDate">Por definir</span></p>
+                <p>Lugar: <span id="modalLocation">Sede principal AURUS</span></p>
+                <p>Precio: <span id="modalPrice">Gratis</span></p>
+            </div>
+            
+            <!-- Formulario de inscripción (inicialmente oculto) -->
+            <div class="form-container" id="inscriptionForm">
+                <h3>Formulario de Inscripción</h3>
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo</label>
+                        <input type="text" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asistentes">Número de asistentes</label>
+                        <input type="number" id="asistentes" name="asistentes" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="comentarios">Comentarios o requerimientos especiales</label>
+                        <textarea id="comentarios" name="comentarios"></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">Enviar Inscripción</button>
+                </form>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="modalCancel">Cancelar</button>
+                <button class="modal-btn modal-btn-submit" id="modalSubmit">Inscribirse</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de los eventos
+        const eventosData = {
+            "lanzamiento-exclusivo": {
+                title: "Lanzamiento Exclusivo",
+                description: "Presentaciones íntimas de nuestras nuevas fragancias con invitados especiales, influencers y prensa especializada. Una experiencia única donde podrás ser de los primeros en probar nuestras nuevas creaciones y conocer los detalles detrás de cada fragancia.",
+                features: ["Celebridades", "Experiencias sensoriales", "Regalos exclusivos", "Cócteles de bienvenida"],
+                date: "15 de Noviembre 2025",
+                location: "Salón VIP AURUS, Bogotá",
+                price: "Invitación exclusiva"
+            },
+            "noche-fragancias": {
+                title: "Noche de Fragancias",
+                description: "Evento nocturno donde presentamos nuestras nuevas creaciones con degustación de cócteles inspirados en las notas olfativas. Cada cóctel ha sido diseñado para complementar las características de nuestras fragancias estrella.",
+                features: ["Cócteles temáticos", "Live music", "Kit de bienvenida", "Descuentos especiales"],
+                date: "22 de Noviembre 2025",
+                location: "Terrazas AURUS, Bogotá",
+                price: "$120.000 (incluye kit de regalo)"
+            },
+            "coleccion-limitada": {
+                title: "Colección Limitada",
+                description: "Presentación de ediciones especiales y limitadas con la presencia del perfumista creador y firma de botellas. Oportunidad única de adquirir fragancias numeradas con ingredientes exclusivos.",
+                features: ["Edición numerada", "Encuentro con creador", "Firma de botellas", "Packaging premium"],
+                date: "5 de Diciembre 2025",
+                location: "Boutique AURUS, Bogotá",
+                price: "Desde $350.000"
+            },
+            "feria-internacional": {
+                title: "Feria Internacional de Perfumes",
+                description: "Participación en la feria más importante del sector donde presentamos nuestras novedades y tendencias. Stand interactivo con experiencias multisensoriales y lanzamientos exclusivos.",
+                features: ["Stand interactivo", "Pruebas exclusivas", "Descuentos especiales", "Regalos por compras"],
+                date: "10-12 de Diciembre 2025",
+                location: "Corferias, Bogotá",
+                price: "Entrada general $50.000"
+            },
+            "expo-tendencias": {
+                title: "Expo Tendencias Olfativas",
+                description: "Evento donde exploramos las futuras tendencias en perfumería con demostraciones en vivo. Los mejores expertos del sector compartirán sus conocimientos sobre las próximas revoluciones en fragancias.",
+                features: ["Conferencias", "Demostraciones", "Networking", "Kit de muestras"],
+                date: "18 de Enero 2026",
+                location: "Centro de Convenciones AURUS",
+                price: "$80.000 (incluye coffee break)"
+            },
+            "mercado-artesanal": {
+                title: "Mercado de Perfumes Artesanales",
+                description: "Feria dedicada a las fragancias artesanales y de nicho, con la participación de las mejores marcas. Descubre pequeñas producciones con ingredientes naturales y procesos tradicionales.",
+                features: ["Artesanal", "Edición limitada", "Firmas exclusivas", "Ingredientes premium"],
+                date: "25 de Enero 2026",
+                location: "Plaza Principal, Usaquén",
+                price: "Entrada libre"
+            },
+            "masterclass-perfume": {
+                title: "Masterclass de Perfume",
+                description: "Sesión intensiva con nuestros perfumistas donde aprenderás sobre notas olfativas y composición. Ideal para quienes quieren profundizar en el arte de la perfumería.",
+                features: ["Experto perfumista", "Kit de materiales", "Diploma", "Degustación guiada"],
+                date: "8 de Febrero 2026",
+                location: "Academia AURUS",
+                price: "$250.000 (incluye materiales)"
+            },
+            "taller-creacion": {
+                title: "Taller de Creación de Perfume",
+                description: "Taller práctico donde crearás tu propia fragancia personalizada bajo la guía de nuestros expertos. Al finalizar podrás llevarte tu creación en una botella grabada con tu nombre.",
+                features: ["Creación personal", "Botella grabada", "Certificado", "Sesión fotográfica"],
+                date: "15 de Febrero 2026",
+                location: "Laboratorio AURUS",
+                price: "$320.000 (todo incluido)"
+            },
+            "seminario-historia": {
+                title: "Seminario de Historia del Perfume",
+                description: "Recorrido por la evolución de la perfumería desde la antigüedad hasta las últimas innovaciones. Incluye muestras de réplicas históricas y análisis de las fragancias más icónicas.",
+                features: ["Conferencista experto", "Muestras históricas", "Material didáctico", "Degustación comparativa"],
+                date: "22 de Febrero 2026",
+                location: "Museo del Perfume AURUS",
+                price: "$180.000 (incluye materiales)"
+            }
+        };
+
+        // Elementos del DOM
+        const eventModal = document.getElementById('eventModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const modalFeatures = document.getElementById('modalFeatures');
+        const modalDate = document.getElementById('modalDate');
+        const modalLocation = document.getElementById('modalLocation');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalClose = document.getElementById('modalClose');
+        const modalCancel = document.getElementById('modalCancel');
+        const modalSubmit = document.getElementById('modalSubmit');
+        const inscriptionForm = document.getElementById('inscriptionForm');
+        const eventForm = document.getElementById('eventForm');
+        const eventButtons = document.querySelectorAll('.btn-evento');
+
+        // Evento actual seleccionado
+        let currentEvent = null;
+
+        // Función para mostrar el modal con la información del evento
+        function showEventModal(eventId) {
+            const eventData = eventosData[eventId];
+            if (!eventData) return;
+            
+            currentEvent = eventId;
+            
+            // Llenar la información del modal
+            modalTitle.textContent = eventData.title;
+            modalContent.querySelector('p').textContent = eventData.description;
+            modalDate.textContent = eventData.date;
+            modalLocation.textContent = eventData.location;
+            modalPrice.textContent = eventData.price;
+            
+            // Limpiar y agregar características
+            modalFeatures.innerHTML = '';
+            eventData.features.forEach(feature => {
+                const featureElement = document.createElement('span');
+                featureElement.className = 'modal-feature';
+                featureElement.textContent = feature;
+                modalFeatures.appendChild(featureElement);
+            });
+            
+            // Ocultar el formulario inicialmente
+            inscriptionForm.style.display = 'none';
+            
+            // Cambiar el texto del botón según el tipo de evento
+            const isRegistrationEvent = eventId.includes('masterclass') || 
+                                      eventId.includes('taller') || 
+                                      eventId.includes('seminario');
+            
+            modalSubmit.textContent = isRegistrationEvent ? 'Inscribirse' : 'Más información';
+            
+            // Mostrar el modal
+            eventModal.classList.add('active');
+        }
+
+        // Función para cerrar el modal
+        function closeEventModal() {
+            eventModal.classList.remove('active');
+        }
+
+        // Event listeners para los botones de eventos
+        eventButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const eventId = this.getAttribute('data-event');
+                showEventModal(eventId);
+            });
+        });
+
+        // Event listener para cerrar el modal
+        modalClose.addEventListener('click', closeEventModal);
+        modalCancel.addEventListener('click', closeEventModal);
+
+        // Event listener para el botón de enviar/inscribirse
+        modalSubmit.addEventListener('click', function() {
+            if (inscriptionForm.style.display === 'none' || inscriptionForm.style.display === '') {
+                // Mostrar formulario de inscripción
+                inscriptionForm.style.display = 'block';
+                this.textContent = 'Enviar Inscripción';
+                modalCancel.textContent = 'Volver';
+            } else {
+                // El formulario ya está visible, se enviará al hacer submit
+                eventForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Event listener para el formulario de inscripción
+        eventForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Aquí iría la lógica para enviar el formulario a un servidor
+            alert(`¡Inscripción exitosa para ${currentEvent}!\n\nGracias por registrarte. Hemos enviado los detalles a tu correo electrónico.`);
+            
+            // Cerrar el modal después de enviar
+            closeEventModal();
+            
+            // Resetear el formulario
+            this.reset();
+        });
+
+        // Cerrar modal al hacer clic fuera del contenido
+        eventModal.addEventListener('click', function(e) {
+            if (e.target === eventModal) {
+                closeEventModal();
+            }
+        });
+
+        // JavaScript adicional para Aurus Perfumes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Efecto smooth scroll para los enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Función de búsqueda
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (searchTerm) {
+                    alert(`Buscando: ${searchTerm}\nEsta función conectaría con una base de datos en un sitio real.`);
+                } else {
+                    alert('Por favor ingresa un término de búsqueda');
+                }
+            });
+
+            // Permitir búsqueda con Enter
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+
+            // Animación para las tarjetas al aparecer
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.evento-card').forEach(card => {
+                observer.observe(card);
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                card.classList.add('visible');
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Simulación de carrito de compras (funcionalidad básica)
+        function agregarAlCarrito(nombreProducto, precio) {
+            let carrito = JSON.parse(localStorage.getItem('carritoAurus')) || [];
+            carrito.push({nombre: nombreProducto, precio: precio});
+            localStorage.setItem('carritoAurus', JSON.stringify(carrito));
+            
+            alert(`${nombreProducto} ha sido agregado al carrito`);
+            actualizarContadorCarrito();
+        }
+
+        function actualizarContadorCarrito() {
+            let carrito = JSON.parse(localStorage.getItem('carritoAurus')) || [];
+            const contador = document.getElementById('contador-carrito');
+            if (contador) {
+                contador.textContent = carrito.length;
+                contador.style.display = carrito.length > 0 ? "flex" : "none";
+            }
+        }
+
+        // Inicializar contador de carrito
+        window.onload = actualizarContadorCarrito;
+    </script>
+</body>
+</html>

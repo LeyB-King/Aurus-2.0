@@ -1,0 +1,3361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdminAurus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3D004F;
+            --secondary-color: #6A0572;
+            --accent-color: #FF69B4;
+            --light-color: #f5e6d8;
+            --dark-color: #2c3e50;
+            --sidebar-width: 250px;
+            --success-color: #2ecc71;
+            --warning-color: #FF69B4;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Welcome Animation */
+        .welcome-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: all 0.8s ease-out;
+        }
+        
+        .welcome-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .welcome-logo {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .welcome-logo i {
+            margin-right: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .welcome-progress {
+            width: 200px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+        
+        .welcome-progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: var(--accent-color);
+            transition: width 2.5s ease-in-out;
+            border-radius: 2px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar-header h3:hover {
+            transform: scale(1.05);
+        }
+        
+        .sidebar-menu {
+            margin-top: 1rem;
+        }
+        
+        .sidebar-menu li {
+            list-style: none;
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-menu li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-menu a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar-menu a:hover::after,
+        .sidebar-menu a.active::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+        }
+        
+        .sidebar-menu a:hover i {
+            transform: scale(1.2);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Navbar */
+        .navbar {
+            background-color: white;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .navbar.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .navbar-left h1 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin: 0;
+            transition: all 0.3s;
+        }
+        
+        .navbar-left h1:hover {
+            color: var(--secondary-color);
+        }
+        
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0.5rem;
+            border-radius: 50px;
+        }
+        
+        .user-profile:hover {
+            background-color: rgba(139, 90, 43, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .user-profile:hover img {
+            border-color: var(--secondary-color);
+            transform: rotate(10deg);
+        }
+        
+        .user-profile span {
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .user-profile:hover span {
+            color: var(--secondary-color);
+        }
+        
+        /* Content */
+        .content {
+            padding: 1.5rem;
+        }
+        
+        .section {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .card-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .card-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: var(--primary-color);
+            transition: all 0.3s;
+        }
+        
+        .card:hover .card-header h2 {
+            color: var(--secondary-color);
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* Tablas */
+        .table-responsive {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th, .table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            transition: all 0.2s;
+        }
+        
+        .table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: var(--primary-color);
+            position: sticky;
+            top: 0;
+        }
+        
+        .table tr {
+            transition: all 0.3s;
+        }
+        
+        .table tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.005);
+        }
+        
+        .table tr:hover td {
+            color: var(--secondary-color);
+        }
+        
+        /* Botones */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%, -50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .btn:hover i {
+            transform: scale(1.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #FF69B4;
+            box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #6A0572;
+            box-shadow: 0 4px 12px rgba(212, 167, 106, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 90, 43, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(-50px) scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        
+        .modal-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .close:hover {
+            transform: rotate(90deg);
+            color: var(--accent-color);
+        }
+        
+        /* Calendario */
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .calendar-header div {
+            text-align: center;
+            font-weight: 600;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .calendar-header div:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .calendar-day {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 0.5rem;
+            min-height: 100px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+        
+        .calendar-day:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+            border-color: var(--secondary-color);
+        }
+        
+        .calendar-day.empty {
+            background-color: #f8f9fa;
+            border: none;
+        }
+        
+        .calendar-day-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .calendar-event {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .calendar-event:hover {
+            background-color: var(--primary-color);
+            transform: translateX(5px);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #777;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .tab.active {
+            color: var(--secondary-color);
+        }
+        
+        .tab.active::after {
+            transform: scaleX(1);
+        }
+        
+        .tab:hover {
+            color: var(--secondary-color);
+        }
+        
+        /* Alertas */
+        .alert {
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.3s forwards;
+        }
+        
+        .alert i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 3000;
+        }
+        
+        .toast {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 300px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast i {
+            margin-right: 0.75rem;
+            font-size: 1.2rem;
+        }
+        
+        .toast-success {
+            background-color: var(--success-color);
+        }
+        
+        .toast-error {
+            background-color: var(--accent-color);
+        }
+        
+        .toast-info {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .bg-primary {
+            background-color: var(--secondary-color);
+        }
+        
+        .bg-success {
+            background-color: var(--success-color);
+        }
+        
+        .bg-danger {
+            background-color: var(--accent-color);
+        }
+        
+        .bg-warning {
+            background-color: var(--warning-color);
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .navbar-toggle {
+                display: block;
+            }
+        }
+        
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 1;
+            }
+            20% {
+                transform: scale(25, 25);
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: scale(40, 40);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Estilos específicos */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card h3 {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover h3 {
+            color: var(--secondary-color);
+        }
+        
+        .stat-card p {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover p {
+            color: var(--secondary-color);
+        }
+        
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover i {
+            transform: scale(1.2);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .message-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .message-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .message-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .message-item:hover img {
+            transform: rotate(10deg);
+        }
+        
+        .message-content {
+            flex: 1;
+        }
+        
+        .message-content h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .message-item:hover .message-content h4 {
+            color: var(--secondary-color);
+        }
+        
+        .message-content p {
+            margin: 0;
+            color: #777;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .message-time {
+            color: #777;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+        
+        .message-item:hover .message-time {
+            color: var(--primary-color);
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fab:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 16px rgba(139, 90, 43, 0.4);
+        }
+        
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            top: 125%; /* Position tooltip below the element */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            bottom: 100%; /* Place the arrow at the top of the tooltip */
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent var(--primary-color) transparent; /* Arrow pointing upwards */
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Estilos específicos para el calendario mejorado */
+        .calendar-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px 10px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            min-height: 80px;
+            border: 1px solid #eee;
+            padding: 5px;
+            position: relative;
+        }
+        
+        .calendar-day.empty {
+            background-color: #f9f9f9;
+        }
+        
+        .calendar-day.today {
+            background-color: #e3f2fd;
+            font-weight: bold;
+        }
+        
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .calendar-event {
+            background-color: #e1f5fe;
+            border-radius: 3px;
+            padding: 2px 5px;
+            margin-bottom: 2px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Estilos para perfumes */
+        .perfume-card {
+            display: flex;
+            margin-bottom: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .perfume-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .perfume-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            transition: all 0.3s;
+        }
+
+        .perfume-card:hover .perfume-image {
+            transform: scale(1.05);
+        }
+
+        .perfume-info {
+            padding: 1rem;
+            flex: 1;
+        }
+
+        .perfume-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .perfume-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .perfume-price {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+
+        .gender-tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .gender-tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: #777;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .gender-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--secondary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .gender-tab.active {
+            color: var(--secondary-color);
+        }
+
+        .gender-tab.active::after {
+            transform: scaleX(1);
+        }
+
+        .gender-tab:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Estilo para el contenedor de perfumes */
+        .perfumes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Estilo para el perfume en el inventario */
+        .inventory-perfume {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .inventory-perfume:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .inventory-perfume-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+
+        .inventory-perfume-info {
+            flex: 1;
+        }
+
+        .inventory-perfume-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .inventory-perfume-stock {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Estilo para el contenedor de perfumes en el inventario */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Estilo para el perfume en la vista de clientes */
+        .client-perfume {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .client-perfume:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .client-perfume-image {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+
+        .client-perfume-info {
+            flex: 1;
+        }
+
+        .client-perfume-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .client-perfume-price {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+
+        /* Fab Container */
+        .fab-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: flex-end;
+        }
+
+        /* Main Fab Button */
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 101;
+        }
+
+        .fab-main:hover {
+            transform: rotate(45deg) scale(1.1);
+            box-shadow: 0 6px 16px rgba(139, 90, 43, 0.4);
+        }
+
+        /* Fab Menu */
+        .fab-menu {
+            display: none;
+            flex-direction: column;
+            margin-bottom: 1rem;
+            transform-origin: bottom center;
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .fab-menu.show {
+            display: flex;
+        }
+
+        /* Fab Menu Items */
+        .fab-menu-item {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fab-menu-item:hover {
+            transform: scale(1.1);
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .fab-menu-item i {
+            font-size: 1rem;
+        }
+
+        .fab-label {
+            position: absolute;
+            right: 50px;
+            white-space: nowrap;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .fab-menu-item:hover .fab-label {
+            opacity: 1;
+            right: 60px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Estilos para el modal de eventos */
+        .animate-slide {
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .confetti-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .congrats-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .timer-display {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Animation -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <div class="welcome-logo">
+            <i class="fas fa-spray-can"></i>
+            <span>Admin-Aurus</span>
+        </div>
+   <!-- <p>Cargando panel de administración...</p> -->
+        <div class="welcome-progress">
+            <div class="welcome-progress-bar" id="welcomeProgress"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h3>Aurus Perfumes</h3>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="active" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#" onclick="showSection('perfumes')"><i class="fas fa-spray-can"></i> Perfumes</a></li>
+            <li><a href="#" onclick="showSection('inventory')"><i class="fas fa-boxes"></i> Inventario</a></li>
+            <li><a href="#" onclick="showSection('clients')"><i class="fas fa-users"></i> Clientes</a></li>
+            <li><a href="#" onclick="showSection('providers')"><i class="fas fa-truck"></i> Proveedores</a></li>
+            <li><a href="#" onclick="showSection('employees')"><i class="fas fa-user-tie"></i> Empleados</a></li>
+            <li><a href="#" onclick="showSection('calendar')"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+            <li><a href="#" onclick="showSection('messages')"><i class="fas fa-envelope"></i> Mensajes</a></li>
+            <li><a href="#" onclick="showSection('tasks')"><i class="fas fa-tasks"></i> Tareas</a></li>
+       <!-- <li><a href="#" onclick="showSection('settings')"><i class="fas fa-cog"></i> Configuración</a></li> --> 
+            <li><a href="#" onclick="showSection('account')"><i class="fas fa-user-circle"></i> Mi Cuenta</a></li>
+            <li><a href="#" onclick="showLogoutModal()"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="navbar" id="navbar">
+            <div class="navbar-left">
+                <h1>Panel de Administración</h1>
+            </div>
+            <div class="navbar-right">
+                <div class="user-profile tooltip" onclick="showToast('success', 'Perfil actualizado')">
+                    <img src="image/perfilmensaje/perfilprincipal.png" alt="Admin">
+                    <span>Administrador</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="section">
+                <div class="alert alert-success" id="welcomeAlert">
+                    <i class="fas fa-check-circle"></i> ¡Bienvenido al panel de administración de Aurus Perfumes!
+                </div>
+                
+                <div class="stats-container">
+                    <div class="stat-card" onclick="showToast('info', 'Clientes registrados')">
+                        <i class="fas fa-users"></i>
+                        <h3>Clientes</h3>
+                        <p>1,245</p>
+                    </div>
+                    <div class="stat-card" onclick="showToast('info', 'Perfumes en stock')">
+                        <i class="fas fa-spray-can"></i>
+                        <h3>Perfumes en Stock</h3>
+                        <p>856</p>
+                    </div>
+                    <div class="stat-card" onclick="showToast('info', 'Ventas del mes')">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h3>Ventas del Mes</h3>
+                        <p>$120,450,000</p>
+                    </div>
+                    <div class="stat-card" onclick="showToast('info', 'Proveedores activos')">
+                        <i class="fas fa-truck"></i>
+                        <h3>Proveedores</h3>
+                        <p>12</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Perfumes Destacados</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="perfumes-container">
+                            <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Noir')">
+                                <img src="image/perfumes/perfume5.png" alt="Aurus Noir" class="perfume-image">
+                                <div class="perfume-info">
+                                    <div class="perfume-name">Aurus Noir</div>
+                                    <div class="perfume-description">La oscuridad elegante que atrae miradas.</div>
+                                    <div class="perfume-price">$85,000</div>
+                                </div>
+                            </div>
+                            <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Oud')">
+                                <img src="image/perfumes/perfume6.png" alt="Aurus Oud" class="perfume-image">
+                                <div class="perfume-info">
+                                    <div class="perfume-name">Aurus Oud</div>
+                                    <div class="perfume-description">La riqueza del oud en una fragancia inolvidable.</div>
+                                    <div class="perfume-price">$90,000</div>
+                                </div>
+                            </div>
+                            <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Velvet')">
+                                <img src="image/perfumes/perfume12.png" alt="Aurus Velvet" class="perfume-image">
+                                <div class="perfume-info">
+                                    <div class="perfume-name">Aurus Velvet</div>
+                                    <div class="perfume-description">Suave como el terciopelo, intenso como el deseo.</div>
+                                    <div class="perfume-price">$95,000</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Actividad Reciente</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Usuario</th>
+                                        <th>Acción</th>
+                                        <th>Fecha</th>
+                                        <th>Hora</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="showToast('info', 'Detalles de actividad #1254')">
+                                        <td>#1254</td>
+                                        <td>Admin</td>
+                                        <td>Actualizó inventario</td>
+                                        <td>15/04/2025</td>
+                                        <td>10:30 AM</td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de actividad #1253')">
+                                        <td>#1253</td>
+                                        <td>Juan Pérez</td>
+                                        <td>Agregó nuevo cliente</td>
+                                        <td>15/04/2025</td>
+                                        <td>09:45 AM</td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de actividad #1252')">
+                                        <td>#1252</td>
+                                        <td>Admin</td>
+                                        <td>Envió mensaje a empleados</td>
+                                        <td>14/04/2025</td>
+                                        <td>05:20 PM</td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de actividad #1251')">
+                                        <td>#1251</td>
+                                        <td>María Gómez</td>
+                                        <td>Actualizó precios</td>
+                                        <td>14/04/2025</td>
+                                        <td>03:15 PM</td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de actividad #1250')">
+                                        <td>#1250</td>
+                                        <td>Admin</td>
+                                        <td>Asignó nueva tarea</td>
+                                        <td>14/04/2025</td>
+                                        <td>11:00 AM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Perfumes Section -->
+            <div id="perfumes-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Catálogo de Perfumes</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-perfume-modal')">
+                            <i class="fas fa-plus"></i> Agregar Perfume
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="gender-tabs">
+                            <div class="gender-tab active" onclick="switchGenderTab('men')">Perfumes para Hombre</div>
+                            <div class="gender-tab" onclick="switchGenderTab('women')">Perfumes para Mujer</div>
+                        </div>
+                        
+                        <div id="men-perfumes">
+                            <div class="perfumes-container">
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Noble')">
+                                    <img src="image/perfumes/perfume1.png" alt="Aurus Noble" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Noble</div>
+                                        <div class="perfume-description">Fragancia clásica y elegante para el hombre moderno.</div>
+                                        <div class="perfume-price">$50,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Legacy')">
+                                    <img src="image/perfumes/perfume2.png" alt="Aurus Legacy" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Legacy</div>
+                                        <div class="perfume-description">Un legado de distinción y carácter.</div>
+                                        <div class="perfume-price">$55,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Mystique')">
+                                    <img src="image/perfumes/perfume3.png" alt="Aurus Mystique" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Mystique</div>
+                                        <div class="perfume-description">Misterio y seducción en cada gota.</div>
+                                        <div class="perfume-price">$60,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Essence')">
+                                    <img src="image/perfumes/perfume13.png" alt="Aurus Essence" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Essence</div>
+                                        <div class="perfume-description">La esencia pura de la masculinidad.</div>
+                                        <div class="perfume-price">$65,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Black')">
+                                    <img src="image/perfumes/perfume4.png" alt="Aurus Black" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Black</div>
+                                        <div class="perfume-description">Intenso y sofisticado para ocasiones especiales.</div>
+                                        <div class="perfume-price">$80,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Elite')">
+                                    <img src="image/perfumes/perfume14.png" alt="Aurus Elite" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Elite</div>
+                                        <div class="perfume-description">Exclusividad en estado puro.</div>
+                                        <div class="perfume-price">$70,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Signature')">
+                                    <img src="image/perfumes/perfume15.png" alt="Aurus Signature" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Signature</div>
+                                        <div class="perfume-description">Tu firma personal en fragancia.</div>
+                                        <div class="perfume-price">$75,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Noir')">
+                                    <img src="image/perfumes/perfume5.png" alt="Aurus Noir" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Noir</div>
+                                        <div class="perfume-description">La oscuridad elegante que atrae miradas.</div>
+                                        <div class="perfume-price">$85,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Oud')">
+                                    <img src="image/perfumes/perfume6.png" alt="Aurus Oud" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Oud</div>
+                                        <div class="perfume-description">La riqueza del oud en una fragancia inolvidable.</div>
+                                        <div class="perfume-price">$90,000</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="women-perfumes" style="display: none;">
+                            <div class="perfumes-container">
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Fleur')">
+                                    <img src="image/perfumes/perfume7.png" alt="Aurus Fleur" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Fleur</div>
+                                        <div class="perfume-description">La delicadeza de las flores en su máxima expresión.</div>
+                                        <div class="perfume-price">$50,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Bloom')">
+                                    <img src="image/perfumes/perfume8.png" alt="Aurus Bloom" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Bloom</div>
+                                        <div class="perfume-description">Como un jardín en plena primavera.</div>
+                                        <div class="perfume-price">$55,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Rose')">
+                                    <img src="image/perfumes/perfume9.png" alt="Aurus Rose" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Rose</div>
+                                        <div class="perfume-description">La esencia eterna de la rosa.</div>
+                                        <div class="perfume-price">$60,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Gardenia')">
+                                    <img src="image/perfumes/perfume16.png" alt="Aurus Gardenia" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Gardenia</div>
+                                        <div class="perfume-description">La fragancia blanca más seductora.</div>
+                                        <div class="perfume-price">$65,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Magnolia')">
+                                    <img src="image/perfumes/perfume17.png" alt="Aurus Magnolia" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Magnolia</div>
+                                        <div class="perfume-description">Elegancia y frescura en perfecto equilibrio.</div>
+                                        <div class="perfume-price">$75,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Orchid')">
+                                    <img src="image/perfumes/perfume18.png" alt="Aurus Orchid" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Orchid</div>
+                                        <div class="perfume-description">Exótica y misteriosa como la flor que la inspira.</div>
+                                        <div class="perfume-price">$80,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Sensual')">
+                                    <img src="image/perfumes/perfume10.png" alt="Aurus Sensual" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Sensual</div>
+                                        <div class="perfume-description">Despierta tus sentidos con esta fragancia.</div>
+                                        <div class="perfume-price">$85,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Mystique')">
+                                    <img src="image/perfumes/perfume3.png" alt="Aurus Mystique" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Mystique</div>
+                                        <div class="perfume-description">Un misterio que todos querrán descubrir.</div>
+                                        <div class="perfume-price">$90,000</div>
+                                    </div>
+                                </div>
+                                <div class="perfume-card" onclick="showToast('info', 'Detalles de Aurus Velvet')">
+                                    <img src="image/perfumes/perfume12.png" alt="Aurus Velvet" class="perfume-image">
+                                    <div class="perfume-info">
+                                        <div class="perfume-name">Aurus Velvet</div>
+                                        <div class="perfume-description">Suave como el terciopelo, intenso como el deseo.</div>
+                                        <div class="perfume-price">$95,000</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Inventory Section -->
+            <div id="inventory-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Inventario de Perfumes</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-inventory-modal')">
+                            <i class="fas fa-plus"></i> Agregar al Inventario
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="inventory-grid">
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Noble')">
+                                <img src="image/perfumes/perfume1.png" alt="Aurus Noble" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Noble</div>
+                                    <div class="inventory-perfume-stock">Stock: 45 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Legacy')">
+                                <img src="image/perfumes/perfume2.png" alt="Aurus Legacy" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Legacy</div>
+                                    <div class="inventory-perfume-stock">Stock: 32 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Mystique')">
+                                <img src="image/perfumes/perfume3.png" alt="Aurus Mystique" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Mystique</div>
+                                    <div class="inventory-perfume-stock">Stock: 18 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Essence')">
+                                <img src="image/perfumes/perfume13.png" alt="Aurus Essence" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Essence</div>
+                                    <div class="inventory-perfume-stock">Stock: 25 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Black')">
+                                <img src="image/perfumes/perfume4.png" alt="Aurus Black" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Black</div>
+                                    <div class="inventory-perfume-stock">Stock: 15 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Elite')">
+                                <img src="image/perfumes/perfume14.png" alt="Aurus Elite" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Elite</div>
+                                    <div class="inventory-perfume-stock">Stock: 20 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Signature')">
+                                <img src="image/perfumes/perfume15.png" alt="Aurus Signature" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Signature</div>
+                                    <div class="inventory-perfume-stock">Stock: 12 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Noir')">
+                                <img src="image/perfumes/perfume5.png" alt="Aurus Noir" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Noir</div>
+                                    <div class="inventory-perfume-stock">Stock: 10 unidades</div>
+                                </div>
+                            </div>
+                            <div class="inventory-perfume" onclick="showToast('info', 'Detalles de Aurus Oud')">
+                                <img src="image/perfumes/perfume6.png" alt="Aurus Oud" class="inventory-perfume-image">
+                                <div class="inventory-perfume-info">
+                                    <div class="inventory-perfume-name">Aurus Oud</div>
+                                    <div class="inventory-perfume-stock">Stock: 8 unidades</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clients Section -->
+            <div id="clients-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Clientes</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-client-modal')">
+                            <i class="fas fa-plus"></i> Agregar Cliente
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Teléfono</th>
+                                        <th>Email</th>
+                                        <th>Última Compra</th>
+                                        <th>Favoritos</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="showToast('info', 'Detalles de cliente #CL001')">
+                                        <td>#CL001</td>
+                                        <td>Roberto Martínez</td>
+                                        <td>310 123 4567</td>
+                                        <td>roberto.martinez@email.com</td>
+                                        <td>Aurus Noir</td>
+                                        <td>
+                                            <div class="client-perfume">
+                                                <img src="image/perfumes/perfume5.png" alt="Aurus Noir" class="client-perfume-image">
+                                                <div class="client-perfume-info">
+                                                    <div class="client-perfume-name">Aurus Noir</div>
+                                                    <div class="client-perfume-price">$85,000</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Cliente editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Cliente eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de cliente #CL002')">
+                                        <td>#CL002</td>
+                                        <td>Laura García</td>
+                                        <td>315 789 1234</td>
+                                        <td>laura.garcia@email.com</td>
+                                        <td>Aurus Velvet</td>
+                                        <td>
+                                            <div class="client-perfume">
+                                                <img src="image/perfumes/perfume12.png" alt="Aurus Velvet" class="client-perfume-image">
+                                                <div class="client-perfume-info">
+                                                    <div class="client-perfume-name">Aurus Velvet</div>
+                                                    <div class="client-perfume-price">$95,000</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Cliente editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Cliente eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de cliente #CL003')">
+                                        <td>#CL003</td>
+                                        <td>Carlos Ramírez</td>
+                                        <td>317 456 7890</td>
+                                        <td>carlos.ramirez@email.com</td>
+                                        <td>Aurus Oud</td>
+                                        <td>
+                                            <div class="client-perfume">
+                                                <img src="image/perfumes/perfume6.png" alt="Aurus Oud" class="client-perfume-image">
+                                                <div class="client-perfume-info">
+                                                    <div class="client-perfume-name">Aurus Oud</div>
+                                                    <div class="client-perfume-price">$90,000</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Cliente editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Cliente eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de cliente #CL004')">
+                                        <td>#CL004</td>
+                                        <td>Sofía Herrera</td>
+                                        <td>320 987 6543</td>
+                                        <td>sofia.herrera@email.com</td>
+                                        <td>Aurus Mystique</td>
+                                        <td>
+                                            <div class="client-perfume">
+                                                <img src="image/perfumes/perfume3.png" alt="Aurus Mystique" class="client-perfume-image">
+                                                <div class="client-perfume-info">
+                                                    <div class="client-perfume-name">Aurus Mystique</div>
+                                                    <div class="client-perfume-price">$90,000</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Cliente editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Cliente eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de cliente #CL005')">
+                                        <td>#CL005</td>
+                                        <td>Jorge Díaz</td>
+                                        <td>311 234 5678</td>
+                                        <td>jorge.diaz@email.com</td>
+                                        <td>Aurus Black</td>
+                                        <td>
+                                            <div class="client-perfume">
+                                                <img src="image/perfumes/perfume4.png" alt="Aurus Black" class="client-perfume-image">
+                                                <div class="client-perfume-info">
+                                                    <div class="client-perfume-name">Aurus Black</div>
+                                                    <div class="client-perfume-price">$80,000</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Cliente editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Cliente eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Providers Section -->
+            <div id="providers-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Proveedores</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-provider-modal')">
+                            <i class="fas fa-plus"></i> Agregar Proveedor
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Contacto</th>
+                                        <th>Teléfono</th>
+                                        <th>Email</th>
+                                        <th>Productos</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="showToast('info', 'Detalles de proveedor #PV001')">
+                                        <td>#PV001</td>
+                                        <td>Fragancias del Mundo</td>
+                                        <td>Juan Pérez</td>
+                                        <td>601 123 4567</td>
+                                        <td>contacto@fraganciasdelmundo.com</td>
+                                        <td>15 productos</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Proveedor editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Proveedor eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de proveedor #PV002')">
+                                        <td>#PV002</td>
+                                        <td>Esencias Premium</td>
+                                        <td>María Gómez</td>
+                                        <td>604 789 1234</td>
+                                        <td>ventas@esenciaspremium.com</td>
+                                        <td>22 productos</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Proveedor editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Proveedor eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de proveedor #PV003')">
+                                        <td>#PV003</td>
+                                        <td>Perfumería Selecta</td>
+                                        <td>Carlos Ramírez</td>
+                                        <td>605 456 7890</td>
+                                        <td>info@perfumeriaselecta.com</td>
+                                        <td>18 productos</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Proveedor editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Proveedor eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de proveedor #PV004')">
+                                        <td>#PV004</td>
+                                        <td>Aromas Exclusivos</td>
+                                        <td>Laura Fernández</td>
+                                        <td>607 987 6543</td>
+                                        <td>clientes@aromasexclusivos.com</td>
+                                        <td>10 productos</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Proveedor editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Proveedor eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de proveedor #PV005')">
+                                        <td>#PV005</td>
+                                        <td>Fragance International</td>
+                                        <td>Roberto Sánchez</td>
+                                        <td>608 234 5678</td>
+                                        <td>sales@fraganceint.com</td>
+                                        <td>25 productos</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Proveedor editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Proveedor eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employees Section -->
+            <div id="employees-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Empleados</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-employee-modal')">
+                            <i class="fas fa-plus"></i> Agregar Empleado
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Cargo</th>
+                                        <th>Teléfono</th>
+                                        <th>Email</th>
+                                        <th>Fecha Ingreso</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr onclick="showToast('info', 'Detalles de empleado #EMP001')">
+                                        <td>#EMP001</td>
+                                        <td>Andrés López</td>
+                                        <td>Gerente de Ventas</td>
+                                        <td>310 123 4567</td>
+                                        <td>andres.lopez@aurus.com</td>
+                                        <td>15/01/2020</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Empleado editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Empleado eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de empleado #EMP002')">
+                                        <td>#EMP002</td>
+                                        <td>Carolina Ramírez</td>
+                                        <td>Asesora Comercial</td>
+                                        <td>315 789 1234</td>
+                                        <td>carolina.ramirez@aurus.com</td>
+                                        <td>22/03/2021</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Empleado editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Empleado eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de empleado #EMP003')">
+                                        <td>#EMP003</td>
+                                        <td>Javier Gómez</td>
+                                        <td>Almacenista</td>
+                                        <td>317 456 7890</td>
+                                        <td>javier.gomez@aurus.com</td>
+                                        <td>10/05/2021</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Empleado editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Empleado eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de empleado #EMP004')">
+                                        <td>#EMP004</td>
+                                        <td>Sandra Martínez</td>
+                                        <td>Contadora</td>
+                                        <td>320 987 6543</td>
+                                        <td>sandra.martinez@aurus.com</td>
+                                        <td>05/08/2022</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Empleado editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Empleado eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr onclick="showToast('info', 'Detalles de empleado #EMP005')">
+                                        <td>#EMP005</td>
+                                        <td>Ricardo Díaz</td>
+                                        <td>Asesor Comercial</td>
+                                        <td>311 234 5678</td>
+                                        <td>ricardo.diaz@aurus.com</td>
+                                        <td>12/11/2022</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Empleado editado')"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Empleado eliminado')"><i class="fas fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Calendar Section -->
+            <div id="calendar-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Calendario</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-event-modal')">
+                            <i class="fas fa-plus"></i> Agregar Evento
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="calendar-controls">
+                            <button class="btn-icon" onclick="changeMonth(-1)"><i class="fas fa-chevron-left"></i></button>
+                            <h3 id="current-month">Abril 2025</h3>
+                            <button class="btn-icon" onclick="changeMonth(1)"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Calendar days will be generated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Section -->
+            <div id="messages-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Mensajes</h2>
+                        <button class="btn btn-primary" onclick="openModal('new-message-modal')">
+                            <i class="fas fa-plus"></i> Nuevo Mensaje
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="message-item" onclick="showToast('info', 'Mensaje de Juan Pérez')">
+                            <img src="image/perfilmensaje/perfil1.webp" alt="Juan Pérez">
+                            <div class="message-content">
+                                <h4>Juan Pérez</h4>
+                                <p>Hola, quisiera saber si ya llegó el nuevo lote de Aurus Noir...</p>
+                            </div>
+                            <div class="message-time">10:30 AM</div>
+                        </div>
+                        <div class="message-item" onclick="showToast('info', 'Mensaje de María Gómez')">
+                            <img src="image/perfilmensaje/perfil2.jpg" alt="María Gómez">
+                            <div class="message-content">
+                                <h4>María Gómez</h4>
+                                <p>El cliente Roberto Martínez quiere saber si hay descuento por compra...</p>
+                            </div>
+                            <div class="message-time">Ayer</div>
+                        </div>
+                        <div class="message-item" onclick="showToast('info', 'Mensaje de Carlos Ramírez')">
+                            <img src="image/perfilmensaje/perfil3.webp" alt="Carlos Ramírez">
+                            <div class="message-content">
+                                <h4>Carlos Ramírez</h4>
+                                <p>Confirmado el pedido de 15 unidades de Aurus Oud para el viernes...</p>
+                            </div>
+                            <div class="message-time">Ayer</div>
+                        </div>
+                        <div class="message-item" onclick="showToast('info', 'Mensaje de Laura Fernández')">
+                            <img src="image/perfilmensaje/perfil4.webp" alt="Laura Fernández">
+                            <div class="message-content">
+                                <h4>Laura Fernández</h4>
+                                <p>Necesito autorización para el descuento del 10% al cliente...</p>
+                            </div>
+                            <div class="message-time">15/04/2025</div>
+                        </div>
+                        <div class="message-item" onclick="showToast('info', 'Mensaje de Roberto Sánchez')">
+                            <img src="image/perfilmensaje/perfil5.webp" alt="Roberto Sánchez">
+                            <div class="message-content">
+                                <h4>Roberto Sánchez</h4>
+                                <p>El proveedor de esencias confirmó el envío para mañana por la mañana...</p>
+                            </div>
+                            <div class="message-time">14/04/2025</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Section -->
+            <div id="tasks-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Tareas</h2>
+                        <button class="btn btn-primary" onclick="openModal('add-task-modal')">
+                            <i class="fas fa-plus"></i> Agregar Tarea
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="tabs">
+                            <div class="tab active" onclick="switchTaskTab('pending')">Pendientes</div>
+                            <div class="tab" onclick="switchTaskTab('in-progress')">En Progreso</div>
+                            <div class="tab" onclick="switchTaskTab('completed')">Completadas</div>
+                        </div>
+                        
+                        <div id="pending-tasks">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tarea</th>
+                                            <th>Asignado a</th>
+                                            <th>Fecha Límite</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK001')">
+                                            <td>Revisar inventario de Aurus Noir</td>
+                                            <td>Javier Gómez</td>
+                                            <td>20/04/2025</td>
+                                            <td><span class="badge bg-primary">Media</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); showToast('success', 'Tarea marcada como completada')"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK002')">
+                                            <td>Contactar proveedor de esencias</td>
+                                            <td>Andrés López</td>
+                                            <td>18/04/2025</td>
+                                            <td><span class="badge bg-danger">Alta</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); showToast('success', 'Tarea marcada como completada')"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK003')">
+                                            <td>Actualizar precios en sistema</td>
+                                            <td>Sandra Martínez</td>
+                                            <td>22/04/2025</td>
+                                            <td><span class="badge bg-primary">Media</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); showToast('success', 'Tarea marcada como completada')"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="in-progress-tasks" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tarea</th>
+                                            <th>Asignado a</th>
+                                            <th>Fecha Límite</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK004')">
+                                            <td>Preparar pedido para cliente corporativo</td>
+                                            <td>Carolina Ramírez</td>
+                                            <td>17/04/2025</td>
+                                            <td><span class="badge bg-danger">Alta</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); showToast('success', 'Tarea marcada como completada')"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK005')">
+                                            <td>Diseñar folleto promocional</td>
+                                            <td>Ricardo Díaz</td>
+                                            <td>25/04/2025</td>
+                                            <td><span class="badge bg-warning">Baja</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-success" onclick="event.stopPropagation(); showToast('success', 'Tarea marcada como completada')"><i class="fas fa-check"></i></button>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="completed-tasks" style="display: none;">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tarea</th>
+                                            <th>Asignado a</th>
+                                            <th>Completada</th>
+                                            <th>Prioridad</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK006')">
+                                            <td>Revisar stock de Aurus Velvet</td>
+                                            <td>Javier Gómez</td>
+                                            <td>14/04/2025</td>
+                                            <td><span class="badge bg-primary">Media</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Tarea eliminada')"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr onclick="showToast('info', 'Detalles de tarea #TSK007')">
+                                            <td>Enviar cotización a cliente</td>
+                                            <td>Carolina Ramírez</td>
+                                            <td>12/04/2025</td>
+                                            <td><span class="badge bg-danger">Alta</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" onclick="event.stopPropagation(); showToast('success', 'Tarea editada')"><i class="fas fa-edit"></i></button>
+                                                <button class="btn btn-sm btn-danger" onclick="event.stopPropagation(); showToast('error', 'Tarea eliminada')"><i class="fas fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+    <!--    <div id="settings-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Configuración del Sistema</h2>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Nombre de la Empresa</label>
+                                <input type="text" class="form-control" value="Aurus Perfumes">
+                            </div>
+                            <div class="form-group">
+                                <label>Logo</label>
+                                <input type="file" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Moneda</label>
+                                <select class="form-control">
+                                    <option>Pesos Colombianos (COP)</option>
+                                    <option>Dólares (USD)</option>
+                                    <option>Euros (EUR)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Zona Horaria</label>
+                                <select class="form-control">
+                                    <option>Bogotá, Lima, Quito (GMT-5)</option>
+                                    <option>Ciudad de México (GMT-6)</option>
+                                    <option>Madrid (GMT+1)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Notificaciones por Email</label>
+                                <div>
+                                    <input type="checkbox" id="notifications" checked>
+                                    <label for="notifications">Recibir notificaciones por email</label>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="showToast('success', 'Configuración guardada')">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div> 
+        
+        -->
+
+            <!-- Account Section -->
+            <div id="account-section" class="section" style="display: none;">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Mi Cuenta</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <img src="image/perfilmensaje/perfilprincipal.png" alt="Admin" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                                    <button class="btn btn-primary btn-sm">Cambiar Foto</button>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <form>
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control" value="Administrador">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" value="admin@aurusperfumes.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Teléfono</label>
+                                        <input type="tel" class="form-control" value="+57 310 123 4567">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Contraseña</label>
+                                        <input type="password" class="form-control" placeholder="Ingresa nueva contraseña">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirmar Contraseña</label>
+                                        <input type="password" class="form-control" placeholder="Confirma nueva contraseña">
+                                    </div>
+                                    <button type="button" class="btn btn-primary" onclick="showToast('success', 'Información de cuenta actualizada')">Actualizar Cuenta</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fab-container">
+        <div class="fab-main" onclick="toggleFabMenu()">
+            <i class="fas fa-bolt"></i>
+        </div>
+
+        <div class="fab-menu">
+            <div class="fab-menu-item" onclick="showToast('success', 'Nuevo perfume agregado'); toggleFabMenu()">
+                <i class="fas fa-spray-can"></i>
+                <span class="fab-label">Agregar Perfume</span>
+            </div>
+            <div class="fab-menu-item" onclick="showToast('success', 'Nuevo cliente registrado'); toggleFabMenu()">
+                <i class="fas fa-user-plus"></i>
+                <span class="fab-label">Agregar Cliente</span>
+            </div>
+            <div class="fab-menu-item" onclick="showToast('success', 'Nueva tarea creada'); toggleFabMenu()">
+                <i class="fas fa-tasks"></i>
+                <span class="fab-label">Crear Tarea</span>
+            </div>
+            <button class="fab-menu-item" onclick="openEventModal(); toggleFabMenu()">
+                <i class="fas fa-calendar-plus"></i>
+                <span class="fab-label">Agregar Evento</span>
+            </button>  
+        </div>
+
+        <!-- Congrats Modal -->
+        <div class="modal" id="congrats-modal">
+            <div class="modal-content confetti-container">
+                <div class="congrats-content">
+                    <h2>¡Evento Programado con Éxito!</h2>
+                    <p id="congratsMessage"></p>
+                    <div class="timer-display">
+                        <p>Tiempo restante:</p>
+                        <div id="countdown"></div>
+                    </div>
+                    <button class="btn btn-primary" onclick="closeCongratsModal()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Perfume Modal -->
+    <div class="modal" id="add-perfume-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Perfume</h3>
+                <button class="close" onclick="closeModal('add-perfume-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Nombre del Perfume</label>
+                        <input type="text" class="form-control" placeholder="Ej: Aurus Noir">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" rows="3" placeholder="Descripción del perfume"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Género</label>
+                        <select class="form-control">
+                            <option>Hombre</option>
+                            <option>Mujer</option>
+                            <option>Unisex</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <input type="number" class="form-control" placeholder="Ej: 85000">
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen</label>
+                        <input type="file" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Notas de Fragancia</label>
+                        <input type="text" class="form-control" placeholder="Ej: Cítricas, Amaderadas, Florales">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-perfume-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Perfume agregado correctamente'); closeModal('add-perfume-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Inventory Modal -->
+    <div class="modal" id="add-inventory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar al Inventario</h3>
+                <button class="close" onclick="closeModal('add-inventory-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Perfume</label>
+                        <select class="form-control">
+                            <option>Aurus Noir</option>
+                            <option>Aurus Oud</option>
+                            <option>Aurus Velvet</option>
+                            <option>Aurus Mystique</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad</label>
+                        <input type="number" class="form-control" placeholder="Ej: 10">
+                    </div>
+                    <div class="form-group">
+                        <label>Proveedor</label>
+                        <select class="form-control">
+                            <option>Fragancias del Mundo</option>
+                            <option>Esencias Premium</option>
+                            <option>Perfumería Selecta</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Ingreso</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Costo Unitario</label>
+                        <input type="number" class="form-control" placeholder="Ej: 45000">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-inventory-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Inventario actualizado'); closeModal('add-inventory-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Client Modal -->
+    <div class="modal" id="add-client-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Cliente</h3>
+                <button class="close" onclick="closeModal('add-client-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" class="form-control" placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" class="form-control" placeholder="Ej: 310 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Ej: juan.perez@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" placeholder="Ej: Calle 123 #45-67">
+                    </div>
+                    <div class="form-group">
+                        <label>Ciudad</label>
+                        <input type="text" class="form-control" placeholder="Ej: Bogotá">
+                    </div>
+                    <div class="form-group">
+                        <label>Perfumes Favoritos</label>
+                        <select class="form-control" multiple>
+                            <option>Aurus Noir</option>
+                            <option>Aurus Oud</option>
+                            <option>Aurus Velvet</option>
+                            <option>Aurus Mystique</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-client-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Cliente agregado correctamente'); closeModal('add-client-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Provider Modal -->
+    <div class="modal" id="add-provider-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Proveedor</h3>
+                <button class="close" onclick="closeModal('add-provider-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Nombre del Proveedor</label>
+                        <input type="text" class="form-control" placeholder="Ej: Fragancias del Mundo">
+                    </div>
+                    <div class="form-group">
+                        <label>Persona de Contacto</label>
+                        <input type="text" class="form-control" placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" class="form-control" placeholder="Ej: 601 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Ej: contacto@fraganciasdelmundo.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" placeholder="Ej: Calle 123 #45-67">
+                    </div>
+                    <div class="form-group">
+                        <label>Productos que Ofrece</label>
+                        <textarea class="form-control" rows="3" placeholder="Lista de productos que ofrece el proveedor"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-provider-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Proveedor agregado correctamente'); closeModal('add-provider-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div class="modal" id="add-employee-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Empleado</h3>
+                <button class="close" onclick="closeModal('add-employee-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" class="form-control" placeholder="Ej: Andrés López">
+                    </div>
+                    <div class="form-group">
+                        <label>Cargo</label>
+                        <input type="text" class="form-control" placeholder="Ej: Gerente de Ventas">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" class="form-control" placeholder="Ej: 310 123 4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Ej: andres.lopez@aurus.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de Ingreso</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Salario</label>
+                        <input type="number" class="form-control" placeholder="Ej: 2500000">
+                    </div>
+                    <div class="form-group">
+                        <label>Foto</label>
+                        <input type="file" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-employee-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Empleado agregado correctamente'); closeModal('add-employee-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Modal -->
+    <div class="modal" id="add-event-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nuevo Evento</h3>
+                <button class="close" onclick="closeModal('add-event-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Título del Evento</label>
+                        <input type="text" class="form-control" placeholder="Ej: Reunión con proveedor">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Hora</label>
+                        <input type="time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" rows="3" placeholder="Descripción del evento"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Participantes</label>
+                        <select class="form-control" multiple>
+                            <option>Andrés López</option>
+                            <option>Carolina Ramírez</option>
+                            <option>Javier Gómez</option>
+                            <option>Sandra Martínez</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="color" class="form-control" value="#3a1f0e">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-event-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Evento agregado al calendario'); closeModal('add-event-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+     <!-- Event Modal del bottón flotante -->
+     <div class="modal" id="event-modal">
+        <div class="modal-content animate-slide">
+            <div class="modal-header">
+                <h3>Programar Nuevo Evento</h3>
+                <button class="close" onclick="closeEventModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="eventType">Tipo de Evento:</label>
+                        <select id="eventType" class="form-control" required>
+                            <option value="">Seleccione un tipo</option>
+                            <option value="Lanzamiento de un nuevo perfume">Lanzamiento de un nuevo perfume</option>
+                            <option value="Evento exclusivo para clientes">Evento exclusivo para clientes</option>
+                            <option value="Promocion especial">Promocion especial</option>
+                            <option value="Taller de fragancias">Taller de fragancias</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventName">Nombre del Evento:</label>
+                        <input type="text" id="eventName" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="eventDescription">Descripción:</label>
+                        <textarea id="eventDescription" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventDate">Fecha:</label>
+                            <input type="date" id="eventDate" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eventTime">Hora:</label>
+                            <input type="time" id="eventTime" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn" onclick="closeEventModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Programar Evento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Message Modal -->
+    <div class="modal" id="new-message-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Mensaje</h3>
+                <button class="close" onclick="closeModal('new-message-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Para</label>
+                        <select class="form-control" multiple>
+                            <option>Andrés López</option>
+                            <option>Carolina Ramírez</option>
+                            <option>Javier Gómez</option>
+                            <option>Sandra Martínez</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Asunto</label>
+                        <input type="text" class="form-control" placeholder="Asunto del mensaje">
+                    </div>
+                    <div class="form-group">
+                        <label>Mensaje</label>
+                        <textarea class="form-control" rows="5" placeholder="Escribe tu mensaje aquí"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Adjuntos</label>
+                        <input type="file" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('new-message-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Mensaje enviado correctamente'); closeModal('new-message-modal')">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Task Modal -->
+    <div class="modal" id="add-task-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Nueva Tarea</h3>
+                <button class="close" onclick="closeModal('add-task-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Título de la Tarea</label>
+                        <input type="text" class="form-control" placeholder="Ej: Revisar inventario">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" rows="3" placeholder="Descripción detallada de la tarea"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Asignar a</label>
+                        <select class="form-control">
+                            <option>Andrés López</option>
+                            <option>Carolina Ramírez</option>
+                            <option>Javier Gómez</option>
+                            <option>Sandra Martínez</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha Límite</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Prioridad</label>
+                        <select class="form-control">
+                            <option>Alta</option>
+                            <option>Media</option>
+                            <option>Baja</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('add-task-modal')">Cancelar</button>
+                <button class="btn btn-primary" onclick="showToast('success', 'Tarea creada correctamente'); closeModal('add-task-modal')">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Modal -->
+    <div class="modal" id="logout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cerrar Sesión</h3>
+                <button class="close" onclick="closeModal('logout-modal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro que deseas cerrar sesión?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('logout-modal')">Cancelar</button>
+                <button class="btn btn-danger" onclick="logout()">Cerrar Sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Welcome Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeProgress = document.getElementById('welcomeProgress');
+            const welcomeOverlay = document.getElementById('welcomeOverlay');
+            
+            // Animate progress bar
+            welcomeProgress.style.width = '100%';
+            
+            // Hide welcome overlay after animation
+            setTimeout(() => {
+                welcomeOverlay.classList.add('hidden');
+                
+                // Show welcome alert
+                setTimeout(() => {
+                    document.getElementById('welcomeAlert').style.opacity = '1';
+                    document.getElementById('welcomeAlert').style.transform = 'translateY(0)';
+                }, 500);
+            }, 2500);
+        });
+        
+        // Show section function
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId + '-section').style.display = 'block';
+            
+            // Update active menu item
+            document.querySelectorAll('.sidebar-menu a').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Switch gender tabs in perfumes section
+        function switchGenderTab(gender) {
+            document.querySelectorAll('.gender-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            if (gender === 'men') {
+                document.getElementById('men-perfumes').style.display = 'block';
+                document.getElementById('women-perfumes').style.display = 'none';
+            } else {
+                document.getElementById('men-perfumes').style.display = 'none';
+                document.getElementById('women-perfumes').style.display = 'block';
+            }
+        }
+        
+        // Switch task tabs in tasks section
+        function switchTaskTab(status) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('pending-tasks').style.display = 'none';
+            document.getElementById('in-progress-tasks').style.display = 'none';
+            document.getElementById('completed-tasks').style.display = 'none';
+            
+            document.getElementById(status + '-tasks').style.display = 'block';
+        }
+        
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+            setTimeout(() => {
+                document.querySelector('#' + modalId + ' .modal-content').style.opacity = '1';
+                document.querySelector('#' + modalId + ' .modal-content').style.transform = 'translateY(0) scale(1)';
+            }, 10);
+        }
+        
+        function closeModal(modalId) {
+            document.querySelector('#' + modalId + ' .modal-content').style.opacity = '0';
+            document.querySelector('#' + modalId + ' .modal-content').style.transform = 'translateY(-50px) scale(0.95)';
+            setTimeout(() => {
+                document.getElementById(modalId).classList.remove('show');
+            }, 300);
+        }
+        
+        function showLogoutModal() {
+            openModal('logout-modal');
+        }
+        
+        // Logout function
+        function logout() {
+            showToast('info', 'Cerrando sesión...');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        }
+        
+        // Toast notification function
+        function showToast(type, message) {
+            const toastContainer = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            let icon = '';
+            if (type === 'success') {
+                icon = '<i class="fas fa-check-circle"></i>';
+            } else if (type === 'error') {
+                icon = '<i class="fas fa-exclamation-circle"></i>';
+            } else {
+                icon = '<i class="fas fa-info-circle"></i>';
+            }
+            
+            toast.innerHTML = `${icon} ${message}`;
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+        
+        // Calendar functionality
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        
+        function renderCalendar() {
+            const calendarGrid = document.getElementById('calendar-grid');
+            const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+            
+            // Update month header
+            document.getElementById('current-month').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            // Get first day of month and total days in month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Clear previous calendar
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = day;
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Add days of month
+            const today = new Date();
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Highlight today
+                if (i === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+                    dayElement.classList.add('today');
+                }
+                
+                const dayNumber = document.createElement('div');
+                dayNumber.className = 'day-number';
+                dayNumber.textContent = i;
+                dayElement.appendChild(dayNumber);
+                
+                // Add sample events (in a real app, these would come from a database)
+                if (i === 5) {
+                    const event = document.createElement('div');
+                    event.className = 'calendar-event';
+                    event.textContent = 'Reunión con proveedor';
+                    dayElement.appendChild(event);
+                }
+                
+                if (i === 12) {
+                    const event = document.createElement('div');
+                    event.className = 'calendar-event';
+                    event.textContent = 'Lanzamiento nuevo perfume';
+                    dayElement.appendChild(event);
+                }
+                
+                if (i === 20) {
+                    const event = document.createElement('div');
+                    event.className = 'calendar-event';
+                    event.textContent = 'Revisión de inventario';
+                    dayElement.appendChild(event);
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+        
+        function changeMonth(offset) {
+            currentMonth += offset;
+            
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            
+            renderCalendar();
+        }
+        
+        // Initialize calendar
+        renderCalendar();
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 10) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Tooltip initialization
+        document.querySelectorAll('.tooltip').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                const tooltipText = this.querySelector('.tooltiptext');
+                tooltipText.style.opacity = '1';
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                const tooltipText = this.querySelector('.tooltiptext');
+                tooltipText.style.opacity = '0';
+            });
+        });
+
+        // Toggle Fab Menu
+        function toggleFabMenu() {
+            const fabMenu = document.querySelector('.fab-menu');
+            const fabMain = document.querySelector('.fab-main');
+            
+            fabMenu.classList.toggle('show');
+            fabMain.classList.toggle('active');
+            
+            if (fabMenu.classList.contains('show')) {
+                fabMain.innerHTML = '<i class="fas fa-times"></i>';
+                fabMain.style.backgroundColor = 'var(--primary-color)';
+            } else {
+                fabMain.innerHTML = '<i class="fas fa-bolt"></i>';
+                fabMain.style.backgroundColor = 'var(--secondary-color)';
+            }
+        }
+
+        // Close Fab Menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const fabContainer = document.querySelector('.fab-container');
+            const fabMenu = document.querySelector('.fab-menu');
+            
+            if (!fabContainer.contains(event.target) && fabMenu.classList.contains('show')) {
+                toggleFabMenu();
+            }
+        });
+
+
+
+
+        // Variables globales para eventos
+        let eventTimer = null;
+        let targetEventDate = null;
+
+        // Abrir modal de evento
+        function openEventModal() {
+            document.getElementById('event-modal').classList.add('show');
+            setTimeout(() => {
+                document.querySelector('#event-modal .modal-content').style.opacity = '1';
+                document.querySelector('#event-modal .modal-content').style.transform = 'translateY(0) scale(1)';
+            }, 10);
+        }
+
+        // Cerrar modal de evento
+        function closeEventModal() {
+            document.querySelector('#event-modal .modal-content').style.opacity = '0';
+            document.querySelector('#event-modal .modal-content').style.transform = 'translateY(-50px) scale(0.95)';
+            setTimeout(() => {
+                document.getElementById('event-modal').classList.remove('show');
+            }, 300);
+        }
+
+        // Abrir modal de felicitaciones
+        function openCongratsModal(message, targetDate) {
+            document.getElementById('congratsMessage').textContent = message;
+            document.getElementById('congrats-modal').classList.add('show');
+            setTimeout(() => {
+                document.querySelector('#congrats-modal .modal-content').style.opacity = '1';
+                document.querySelector('#congrats-modal .modal-content').style.transform = 'translateY(0) scale(1)';
+            }, 10);
+            
+            // Iniciar temporizador
+            startCountdown(targetDate);
+            
+            // Mostrar confeti
+            createConfetti();
+        }
+
+        // Cerrar modal de felicitaciones
+        function closeCongratsModal() {
+            document.querySelector('#congrats-modal .modal-content').style.opacity = '0';
+            document.querySelector('#congrats-modal .modal-content').style.transform = 'translateY(-50px) scale(0.95)';
+            setTimeout(() => {
+                document.getElementById('congrats-modal').classList.remove('show');
+            }, 300);
+            
+            // Detener temporizador
+            if (eventTimer) {
+                clearInterval(eventTimer);
+                eventTimer = null;
+            }
+        }
+
+        // Manejar envío del formulario de eventos
+        document.getElementById('eventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Obtener valores del formulario
+            const eventType = document.getElementById('eventType').value;
+            const eventName = document.getElementById('eventName').value;
+            const eventDescription = document.getElementById('eventDescription').value;
+            const eventDate = document.getElementById('eventDate').value;
+            const eventTime = document.getElementById('eventTime').value;
+            
+            // Crear fecha objetivo
+            const targetDate = new Date(`${eventDate}T${eventTime}`);
+            targetEventDate = targetDate;
+            
+            // Crear mensaje de felicitación
+            const congratsMessage = `¡${eventType} "${eventName}" ha sido programado para el ${targetDate.toLocaleDateString()} a las ${targetDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}!`;
+            
+            // Cerrar modal de evento
+            closeEventModal();
+            
+            // Mostrar modal de felicitaciones
+            openCongratsModal(congratsMessage, targetDate);
+            
+            // Programar notificación para cuando llegue la fecha
+            scheduleEventNotification(targetDate, eventName);
+            
+            // Agregar evento al calendario
+            addEventToCalendar(eventName, targetDate, eventType);
+        });
+
+        // Iniciar cuenta regresiva
+        function startCountdown(targetDate) {
+            updateCountdown(targetDate); // Actualizar inmediatamente
+            
+            eventTimer = setInterval(function() {
+                updateCountdown(targetDate);
+            }, 1000);
+        }
+
+        // Actualizar cuenta regresiva
+        function updateCountdown(targetDate) {
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            if (diff <= 0) {
+                clearInterval(eventTimer);
+                document.getElementById('countdown').innerHTML = "¡El evento ha comenzado!";
+                createConfetti(); // Más confeti cuando el evento comienza
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('countdown').innerHTML = 
+                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        // Crear efecto de confeti
+        function createConfetti() {
+            const container = document.querySelector('.confetti-container');
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            
+            // Limpiar confeti anterior
+            const oldConfetti = document.querySelectorAll('.confetti');
+            oldConfetti.forEach(c => c.remove());
+            
+            // Crear nuevo confeti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Animación
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                
+                // Añadir al contenedor
+                container.appendChild(confetti);
+            }
+            
+            // Añadir los keyframes al estilo si no existen
+            if (!document.getElementById('confetti-animation')) {
+                const style = document.createElement('style');
+                style.id = 'confetti-animation';
+                style.innerHTML = `
+                    @keyframes fall {
+                        to {
+                            transform: translateY(100vh) rotate(${Math.random() * 360}deg);
+                            opacity: 0;
+                        }
+                    }
+                    
+                    .confetti {
+                        position: absolute;
+                        width: 10px;
+                        height: 10px;
+                        opacity: 0;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Programar notificación para cuando llegue la fecha del evento
+        function scheduleEventNotification(targetDate, eventName) {
+            const now = new Date();
+            const diff = targetDate - now;
+            
+            if (diff > 0) {
+                setTimeout(function() {
+                    showToast('info', `¡Es hora del evento "${eventName}"!`);
+                }, diff);
+            }
+        }
+
+        // Agregar evento al calendario
+        function addEventToCalendar(eventName, eventDate, eventType) {
+            // En una aplicación real, aquí guardarías el evento en una base de datos
+            // Por ahora, solo mostramos un toast de confirmación
+            showToast('success', `Evento "${eventName}" agregado al calendario`);
+            
+            // También podrías actualizar el calendario visualmente aquí
+            // renderCalendar(); // Si tienes una función que renderiza el calendario
+}
+    </script>
+</body>
+</html>

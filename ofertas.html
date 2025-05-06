@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURUS - Ofertas</title>
+    <style>
+        /* Estilos CSS para Aurus Perfumes */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #f9f5f0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: #12000C;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            min-height: 0px;
+            position: relative;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #menu {
+            display: none;
+        }
+
+        .menu-icon {
+            width: 30px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .navbar {
+            display: flex;
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar ul li {
+            position: relative;
+            margin-left: 30px;
+        }
+
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .navbar ul li a:hover {
+            color: #FF69B4;
+        }
+
+        .submenu {
+            position: absolute;
+            background: white;
+            width: 200px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            top: 35px;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar ul li:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            top: 45px;
+        }
+
+        .submenu li {
+            margin: 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .submenu li:last-child {
+            border-bottom: none;
+        }
+
+        .submenu li a {
+            color: #000000 !important;
+        }
+
+        .submenu li a:hover {
+            color: #FF69B4 !important;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .search-bar input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 8px 15px;
+            background: #6A0572;
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #333c87;
+        }
+
+        /* Icono del carrito */
+        .cart-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            cursor: pointer;
+            background: #333c87;
+            border-radius: 50%;
+            padding: 10px;
+            z-index: 9999; /* Asegura que esté por encima de otros elementos */
+        }
+
+        .cart-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #FF69B4;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 100px;
+        }
+
+        .header-txt {
+            width: 50%;
+        }
+
+        .header-txt h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .header-txt p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .header-img {
+            width: 45%;
+        }
+
+        .header-img img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-1, .btn-2, .btn-vehiculo, .btn-solicredito {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #094293;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-1:hover, .btn-2:hover, .btn-vehiculo:hover, .btn-solicredito:hover {
+            background: #333c87;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-2 {
+            background: #094293;
+            border: 2px solid #094293;
+            color: white;
+        }
+
+        .btn-2:hover {
+            background: #333c87;
+            color: white;
+        }
+
+        /* Modal del carrito */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 500px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .cart-modal.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-header h3 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-items {
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            margin: 0 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 3px;
+        }
+
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .cart-total {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+
+        .cart-total h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .btn-clear {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-checkout {
+            background: #094293;
+            color: white;
+        }
+
+        /* Formulario de pago */
+        .checkout-form {
+            padding: 20px;
+            display: none;
+        }
+
+        .checkout-form h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Campos específicos para tarjeta */
+        .card-details {
+            display: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        /* Información de transferencia */
+        .transfer-info {
+            display: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .transfer-info p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .transfer-info strong {
+            color: #094293;
+        }
+
+        /* Puntos de pago en efectivo */
+        .cash-points {
+            display: none;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .cash-points p {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .cash-points ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .cash-points li {
+            margin-bottom: 5px;
+        }
+
+        /* Checkboxes */
+        .form-checkboxes {
+            margin: 20px 0;
+        }
+
+        .form-checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-checkbox input {
+            margin-right: 10px;
+        }
+
+        .form-checkbox label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-checkbox a {
+            color: #094293;
+            text-decoration: none;
+        }
+
+        .form-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal de Éxito para Compra */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        /* Animación de éxito */
+        .success-animation {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 5;
+            stroke: #094293;
+            stroke-miterlimit: 10;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 0 rgba(9, 66, 147, 0.4);
+            animation: checkmark-fill 0.4s ease-in-out 0.4s forwards, checkmark-scale 0.3s ease-in-out 0.9s both;
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 5;
+            stroke-miterlimit: 10;
+            stroke: #094293;
+            fill: none;
+            animation: checkmark-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: checkmark-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+
+        @keyframes checkmark-stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes checkmark-scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+
+        @keyframes checkmark-fill {
+            100% {
+                box-shadow: inset 0 0 0 100px rgba(9, 66, 147, 0.1);
+            }
+        }
+        
+        .modal h2 {
+            color: #094293;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        
+        .modal p {
+            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        /* Estilos específicos para la página de ofertas */
+        .ofertas {
+            padding: 80px 0;
+            background-color: #f5f9fc;
+        }
+
+        .ofertas-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .ofertas-header h1 {
+            font-size: 2.8rem;
+            color: #12114D;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .ofertas-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #656875;
+            line-height: 1.6;
+        }
+
+        .categoria-titulo {
+            font-size: 2.2rem;
+            color: #12114D;
+            margin: 50px 0 30px;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .categoria-titulo:after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #007bff, #e81cff);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .perfumes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .perfume-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .perfume-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.2);
+        }
+
+        .perfume-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .perfume-info {
+            padding: 20px;
+        }
+
+        .perfume-info h3 {
+            font-size: 1.3rem;
+            color: #12114D;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .precio {
+            color: #12114D;
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .precio-original {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+
+        .precio-oferta {
+            color: #e63946;
+            font-weight: bold;
+        }
+
+        .descuento {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #e63946;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            z-index: 2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .notas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .notas span {
+            background-color: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: #333;
+        }
+
+        .btn-perfume {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            background-color: #094293;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-perfume:hover {
+            background: #3D004F;
+            transform: translateY(-2px);
+        }
+
+        /* Estilos para combos */
+        .combo-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .combo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.2);
+        }
+
+        .combo-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .combo-info {
+            padding: 20px;
+        }
+
+        .combo-info h3 {
+            font-size: 1.3rem;
+            color: #12114D;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .productos-combo {
+            margin-bottom: 20px;
+        }
+
+        .productos-combo ul {
+            list-style-type: none;
+            margin-bottom: 15px;
+        }
+
+        .productos-combo li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .productos-combo li:before {
+            content: "✓";
+            color: #6A0572;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .precio-combo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e63946;
+            margin-bottom: 15px;
+        }
+
+        .ahorro {
+            color: #2a9d8f;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        /* Filtros */
+        .filtros {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .filtros-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .filtro-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filtro-btn:hover, .filtro-btn.active {
+            background-color: #094293;
+            color: white;
+            border-color: #094293;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px 0;
+            width: 100%;
+        }
+
+        .footer-txt .logo {
+            color: #6A0572;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .footer-socials-container {
+            width: 40%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        .wrapper {
+            display: inline-flex;
+            list-style: none;
+            height: 120px;
+            padding-top: 40px;
+            font-family: "Poppins", sans-serif;
+            justify-content: flex-start;
+        }
+        
+        .footer-txt {
+            width: 60%;
+            text-align: left;
+            padding-right: 50px;
+        }
+        
+        .footer-txt p {
+            font-size: 16px;
+            color: #656875;
+            margin-bottom: 25px;
+        }
+        
+        .wrapper .icon {
+            position: relative;
+            background: #fff;
+            border-radius: 50%;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip {
+            position: absolute;
+            top: 0;
+            font-size: 14px;
+            background: #fff;
+            color: #fff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .wrapper .tooltip::before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            background: #fff;
+            bottom: -3px;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+        }
+        
+        .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        .wrapper .facebook:hover,
+        .wrapper .facebook:hover .tooltip,
+        .wrapper .facebook:hover .tooltip::before {
+            background: #1877f2;
+            color: #fff;
+        }
+        
+        .wrapper .twitter:hover,
+        .wrapper .twitter:hover .tooltip,
+        .wrapper .twitter:hover .tooltip::before {
+            background: #1da1f2;
+            color: #fff;
+        }
+        
+        .wrapper .instagram:hover,
+        .wrapper .instagram:hover .tooltip,
+        .wrapper .instagram:hover .tooltip::before {
+            background: #e4405f;
+            color: #fff;
+        }
+        
+        .wrapper .whatsapp:hover,
+        .wrapper .whatsapp:hover .tooltip,
+        .wrapper .whatsapp:hover .tooltip::before {
+            background: #25d366;
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .header-content {
+                flex-direction: column;
+                padding-top: 80px;
+            }
+
+            .header-txt, .header-img {
+                width: 100%;
+            }
+
+            .header-img {
+                margin-top: 40px;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .navbar {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: #222;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+
+            .navbar ul li {
+                margin: 15px 0;
+            }
+
+            .submenu {
+                position: absolute;
+                background: #333;
+                width: auto;
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 10px;
+            }
+
+            .submenu li {
+                padding: 10px;
+                border-bottom: 1px solid #555;
+            }
+
+            .submenu li:last-child {
+                border-bottom: none;
+            }
+
+            #menu:checked ~ .navbar {
+                left: 0;
+            }
+
+            .search-bar {
+                display: none;
+            }
+            
+            .cart-modal {
+                width: 90%;
+                max-width: none;
+            }
+            
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-txt, .footer-socials-container {
+                width: 100%;
+                text-align: center;
+                padding-right: 0;
+            }
+            
+            .wrapper {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ofertas-header h1 {
+                font-size: 2rem;
+            }
+            
+            .categoria-titulo {
+                font-size: 1.6rem;
+            }
+            
+            .perfume-card, .combo-card {
+                max-width: 350px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .ofertas-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .ofertas-header p {
+                font-size: 1rem;
+            }
+            
+            .perfume-info h3, .combo-info h3 {
+                font-size: 1.1rem;
+            }
+            
+            .btn-perfume {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .cart-item {
+                flex-direction: column;
+            }
+            
+            .cart-item-img {
+                margin-bottom: 10px;
+            }
+            
+            .cart-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="menu container">
+            <a href="index.html" class="logo">AURUS</a>
+            <input type="checkbox" id="menu" />
+            <label for="menu">
+                <img src="https://cdn-icons-png.flaticon.com/512/56/56763.png" class="menu-icon" alt="">
+            </label>
+
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">🏠 Inicio</a></li>
+              
+                    <li><a href="#">🧴 Perfumes</a>
+                        <ul class="submenu">
+                            <li><a href="masculinos.html">♂️ Masculinos</a></li>
+                            <li><a href="femeninos.html">♀️ Femeninos</a></li>
+                            <li><a href="unisex.html">⚧️ Unisex</a></li> 
+                            <li><a href="ofertas.html">🔥 Ofertas</a></li>
+                        </ul>
+                    </li>
+              
+                    <li><a href="servicios.html">🔧 Servicios</a>
+                        <ul class="submenu">
+                            <li><a href="eventos.html">🎉 Eventos</a></li>
+                            <li><a href="personalizado.html">🎨 Personalizado</a></li>
+                            <li><a href="regalos.html">🎁 Regalos</a></li>
+                    </ul></li>
+
+                    <li><a href="contacto.html">📞 Contacto</a></li>
+                </ul>
+            </nav>
+              
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Buscar perfumes, fragancias...">
+                <button id="search-button">Buscar</button>
+            </div>
+            
+            <!-- Icono del carrito -->
+            <div class="cart-icon" id="cart-icon">
+                🛒
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Modal del carrito -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-cart" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Los items del carrito se agregarán aquí dinámicamente -->
+        </div>
+        <div class="cart-total">
+            <h4>Total: <span id="cart-total">$0</span></h4>
+        </div>
+        <div class="cart-actions">
+            <button class="btn-1 btn-clear" id="clear-cart">Vaciar Carrito</button>
+            <button class="btn-1 btn-checkout" id="checkout">Pagar</button>
+        </div>
+        
+        <!-- Formulario de pago (oculto inicialmente) -->
+        <div class="checkout-form" id="checkout-form">
+            <h3>Información de Pago y Envío</h3>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo*</label>
+                    <input type="text" id="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico*</label>
+                    <input type="email" id="email" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="telefono">Teléfono*</label>
+                    <input type="tel" id="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="ciudad">Ciudad*</label>
+                    <input type="text" id="ciudad" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="departamento">Departamento*</label>
+                    <select id="departamento" required>
+                        <option value="">Seleccione...</option>
+                        <option value="amazonas">Amazonas</option>
+                        <option value="antioquia">Antioquia</option>
+                        <option value="arauca">Arauca</option>
+                        <option value="atlantico">Atlántico</option>
+                        <option value="bogota">Bogotá, D.C.</option>
+                        <option value="bolivar">Bolívar</option>
+                        <option value="boyaca">Boyacá</option>
+                        <option value="caldas">Caldas</option>
+                        <option value="caqueta">Caquetá</option>
+                        <option value="casanare">Casanare</option>
+                        <option value="cauca">Cauca</option>
+                        <option value="cesar">Cesar</option>
+                        <option value="choco">Chocó</option>
+                        <option value="cordoba">Córdoba</option>
+                        <option value="cundinamarca">Cundinamarca</option>
+                        <option value="guainia">Guainía</option>
+                        <option value="guaviare">Guaviare</option>
+                        <option value="huila">Huila</option>
+                        <option value="guajira">La Guajira</option>
+                        <option value="magdalena">Magdalena</option>
+                        <option value="meta">Meta</option>
+                        <option value="nariño">Nariño</option>
+                        <option value="norte_santander">Norte de Santander</option>
+                        <option value="putumayo">Putumayo</option>
+                        <option value="quindio">Quindío</option>
+                        <option value="risaralda">Risaralda</option>
+                        <option value="san_andres">San Andrés y Providencia</option>
+                        <option value="santander">Santander</option>
+                        <option value="sucre">Sucre</option>
+                        <option value="tolima">Tolima</option>
+                        <option value="valle">Valle del Cauca</option>
+                        <option value="vaupes">Vaupés</option>
+                        <option value="vichada">Vichada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección*</label>
+                    <input type="text" id="direccion" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="codigo_postal">Código Postal</label>
+                    <input type="text" id="codigo_postal">
+                </div>
+                <div class="form-group">
+                    <label for="metodo_pago">Método de Pago*</label>
+                    <select id="metodo_pago" required>
+                        <option value="">Seleccione...</option>
+                        <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                        <option value="transferencia">Transferencia Bancaria</option>
+                        <option value="efectivo">Pago en Efectivo</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Campos para tarjeta de crédito -->
+            <div id="card-details" class="card-details">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="card-number">Número de Tarjeta*</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="card-name">Nombre en la Tarjeta*</label>
+                        <input type="text" id="card-name" placeholder="Como aparece en la tarjeta">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="card-expiry">Fecha de Expiración*</label>
+                        <input type="text" id="card-expiry" placeholder="MM/AA">
+                    </div>
+                    <div class="form-group">
+                        <label for="card-cvv">CVV*</label>
+                        <input type="text" id="card-cvv" placeholder="123">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card-installments">Cuotas</label>
+                    <select id="card-installments">
+                        <option value="1">1 cuota</option>
+                        <option value="3">3 cuotas sin interés</option>
+                        <option value="6">6 cuotas sin interés</option>
+                        <option value="12">12 cuotas</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Información para transferencia bancaria -->
+            <div id="transfer-info" class="transfer-info">
+                <p><strong>Realiza la transferencia a nuestra cuenta bancaria:</strong></p>
+                <p>Banco: Bancolombia</p>
+                <p>Tipo de cuenta: Cuenta Corriente</p>
+                <p>Número de cuenta: 123-456789-01</p>
+                <p>Titular: AURUS Perfumes SAS</p>
+                <p>NIT: 900.123.456-7</p>
+                <p><strong>Importante:</strong> Una vez realizada la transferencia, envíanos el comprobante a info@aurusperfumes.com con tu número de pedido.</p>
+            </div>
+            
+            <!-- Puntos de pago en efectivo -->
+            <div id="cash-points" class="cash-points">
+                <p><strong>Puedes realizar tu pago en efectivo en los siguientes puntos:</strong></p>
+                <ul>
+                    <li>📍 Centro Comercial Andino - Local 201 (Bogotá)</li>
+                    <li>📍 Centro Comercial Santafé - Local 305 (Bogotá)</li>
+                    <li>📍 Centro Comercial El Tesoro - Local 102 (Medellín)</li>
+                    <li>📍 Centro Comercial Oviedo - Local 208 (Medellín)</li>
+                </ul>
+                <p><strong>Horario de atención:</strong> Lunes a sábado de 10:00 am a 8:00 pm</p>
+                <p>Al realizar tu pago en efectivo, recibirás un 5% de descuento en tu compra.</p>
+            </div>
+            
+            <div class="form-checkboxes">
+                <div class="form-checkbox">
+                    <input type="checkbox" id="terminos" required>
+                    <label for="terminos">Acepto los <a href="terminos.html" target="_blank">Términos y Condiciones</a>*</label>
+                </div>
+                <div class="form-checkbox">
+                    <input type="checkbox" id="tratamiento" required>
+                    <label for="tratamiento">Autorizo el tratamiento de mis datos personales*</label>
+                </div>
+            </div>
+            
+            <button class="btn-1" id="confirm-purchase" style="width: 100%; margin-top: 20px;">Confirmar Compra</button>
+            <button class="btn-2" id="back-to-cart" style="width: 100%; margin-top: 10px;">Volver al Carrito</button>
+        </div>
+        
+        <!-- Confirmación de compra (oculto inicialmente) -->
+        <div class="confirmation" id="confirmation">
+            <div class="checkmark"></div>
+            <h3>¡Compra Realizada!</h3>
+            <p>Tu pedido ha sido procesado exitosamente. Recibirás un correo con los detalles de tu compra.</p>
+            <button class="btn-1" id="close-modal">Cerrar</button>
+        </div>
+    </div>
+    
+    <!-- Overlay para el modal -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Modal de Éxito para Compra -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-animation">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                
+                <h2>¡Compra realizada con éxito!</h2>
+                <p>Tu pedido ha sido procesado correctamente y será enviado según lo indicado.</p>
+                <p>Hemos enviado un correo electrónico con los detalles de tu compra.</p>
+                <p>Número de orden: <strong>AUR-<span id="orderNumber">123456</span></strong></p>
+                
+                <button class="btn-1" onclick="closeModal('successModal')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="ofertas" class="ofertas">
+        <div class="ofertas-header">
+            <h1>Ofertas Especiales</h1>
+            <p>Descubre nuestras increíbles promociones en fragancias de lujo. Calidad excepcional a precios irresistibles.</p>
+        </div>
+        
+        <div class="filtros">
+            <div class="filtros-container">
+                <button class="filtro-btn active">Todos</button>
+                <button class="filtro-btn">Perfumes</button>
+                <button class="filtro-btn">Combos</button>
+                <button class="filtro-btn">Más descuentos</button>
+            </div>
+        </div>
+        
+        <h2 class="categoria-titulo">Ofertas Especiales</h2>
+        
+        <div class="perfumes-container">
+            <!-- Oferta 1 -->
+            <div class="perfume-card">
+                <div class="descuento">-6%</div>
+                <img src="image/perfumes/perfume1.png" alt="Aurus Élite Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Élite</h3>
+                    <div class="precio">
+                        <span class="precio-original">$90,000</span>
+                        <span class="precio-oferta">$84,600</span>
+                    </div>
+                    <div class="notas">
+                        <span>🍊 Bergamota</span>
+                        <span>🌿 Lavanda</span>
+                        <span>🪵 Sándalo</span>
+                        <span>⏳ 12h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="1" data-name="Aurus Élite" data-price="1260000" data-img="image/perfumes/perfume1.png">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Oferta 2 -->
+            <div class="perfume-card">
+                <div class="descuento">-5%</div>
+                <img src="image/perfumes/perfume2.png" alt="Aurus Noir Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Noir</h3>
+                    <div class="precio">
+                        <span class="precio-original">$85,000</span>
+                        <span class="precio-oferta">$80,750</span>
+                    </div>
+                    <div class="notas">
+                        <span>🍇 Uva</span>
+                        <span>🌹 Rosa</span>
+                        <span>🪵 Pachulí</span>
+                        <span>⏳ 18h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="5" data-name="Aurus Noir" data-price="1500000" data-img="image/perfumes/perfume2.png">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Oferta 3 -->
+            <div class="perfume-card">
+                <div class="descuento">-4%</div>
+                <img src="image/perfumes/perfume3.png" alt="Aurus Mystique Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Mystique</h3>
+                    <div class="precio">
+                        <span class="precio-original">$80,000</span>
+                        <span class="precio-oferta">$76,800</span>
+                    </div>
+                    <div class="notas">
+                        <span>🍏 Manzana verde</span>
+                        <span>🌿 Cardamomo</span>
+                        <span>🪵 Vetyver</span>
+                        <span>⏳ 14h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="3" data-name="Aurus Mystique" data-price="900000" data-img="image/perfumes/perfume3.png">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Oferta 4 -->
+            <div class="perfume-card">
+                <div class="descuento">-3%</div>
+                <img src="image/perfumes/perfume4.png" alt="Aurus Black Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Black</h3>
+                    <div class="precio">
+                        <span class="precio-original">$75,000</span>
+                        <span class="precio-oferta">$72,750</span>
+                    </div>
+                    <div class="notas">
+                        <span>🌶️ Pimienta negra</span>
+                        <span>🍯 Tabaco</span>
+                        <span>🪵 Cuero</span>
+                        <span>⏳ 16h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="4" data-name="Aurus Black" data-price="1170000" data-img="image/perfumes/perfume4.png">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Oferta 5 -->
+            <div class="perfume-card">
+                <div class="descuento">-3%</div>
+                <img src="image/perfumes/perfume5.png" alt="Aurus Oud Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Oud</h3>
+                    <div class="precio">
+                        <span class="precio-original">$70.000</span>
+                        <span class="precio-oferta">$67,900</span>
+                    </div>
+                    <div class="notas">
+                        <span>🪵 Oud</span>
+                        <span>🌹 Azafrán</span>
+                        <span>🍯 Ámbar</span>
+                        <span>⏳ 24h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="6" data-name="Aurus Oud" data-price="1760000" data-img="image/perfumes/perfume5.png">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Oferta 6 -->
+            <div class="perfume-card">
+                <div class="descuento">-5%</div>
+                <img src="image/perfumes/perfume6.png" alt="Aurus Signature Oferta">
+                <div class="perfume-info">
+                    <h3>Aurus Signature</h3>
+                    <div class="precio">
+                        <span class="precio-original">$65,000</span>
+                        <span class="precio-oferta">$61.750</span>
+                    </div>
+                    <div class="notas">
+                        <span>🍋 Lima</span>
+                        <span>🌿 Albahaca</span>
+                        <span>🪵 Cedro</span>
+                        <span>⏳ 16h duración</span>
+                    </div>
+                    <button class="btn-perfume" data-id="15" data-name="Aurus Signature" data-price="1487500" data-img="image/perfumes/perfume6.png">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="categoria-titulo">Combos Exclusivos</h2>
+        
+        <div class="perfumes-container">
+            <!-- Combo 1 -->
+            <div class="combo-card">
+                <img src="image/perfumes/combo3.webp" alt="Combo Esencial" class="combo-img">
+                <div class="combo-info">
+                    <h3>Combo Esencial</h3>
+                    <div class="productos-combo">
+                        <ul>
+                            <li>Aurus Noble (100ml)</li>
+                            <li>Aurus Legacy (100ml)</li>
+                            <li>Muestra gratis de Aurus Mystique (10ml)</li>
+                        </ul>
+                    </div>
+                    <div class="precio-combo">$180,000</div>
+                    <div class="ahorro">Ahorras $135,000</div>
+                    <button class="btn-perfume" data-id="101" data-name="Combo Esencial" data-price="180000" data-img="image/combos/combo1.jpg">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Combo 2 -->
+            <div class="combo-card">
+                <img src="image/perfumes/combo2.webp" alt="Combo Premium" class="combo-img">
+                <div class="combo-info">
+                    <h3>Combo Premium</h3>
+                    <div class="productos-combo">
+                        <ul>
+                            <li>Aurus Noir (100ml)</li>
+                            <li>Aurus Oud (100ml)</li>
+                            <li>Difusor de ambiente Aurus</li>
+                            <li>Muestra gratis de Aurus Black (10ml)</li>
+                        </ul>
+                    </div>
+                    <div class="precio-combo">$190,000</div>
+                    <div class="ahorro">Ahorras $120,000</div>
+                    <button class="btn-perfume" data-id="102" data-name="Combo Premium" data-price="190000" data-img="image/combos/combo2.jpg">Agregar al carrito</button>
+                </div>
+            </div>
+            
+            <!-- Combo 3 -->
+            <div class="combo-card">
+                <img src="image/perfumes/combo1.webp" alt="Combo Lujo" class="combo-img">
+                <div class="combo-info">
+                    <h3>Combo Lujo</h3>
+                    <div class="productos-combo">
+                        <ul>
+                            <li>Aurus Élite (100ml)</li>
+                            <li>Aurus Signature (100ml)</li>
+                            <li>Crema para manos Aurus</li>
+                            <li>Set de viaje (estuche + 2 muestras)</li>
+                        </ul>
+                    </div>
+                    <div class="precio-combo">$175,000</div>
+                    <div class="ahorro">Ahorras $110,000</div>
+                    <button class="btn-perfume" data-id="103" data-name="Combo Lujo" data-price="175000" data-img="image/combos/combo3.jpg">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer container">
+        <div class="footer-txt">
+            <a href="index.html" class="logo">AURUS</a>
+            <p>
+                &copy; 2025 AURUS Perfumes. Todos los derechos reservados<br>
+                Cra. 11 #82-71, Bogotá<br>
+                Teléfono: (601) 123 4567<br>
+                Email: info@aurusperfumes.com<br>
+                Horario: Lunes a Viernes 9am - 7pm / Sábados 10am - 4pm
+            </p>
+
+            <div class="form-txt">
+                <a href="politicas.html" target="_blank">Políticas de Privacidad</a>
+                <a href="terminos.html" target="_blank">Términos y Condiciones</a>
+            </div>
+        </div>
+
+        <ul class="wrapper">
+            <li class="icon facebook">
+                <a href="https://www.facebook.com/LeyserRB" target="_blank">
+                    <span class="tooltip">Facebook</span>
+                    <svg viewBox="0 0 320 512" height="1.2em" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon instagram">
+                <a href="https://www.instagram.com/leyser_arb/" target="_blank">
+                    <span class="tooltip">Instagram</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.2em" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"></path>
+                    </svg>
+                </a>
+            </li>
+            
+            <li class="icon whatsapp">
+                <a href="#" target="_blank">
+                    <span class="tooltip">WhatsApp</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="1.5em" fill="currentColor" viewBox="0 0 448 512">
+                        <path d="M380.9 97.1C339 55.1 283.3 32 224.5 32c-118.4 0-214.4 96-214.5 214.3 0 37.7 9.8 74.4 28.4 107l-30.1 110.6 113.3-29.7c31.6 17.3 67.3 26.3 102.7 26.3h.1c118.4 0 214.4-96 214.5-214.3.1-57.8-22.4-112.6-63.9-154.1zM224.5 438.6c-30.3 0-60-8.1-86.1-23.4l-6.2-3.7-67.2 17.6 17.9-65.3-4.1-6.4c-17.8-27.9-27.2-60.1-27.2-93.2.1-97.1 79.2-176.2 176.4-176.2 47 0 91.2 18.3 124.4 51.5 33.2 33.2 51.4 77.4 51.3 124.4 0 97-79.2 176.1-176.3 176.1zm101-138.7c-5.5-2.8-32.5-16-37.6-17.8-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 17.8-17.5 21.5c-3.2 3.7-6.4 4.2-11.9 1.4-32.5-16.3-53.8-29.1-75.1-66.1-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.3-17.1-41.5-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.5-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.2 59.7 95 83.8 13.3 5.7 23.7 9.1 31.8 11.6 13.4 4.2 25.6 3.6 35.3 2.2 10.8-1.6 32.5-13.3 37.1-26.1 4.6-12.8 4.6-23.8 3.2-26.1-1.3-2.4-5-3.9-10.5-6.6z"></path>
+                    </svg>
+                </a>
+            </li>
+        </ul>
+    </footer>
+
+    <script>
+        // JavaScript para Aurus Perfumes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Variables del carrito
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartModal = document.getElementById('cart-modal');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+            const cartIcon = document.getElementById('cart-icon');
+            const closeCart = document.getElementById('close-cart');
+            const overlay = document.getElementById('overlay');
+            const clearCartBtn = document.getElementById('clear-cart');
+            const checkoutBtn = document.getElementById('checkout');
+            const checkoutForm = document.getElementById('checkout-form');
+            const confirmation = document.getElementById('confirmation');
+            const backToCartBtn = document.getElementById('back-to-cart');
+            const confirmPurchaseBtn = document.getElementById('confirm-purchase');
+            const closeModalBtn = document.getElementById('close-modal');
+            const successModal = document.getElementById('successModal');
+            const metodoPagoSelect = document.getElementById('metodo_pago');
+            const cardDetails = document.getElementById('card-details');
+            const transferInfo = document.getElementById('transfer-info');
+            const cashPoints = document.getElementById('cash-points');
+            
+            // Mostrar/ocultar campos según método de pago seleccionado
+            metodoPagoSelect.addEventListener('change', function() {
+                // Ocultar todos primero
+                cardDetails.style.display = 'none';
+                transferInfo.style.display = 'none';
+                cashPoints.style.display = 'none';
+                
+                // Mostrar el correspondiente
+                switch(this.value) {
+                    case 'tarjeta':
+                        cardDetails.style.display = 'block';
+                        break;
+                    case 'transferencia':
+                        transferInfo.style.display = 'block';
+                        break;
+                    case 'efectivo':
+                        cashPoints.style.display = 'block';
+                        break;
+                }
+            });
+            
+            // Función para mostrar el modal de éxito
+            function showSuccessModal(orderNumber = null) {
+                if (orderNumber) {
+                    document.getElementById('orderNumber').textContent = orderNumber;
+                }
+                
+                successModal.classList.add('active');
+                overlay.classList.add('active');
+                
+                // Cerrar modal al hacer clic fuera del contenido
+                successModal.addEventListener('click', function(e) {
+                    if (e.target === successModal) {
+                        closeModal('successModal');
+                    }
+                });
+                
+                // Cerrar automáticamente después de 5 segundos
+                setTimeout(() => {
+                    closeModal('successModal');
+                }, 5000);
+            }
+            
+            // Función para cerrar el modal
+            function closeModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('active');
+                overlay.classList.remove('active');
+                
+                // Resetear animaciones para la próxima vez que se abra
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+            
+            // Abrir carrito
+            cartIcon.addEventListener('click', () => {
+                cartModal.classList.add('open');
+                overlay.classList.add('active');
+                renderCartItems();
+            });
+            
+            // Cerrar carrito
+            closeCart.addEventListener('click', () => {
+                cartModal.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+            
+            overlay.addEventListener('click', () => {
+                cartModal.classList.remove('open');
+                overlay.classList.remove('active');
+            });
+            
+            // Vaciar carrito
+            clearCartBtn.addEventListener('click', () => {
+                cart = [];
+                saveCart();
+                renderCartItems();
+            });
+            
+            // Ir a pagar
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length === 0) {
+                    alert('Tu carrito está vacío');
+                    return;
+                }
+                document.querySelector('.cart-items').style.display = 'none';
+                document.querySelector('.cart-total').style.display = 'none';
+                document.querySelector('.cart-actions').style.display = 'none';
+                checkoutForm.style.display = 'block';
+            });
+            
+            // Volver al carrito desde el pago
+            backToCartBtn.addEventListener('click', () => {
+                document.querySelector('.cart-items').style.display = 'block';
+                document.querySelector('.cart-total').style.display = 'block';
+                document.querySelector('.cart-actions').style.display = 'flex';
+                checkoutForm.style.display = 'none';
+            });
+            
+            // Confirmar compra
+            confirmPurchaseBtn.addEventListener('click', () => {
+                // Validar formulario
+                const nombre = document.getElementById('nombre').value;
+                const email = document.getElementById('email').value;
+                const direccion = document.getElementById('direccion').value;
+                const telefono = document.getElementById('telefono').value;
+                const metodoPago = document.getElementById('metodo_pago').value;
+                
+                if (!nombre || !email || !direccion || !telefono || !metodoPago) {
+                    alert('Por favor completa todos los campos obligatorios');
+                    return;
+                }
+                
+                // Validaciones específicas según método de pago
+                if (metodoPago === 'tarjeta') {
+                    const cardNumber = document.getElementById('card-number').value;
+                    const cardName = document.getElementById('card-name').value;
+                    const cardExpiry = document.getElementById('card-expiry').value;
+                    const cardCvv = document.getElementById('card-cvv').value;
+                    
+                    if (!cardNumber || !cardName || !cardExpiry || !cardCvv) {
+                        alert('Por favor completa todos los datos de la tarjeta');
+                        return;
+                    }
+                    
+                    // Validación básica de número de tarjeta (solo longitud)
+                    if (cardNumber.replace(/\s/g, '').length < 16) {
+                        alert('El número de tarjeta debe tener al menos 16 dígitos');
+                        return;
+                    }
+                    
+                    // Validación básica de CVV
+                    if (cardCvv.length < 3) {
+                        alert('El CVV debe tener al menos 3 dígitos');
+                        return;
+                    }
+                }
+                
+                // Generar número de orden aleatorio
+                const orderNumber = Math.floor(100000 + Math.random() * 900000);
+                
+                // Mostrar modal de éxito
+                showSuccessModal(orderNumber);
+                
+                // Ocultar formulario y confirmación anterior
+                checkoutForm.style.display = 'none';
+                confirmation.style.display = 'none';
+                
+                // Cerrar el carrito
+                cartModal.classList.remove('open');
+                
+                // Vaciar carrito después de la compra
+                cart = [];
+                saveCart();
+                updateCartCount();
+            });
+            
+            // Cerrar modal después de compra
+            closeModalBtn.addEventListener('click', () => {
+                cartModal.classList.remove('open');
+                overlay.classList.remove('active');
+                confirmation.style.display = 'none';
+                document.querySelector('.cart-items').style.display = 'block';
+                document.querySelector('.cart-total').style.display = 'block';
+                document.querySelector('.cart-actions').style.display = 'flex';
+            });
+            
+            // Renderizar items del carrito
+            function renderCartItems() {
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p>Tu carrito está vacío</p>';
+                    cartTotal.textContent = '$0';
+                    return;
+                }
+                
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                
+                cart.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'cart-item';
+                    itemElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">${item.name}</h4>
+                            <p class="cart-item-price">${formatPrice(item.price)}</p>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                                <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-id="${item.id}">
+                                <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                            </div>
+                            <button class="remove-item" data-id="${item.id}">Eliminar</button>
+                        </div>
+                    `;
+                    
+                    cartItemsContainer.appendChild(itemElement);
+                    total += item.price * item.quantity;
+                });
+                
+                cartTotal.textContent = formatPrice(total);
+                
+                // Event listeners para los botones de cantidad y eliminar
+                document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        updateQuantity(id, -1);
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        updateQuantity(id, 1);
+                    });
+                });
+                
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.addEventListener('change', (e) => {
+                        const id = parseInt(input.getAttribute('data-id'));
+                        const newQuantity = parseInt(e.target.value);
+                        if (newQuantity > 0) {
+                            setQuantity(id, newQuantity);
+                        } else {
+                            e.target.value = 1;
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = parseInt(btn.getAttribute('data-id'));
+                        removeFromCart(id);
+                    });
+                });
+            }
+            
+            // Actualizar cantidad de un item
+            function updateQuantity(id, change) {
+                const itemIndex = cart.findIndex(item => item.id === id);
+                if (itemIndex !== -1) {
+                    cart[itemIndex].quantity += change;
+                    
+                    if (cart[itemIndex].quantity < 1) {
+                        cart[itemIndex].quantity = 1;
+                    }
+                    
+                    saveCart();
+                    renderCartItems();
+                    updateCartCount();
+                }
+            }
+            
+            // Establecer cantidad específica
+            function setQuantity(id, quantity) {
+                const itemIndex = cart.findIndex(item => item.id === id);
+                if (itemIndex !== -1) {
+                    cart[itemIndex].quantity = quantity;
+                    saveCart();
+                    renderCartItems();
+                    updateCartCount();
+                }
+            }
+            
+            // Eliminar item del carrito
+            function removeFromCart(id) {
+                cart = cart.filter(item => item.id !== id);
+                saveCart();
+                renderCartItems();
+                updateCartCount();
+            }
+            
+            // Guardar carrito en localStorage
+            function saveCart() {
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+            
+            // Actualizar contador del carrito
+            function updateCartCount() {
+                const count = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = count;
+                if (count > 0) {
+                    cartCount.style.display = 'flex';
+                } else {
+                    cartCount.style.display = 'none';
+                }
+            }
+            
+            // Formatear precio
+            function formatPrice(price) {
+                return '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            // Agregar al carrito
+            document.querySelectorAll('.btn-perfume').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    const name = this.getAttribute('data-name');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const img = this.getAttribute('data-img');
+                    
+                    // Verificar si el producto ya está en el carrito
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id,
+                            name,
+                            price,
+                            img,
+                            quantity: 1
+                        });
+                    }
+                    
+                    saveCart();
+                    updateCartCount();
+                    
+                    // Mostrar feedback visual
+                    this.textContent = '✔️ Agregado';
+                    setTimeout(() => {
+                        this.textContent = 'Agregar al carrito';
+                    }, 2000);
+                });
+            });
+
+            // Efecto smooth scroll para los enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Función de búsqueda
+            const searchButton = document.getElementById('search-button');
+            const searchInput = document.getElementById('search-input');
+            
+            searchButton.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                if (searchTerm) {
+                    alert(`Buscando: ${searchTerm}\nEsta función conectaría con una base de datos en un sitio real.`);
+                    // Aquí iría la lógica para buscar en una base de datos real
+                } else {
+                    alert('Por favor ingresa un término de búsqueda');
+                }
+            });
+
+            // Permitir búsqueda con Enter
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+
+            // Animación para las tarjetas al aparecer
+            const observerOptions = {
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.perfume-card, .combo-card').forEach(card => {
+                observer.observe(card);
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                card.classList.add('visible');
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+
+            // Filtros de ofertas
+            document.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Remover clase active de todos los botones
+                    document.querySelectorAll('.filtro-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    
+                    // Agregar clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Aquí iría la lógica para filtrar las ofertas
+                    console.log(`Filtrar por: ${this.textContent}`);
+                });
+            });
+
+            // Efecto hover para tarjetas
+            document.querySelectorAll('.perfume-card, .combo-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                    card.style.boxShadow = '0 15px 30px rgba(106, 5, 114, 0.2)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                    card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+                });
+            });
+            
+            // Inicializar contador del carrito
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
